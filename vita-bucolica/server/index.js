@@ -15,7 +15,7 @@ app.use("/user", userRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Vita Bucolica API");
 });
-const CONNECTION_URL = "";
+const CONNECTION_URL = process.env.CONNECTION_URL;
 
 const PORT = process.env.PORT || 5000;
 /*   .connect(process.env.CONNECTION_URL) */
