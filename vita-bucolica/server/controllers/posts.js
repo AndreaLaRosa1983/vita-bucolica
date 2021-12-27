@@ -54,14 +54,12 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
   const { id } = req.params;
-  console.log("test");
   if (!req.userId) return res.json({ message: "User not authenticated" });
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with that id: ${id}`);
   const post = await PostMessage.findById(id);
   const index = post.likes.findIndex((id) => id === String(req.userId));
-  console.log("test");
   if (index === -1) {
     post.likes.push(req.userId);
   } else {
@@ -72,3 +70,18 @@ export const likePost = async (req, res) => {
   });
   res.json(updatedPost);
 };
+
+export const getPost = async (req, res) => {
+  const { id } = req.params;
+  console.log({req})
+/*   if (!req.userId) return res.json({ message: "User not authenticated to get" }); */
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No post with that id getPost");
+  try {
+    const postMessage = await PostMessage.findById(id);
+    res.status(200).json({postMessage: postMessage});
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+

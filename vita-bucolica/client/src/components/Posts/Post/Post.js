@@ -12,10 +12,11 @@ import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
-const Post = ({ post, setCurrentId }) => {
+const Post = ({ post, setCurrentId, setOpenArticle }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -80,7 +81,12 @@ const Post = ({ post, setCurrentId }) => {
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
-      <Typography className={classes.title} variant="h5">
+      <Typography         
+          variant="body2"
+          color="primary"
+          className={classes.title} onClick={() => {  
+            setCurrentId(post._id)
+            setOpenArticle(true)}}  >
         {post.title}
       </Typography>
       <CardContent>
@@ -89,8 +95,8 @@ const Post = ({ post, setCurrentId }) => {
           color="textSecondary"
           component="p"
           gutterBottom
-        >
-          {post.message}
+        > {post.message.replace(/(.{100})..+/, "$1…")}
+          
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
@@ -102,7 +108,6 @@ const Post = ({ post, setCurrentId }) => {
         >
           <Likes />
         </Button>
-        {console.log(post)}
         {user?.result?.googleId === post?.creator ||
           (user?.result?._id === post?.creator && (
             <Button
