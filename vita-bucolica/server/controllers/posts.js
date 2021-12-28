@@ -71,17 +71,4 @@ export const likePost = async (req, res) => {
   res.json(updatedPost);
 };
 
-export const getPost = async (req, res) => {
-  const { id } = req.params;
-  console.log({req})
-/*   if (!req.userId) return res.json({ message: "User not authenticated to get" }); */
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).send("No post with that id getPost");
-  try {
-    const postMessage = await PostMessage.findById(id);
-    res.status(200).json({postMessage: postMessage});
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
 

@@ -3,7 +3,6 @@
 // invece di ritornare l'azione la dispatchamo
 import {
   FETCH_ALL,
-  FETCH_POST,
   CREATE,
   UPDATE,
   DELETE,
@@ -17,16 +16,6 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await api.fetchPosts();
 
     dispatch({ type: FETCH_ALL, payload: data });
-  } catch (error) {
-    console.log(error.message);
-  }
-};
-
-export const getPost = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.fetchPost(id);
-
-    dispatch({ type: FETCH_POST, payload: data });
   } catch (error) {
     console.log(error.message);
   }

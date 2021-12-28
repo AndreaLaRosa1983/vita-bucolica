@@ -19,9 +19,9 @@ const Home = () => {
         justifyContent="space-between"
         alignItems="stretch"
         spacing={3}
-      > { openArticle ? (<><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle}/></>):(<>
+      > { openArticle ? (<Grid item xs={12} sm={12}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle}/></Grid>):(<>
         <Grid item xs={12} sm={7}>
-          <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle}/>)
+          <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle}/>
         </Grid>
         <Grid item xs={12} sm={4}>
           <Form currentId={currentId} setCurrentId={setCurrentId} />

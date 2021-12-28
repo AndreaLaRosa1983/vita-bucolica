@@ -1,38 +1,133 @@
-import React, { useEffect } from "react";
-import {  Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getPost } from "../../actions/posts"
+import { useSelector } from "react-redux";
+import useStyles from "./styles";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+} from "@material-ui/core";
+import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
+import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
+import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import moment from "moment";
+import Form from "../Form/Form";
+import { deletePost, likePost } from "../../actions/posts";
+const Article = ({setCurrentId, currentId}) => { 
+  const [modifyPost, setModifyPost] = useState(false);
+  const post = useSelector((state) =>
+  currentId ? state.posts.find((p) => p._id === currentId) : null
+);
+  const classes = useStyles();   
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find(
+        (like) => like === (user?.result?.googleId || user?.result?._id)
+      ) ? (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp;
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          <ThumbUpAltOutlined fontSize="small" />
+          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}{" "}
+          others` : `${post.likes.length} like$
+          {post.likes.length > 1 ? "s" : ""}`
+        </>
+      );
+    }
+    return (
+      <>
+        <ThumbUpAltOutlined fontSize="small" />
+        &nbsp;Like
+      </>
+    );
+  };
 
-const Article = ({currentId, setCurrentId, openArticle, setOpenArticle }) => {    
-    const dispatch = useDispatch();
-    console.log({cId: currentId})
-useEffect(() => {
-    dispatch(getPost(currentId));
-  }, [currentId, dispatch]);
-    return (<Typography> «Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis 
-        et quasi architecto beatae vitae dicta sunt, explicabo.
-         Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit,
-          sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt,
-           neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur,
-            adipisci velit, sed quia non numquam eius modi tempora incidunt,
-             ut labore et dolore magnam aliquam quaerat voluptatem.
-              Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit
-               laboriosam, nisi ut aliquid ex ea commodi consequatur?
-                Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse,
-                 quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat,
-                  quo voluptas nulla pariatur? [33] At vero eos et accusamus et iusto
-                   odio dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti
-                    atque corrupti, quos dolores et quas molestias excepturi sint, obcaecati
-                     cupiditate non provident, similique sunt in culpa, qui officia deserunt
-                      mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum
-                       facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis
-                        est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat,
-                         facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.
-                          Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus
-                           saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae.
-                            Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
-                             voluptatibus maiores alias consequatur aut perferendis doloribus asperiores
-                              repellat.»</Typography>)
+  return (
+    <>{modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />}
+  <Card className={classes.card}>
+      <CardMedia
+        className={classes.media}
+        image={post.selectedFile}
+        title={post.title}
+      />
+      <div className={classes.overlay}>
+        <Typography variant="h6">{post.name}</Typography>
+        <Typography variant="body2">
+          {moment(post.createdAt).fromNow()}
+        </Typography>
+      </div>
+
+      {user?.result?.googleId === post?.creator ||
+        (user?.result?._id === post?.creator && (
+          <div className={classes.overlay2}>
+            <Button
+              style={{ color: "white" }}
+              size="small"
+              onClick={() => {setModifyPost(!modifyPost)}}
+            >
+              <MoreHorizIcon fontSize="medium" />
+            </Button>
+          </div>
+        ))}
+
+      <div className={classes.details}>
+        <Typography variant="body2" color="textSecondary">
+          {post.tags.map((tag) => `#${tag} `)}
+        </Typography>
+      </div>
+      <Typography         
+          variant="body2"
+          color="primary"
+          className={classes.title} onClick={() => {}}  >
+        {post.title}
+      </Typography>
+      <CardContent>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component="p"
+          gutterBottom
+        > {post.message}
+          
+        </Typography>
+      </CardContent>
+      <CardActions className={classes.cardActions}>
+        <Button
+          size="small"
+          color="primary"
+          disabled={!user?.result}
+          onClick={() => dispatch(likePost(post._id))}
+        >
+          <Likes />
+        </Button>
+        {user?.result?.googleId === post?.creator ||
+          (user?.result?._id === post?.creator && (
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => {
+                dispatch(deletePost(post._id));
+              }}
+            >
+              <DeleteIcon fontSize="small" />
+              &nbsp;Delete
+            </Button>
+          ))}
+      </CardActions>
+    </Card></>
+  );
 };
 
 export default Article;

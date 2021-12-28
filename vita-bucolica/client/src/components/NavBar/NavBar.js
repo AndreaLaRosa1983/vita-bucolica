@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-const NavBar = () => {
+const NavBar = (setOpenArticle) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ const NavBar = () => {
           className={classes.heading}
           varaint="h2"
           align="center"
+          onClick={()=> {setOpenArticle(false)}}
         >
           Vita Bucolica
         </Typography>
