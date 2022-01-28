@@ -12,7 +12,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Container maxidth="lg">
-        <NavBar setOpenArticle={setOpenArticle} />
+        <NavBar setOpenArticle={openArticle, setOpenArticle} />
         <Routes>
           <Route path="/" element={<Home openArticle={openArticle} setOpenArticle={setOpenArticle}/> } />
           <Route path="/auth" element={<Auth />} />

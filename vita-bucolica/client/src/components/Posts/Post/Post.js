@@ -55,6 +55,9 @@ const Post = ({ post, setCurrentId, setOpenArticle }) => {
         className={classes.media}
         image={post.selectedFile}
         title={post.title}
+        onClick={() => {  
+          setCurrentId(post._id)
+          setOpenArticle(true)}}
       />
       <div className={classes.overlay}>
         <Typography variant="h6">{post.name}</Typography>

@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { AppBar, Typography, Toolbar, Button, Avatar } from "@material-ui/core";
 import vitaBucolica from "./../../images/vitaBucolica.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import HomeIcon from "@material-ui/icons/Home";
 import decode from "jwt-decode";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-const NavBar = (setOpenArticle) => {
+const NavBar = (openArticle, setOpenArticle) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,15 +35,15 @@ const NavBar = (setOpenArticle) => {
           varaint="h2"
           align="center"
           onClick={()=> {setOpenArticle(false)}}
-        >
-          Vita Bucolica
-        </Typography>
-        <img
+        ><img
           className={classes.image}
           src={vitaBucolica}
-          alt="memories"
+          alt="Vita Bucolica"
           height="60"
         />
+        <HomeIcon className={classes.imageHome} fontSize="medium" />
+        </Typography>
+
         <Toolbar className={classes.toolbar}>
           {user ? (
             <div className={classes.profile}>
@@ -53,7 +54,7 @@ const NavBar = (setOpenArticle) => {
               >
                 {user.result.name.charAt(0)}
               </Avatar>
-              <Typography className={classes.user} variant="h6">
+              <Typography className={classes.userName} variant="h6">
                 {user.result.name}
               </Typography>
               <Button

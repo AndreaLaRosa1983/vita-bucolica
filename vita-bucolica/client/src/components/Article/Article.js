@@ -17,6 +17,8 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 import Form from "../Form/Form";
 import { deletePost, likePost } from "../../actions/posts";
+
+
 const Article = ({setCurrentId, currentId}) => { 
   const [modifyPost, setModifyPost] = useState(false);
   const post = useSelector((state) =>
@@ -55,12 +57,12 @@ const Article = ({setCurrentId, currentId}) => {
   };
 
   return (
-    <>{modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />}
+    <>{/* {modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />} */}
   <Card className={classes.card}>
       <CardMedia
         className={classes.media}
-        image={post.selectedFile}
         title={post.title}
+        image={post.selectedFile}
       />
       <div className={classes.overlay}>
         <Typography variant="h6">{post.name}</Typography>
@@ -69,7 +71,7 @@ const Article = ({setCurrentId, currentId}) => {
         </Typography>
       </div>
 
-      {user?.result?.googleId === post?.creator ||
+{/*       {user?.result?.googleId === post?.creator ||
         (user?.result?._id === post?.creator && (
           <div className={classes.overlay2}>
             <Button
@@ -80,13 +82,26 @@ const Article = ({setCurrentId, currentId}) => {
               <MoreHorizIcon fontSize="medium" />
             </Button>
           </div>
-        ))}
+        ))} */}
 
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
           {post.tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
+      
+      {post.video && <iframe
+      title="video"
+            id="video"
+            width="230"
+            heigh="154"
+            src={post.video}
+            frameBorder="0"
+            allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />}
+
+
       <Typography         
           variant="body2"
           color="primary"
