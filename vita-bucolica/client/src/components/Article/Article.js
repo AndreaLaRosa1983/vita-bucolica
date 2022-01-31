@@ -57,7 +57,7 @@ const Article = ({setCurrentId, currentId}) => {
   };
 
   return (
-    <>{/* {modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />} */}
+    <>{/* To add modify in article {modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />} */}
   <Card className={classes.card}>
       <CardMedia
         className={classes.media}
@@ -71,7 +71,7 @@ const Article = ({setCurrentId, currentId}) => {
         </Typography>
       </div>
 
-{/*       {user?.result?.googleId === post?.creator ||
+{/*     To add modify in article  {user?.result?.googleId === post?.creator ||
         (user?.result?._id === post?.creator && (
           <div className={classes.overlay2}>
             <Button
@@ -91,10 +91,9 @@ const Article = ({setCurrentId, currentId}) => {
       </div>
       
       {post.video && <iframe
+      className={classes.video}
       title="video"
             id="video"
-            width="230"
-            heigh="154"
             src={post.video}
             frameBorder="0"
             allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"

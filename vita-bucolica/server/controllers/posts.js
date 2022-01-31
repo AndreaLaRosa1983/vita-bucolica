@@ -10,6 +10,26 @@ export const getPosts = async (req, res) => {
   }
 };
 
+export const getPostsTag = async (req, res) => {
+  const { tag } = req.params;
+  try {
+    const postMessages = await PostMessage.find({tags: tag});
+    res.status(200).json(postMessages.reverse());
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getPostsSearch = async (req, res) => {
+  const { search } = req.params;
+  try {
+    const postMessages = await PostMessage.find({title: { $search: search }, message: {$search: search}});
+    res.status(200).json(postMessages.reverse());
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
 export const createPost = async (req, res) => {
   const post = req.body;
   const newPostMessage = new PostMessage({

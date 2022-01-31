@@ -2,6 +2,8 @@
 // notare la doppia freccia una funzione che crea una funzione (questo ci è permesso da thunk)
 // invece di ritornare l'azione la dispatchamo
 import {
+  FETCH_ALL_TAG,
+  FETCH_ALL_SEARCH,
   FETCH_ALL,
   CREATE,
   UPDATE,
@@ -16,6 +18,26 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await api.fetchPosts();
 
     dispatch({ type: FETCH_ALL, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getPostsTag = () => async (dispatch) => {
+  try {
+    const { data } = await api.fetchPostsTag("Vita Contadina");
+
+    dispatch({ type: FETCH_ALL_TAG, payload: data });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getPostsBySearch = (search) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchPostsSearch(search);
+
+    dispatch({ type: FETCH_ALL_SEARCH, payload: data });
   } catch (error) {
     console.log(error.message);
   }

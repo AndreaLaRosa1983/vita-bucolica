@@ -1,6 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-
-export default makeStyles({
+export default makeStyles((theme) =>({
   media: {
     height: 0,
     paddingTop: "40%",
@@ -49,4 +48,14 @@ export default makeStyles({
     display: "flex",
     justifyContent: "space-between",
   },
-});
+  video: {
+    height:"400px",
+    width:"598px",
+    margin:"auto",
+    [theme.breakpoints.down("xs")]: {
+      height:"200px",
+      width:"300px",
+    },
+  
+  }
+}));

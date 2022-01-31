@@ -11,6 +11,7 @@ import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import YouTubeIcon from '@material-ui/icons/YouTube';
 import moment from "moment";
 import { Link } from "react-router-dom";
 import useStyles from "./styles";
@@ -64,6 +65,7 @@ const Post = ({ post, setCurrentId, setOpenArticle }) => {
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
+        {post.video && <YouTubeIcon fontSize="small" />}
       </div>
 
       {user?.result?.googleId === post?.creator ||
