@@ -5,8 +5,10 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
-
+import 'semantic-ui-css/semantic.min.css'
+import './styles/index.scss';
 import "./index.css";
+
 const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(

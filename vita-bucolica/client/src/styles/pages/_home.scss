@@ -1,0 +1,63 @@
+@use '../globals' as *;
+@use '../components' as *;
+@import url("http://fonts.cdnfonts.com/css/selima");
+
+ 
+  .wrapper {
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    perspective: 10px;
+    width: 100%;
+    margin:0px!important;
+  
+  .header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transform-style: preserve-3d;
+    z-index: -1;
+  }
+  .home-form-article-column{
+    padding: 0px !important;
+  }
+  .background {
+    transform: translateZ(-10px) scale(2.1);
+  }
+  
+  .foreground {
+    transform: translateZ(-5px) scale(1.6);
+  }
+  
+  .background,
+  .foreground {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin-left:0% !important;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .titleHeader {
+    @media (max-width: $phoneMax) {
+        font-size: 4rem;
+    }
+    @media (min-width: $tabletMin ) and (max-width: $tabletMax) {
+        font-size: 6rem;
+    } 
+    font-size: 10rem;
+    color: white;
+    text-shadow: 0 0 5px black;
+    font-family: 'Selima', sans-serif;
+  }
+  
+  .section {
+    font-size: 2rem;
+    padding: 2rem;
+    background-color: #333;
+    color: white;
+  }
+}

@@ -1,157 +1,194 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Button,
-  Paper,
-  Grid,
-  Typography,
-  Container,
-  TextField,
-} from "@material-ui/core";
+import {Form, Input, Image, Button, Icon}  from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import useStyles from "./styles";
-import Input from "./Input";
-import { GoogleLogin } from "react-google-login";
-import Icon from "./icon.js";
 import { useDispatch } from "react-redux";
 import { signin, signup } from "../../actions/auth";
-const initialState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
 
 const Auth = () => {
-  const state = null;
-  const classes = useStyles();
-  const [showPassword, setShowPassword] = useState(false);
+  const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const [isSignup, setIsSignup] = useState(false);
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setError] = useState({
+    firstName: false,
+    lastName:false,
+    email: false,
+    password: false,
+    confirmPassword: false
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isSignup) {
+      if(checkFormSignUp()){
       dispatch(signup(formData, navigate));
+      } 
     } else {
+      if(checkFormSignIn()){
       dispatch(signin(formData, navigate));
+      }
     }
   };
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const handleShowPassword = () =>
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+  
+
+  const checkFormSignIn = () => {
+    var values = formData;
+    var checkedErrors = errors;
+    var valid = true;
+    if (values.email === "" ){
+      valid = false;
+      checkedErrors.email = true;
+    } else {
+      checkedErrors.email = false;
+    }
+    if (values.password === ""){
+      valid = false;
+      checkedErrors.password = true;
+    } else {
+      checkedErrors.password = false;
+    }
+    setError({...checkedErrors})
+    return valid;
+  }
+
+
+  const checkFormSignUp = () => {
+    var values = formData;
+    var checkedErrors = errors;
+    var valid = true;
+
+    if (values.firstName === "" ){
+      console.log('here')
+      valid= false;
+      checkedErrors.firstName = true;
+    } else {
+      checkedErrors.firstName = false;
+    }
+    if (values.lastName === ""){
+      console.log('here2')
+      valid = false;
+      checkedErrors.lastName = true;
+    } else {
+      checkedErrors.lastName = false;
+    }
+    if (values.email === "" ){
+      valid = false;
+      checkedErrors.email = true;
+    } else {
+      checkedErrors.email = false;
+    }
+    if (!emailRegex.test(values.email)){
+      valid = false;
+      checkedErrors.email = true;
+    } else {
+      checkedErrors.email = false;
+    }
+    if (values.password === ""){
+      valid = false;
+      checkedErrors.password = true;
+    } else {
+      checkedErrors.password = false;
+    }
+    if (values.password !== values.confirmPassword || values.confirmPassword === ''){
+      valid = false;
+      checkedErrors.confirmPassword = true;
+    } else {
+      checkedErrors.confirmPassword = false;
+    }
+
+    if (!passwordRegex.test(values.password)){
+      valid = false;
+      checkedErrors.password = true;
+    } else {
+      checkedErrors.password = false;
+    }
+    setError({...checkedErrors})
+    console.log(checkedErrors)
+    return valid;
+  }
+
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
-  };
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj; // ? è per evitare l'errore in sto modo scrive "Undefined"
-    const token = res?.tokenId;
-
-    try {
-      dispatch({ type: "AUTH", data: { result, token } });
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const googleFailure = (error) => {
-    console.lot(error);
-    console.log("Google Sign In was unsuccessfull. Try again later");
   };
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper className={classes.paper} elevation={3}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+      <Form className="auth-container" onSubmit={handleSubmit} >
+        <div className="title-icon">
+          <Image>
+        <Icon name='lock' /> 
+        </Image>
+        {isSignup ? "Iscriviti" : "Accedi"}</div>
+         
             {isSignup && (
-              <>
-                <Input
-                  name="firstName"
-                  label="First Name"
-                  handleChange={handleChange}
-                  autofocus
-                  half
-                />
-                <Input
-                  name="lastName"
-                  label="Last Name"
-                  handleChange={handleChange}
-                  autofocus
-                  half
-                />
-              </>
-            )}
-            <Input
-              name="email"
-              label="Email Address"
-              handleChange={handleChange}
-              type="email"
+              <Form.Group widths='equal'>          
+              <Form.Field
+              error={errors.firstName}
+              control={Input}
+              placeholder='Nome'
+              name='firstName'
+              value={FormData.firstName}
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
             />
-            <Input
-              name="password"
-              label="Password"
-              handleChange={handleChange}
-              type={showPassword ? "text" : "password"}
-              handleShowPassword={handleShowPassword}
+             <Form.Field
+              control={Input}
+              error={errors.lastName}
+              placeholder='Cognome'
+              name='lastName'
+              value={FormData.lastName}
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            />
+            </Form.Group>
+            )}
+            <Form.Group widths='equal'>
+            <Form.Field
+              control={Input}
+              error={errors.email}
+              placeholder='e-mail'
+              name='email'
+              value={FormData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+            </Form.Group>
+            <Form.Group widths='equal'>
+            <Form.Field
+            type='password' 
+              control={Input}
+              error={errors.password}
+              placeholder='Password'
+              name='password'
+              value={FormData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
             {isSignup && (
-              <Input
-                name="confirmPassword"
-                label="Repeat Password"
-                handleChange={handleChange}
-                type="password"
-              />
+                          <Form.Field
+                          type='password' 
+                          control={Input}
+                          error={errors.confirmPassword}
+                          placeholder='Conferma password'
+                          name='confirmPassword'
+                          value={FormData.confirmPassword}
+                          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                        />
             )}
-          </Grid>
-          <Button
-            color="primary"
-            type="submit"
-            fullWidth
-            variant="contained"
-            className={classes.submit}
-          >
-            {isSignup ? "Sign Up" : "Sign In"}
-          </Button>
-          {/* Google Login client id from APi and services of google, should create the app before have this ID */}
-          <GoogleLogin
-            clientId="138425519305-kj2l48i320kt60atvbra7qh3tkoc203i.apps.googleusercontent.com"
-            render={(renderProps) => (
-              <Button
-                className={classes.googleButton}
-                color="primary"
-                fullWidth
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                startIcon={<Icon />}
-                variant="contained"
-              >
-                Google Sign In
-              </Button>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy="single_host_origin"
-          />
-          <Grid container justifyContent="flex-end">
-            <Button onClick={switchMode}>
+            </Form.Group>
+          <Form.Group >
+          <Form.Field control={Button} type='submit'>
+            {isSignup ? "Iscriviti" : "Accedi"}
+          </Form.Field> 
+          
+            <Form.Field className="have-account" onClick={switchMode}>
               {isSignup
-                ? "Already have an account? Sign In"
-                : "Don't have an account? Sign Up"}
-            </Button>
-          </Grid>
-        </form>
-      </Paper>
-    </Container>
+                ? "Hai già un account? Accedi"
+                : "Non hai un account? Iscriviti"}
+            </Form.Field>
+            </Form.Group>
+      </Form>
   );
 };
 

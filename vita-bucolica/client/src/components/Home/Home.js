@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Grow, Grid } from "@material-ui/core";
+import  { Grid, Image } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
-import Form from "../Form/Form";
+import FormArticle from "../FormArticle/FormArticle";
 import { getPosts } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Article from "../Article/Article"
@@ -13,22 +13,23 @@ const Home = () => {
     dispatch(getPosts());
   }, [currentId, dispatch]);
   return (
-    <Grow in>
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="stretch"
-        spacing={3}
-      > 
-      {openArticle ? (<Grid item xs={12} sm={12}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle}/></Grid>):(<>
-        <Grid item xs={12} sm={7}>
-          <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle}/>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Form currentId={currentId} setCurrentId={setCurrentId} />
-        </Grid></>)}
-      </Grid>
-    </Grow>
+    
+    <div>
+    <div className="section">
+      {openArticle ? ( <Grid stakable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle}/></Grid.Column></Grid.Row></Grid>)
+      :( <Grid stackable className="main-grid">
+        <Grid.Row   columns={2}>
+            <Grid.Column width={10}>
+                <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle}/>  
+            </Grid.Column>  
+            <Grid.Column className="home-form-article-column" width={6}>
+                <FormArticle currentId={currentId} setCurrentId={setCurrentId} />
+            </Grid.Column>
+            </Grid.Row>
+          </Grid>)}
+    </div>
+    </div>
+    
   );
 };
 

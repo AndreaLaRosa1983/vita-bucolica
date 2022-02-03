@@ -1,56 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import useStyles from "./styles";
 import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
+  Icon,
+  Image,
   Button,
-  Typography,
-} from "@material-ui/core";
-import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
-import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
-import DeleteIcon from "@material-ui/icons/Delete";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+  Container
+} from "semantic-ui-react"
 import moment from "moment";
-import Form from "../Form/Form";
-import { deletePost, likePost } from "../../actions/posts";
+import 'moment/locale/it';
+import { likePost } from "../../actions/posts";
 
 
 const Article = ({setCurrentId, currentId}) => { 
-  const [modifyPost, setModifyPost] = useState(false);
+  moment.locale('it');
   const post = useSelector((state) =>
   currentId ? state.posts.find((p) => p._id === currentId) : null
 );
-  const classes = useStyles();   
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
   const Likes = () => {
     if (post.likes.length > 0) {
       return post.likes.find(
-        (like) => like === (user?.result?.googleId || user?.result?._id)
+        (like) => like === (user?.result?._id)
       ) ? (
         <>
-          <ThumbUpAltIcon fontSize="small" />
+          <Icon name='thumbs up' /> 
           &nbsp;
           {post.likes.length > 2
-            ? `You and ${post.likes.length - 1} others`
+            ? `Tu e ${post.likes.length - 1} altri`
             : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
-          <ThumbUpAltOutlined fontSize="small" />
-          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}{" "}
-          others` : `${post.likes.length} like$
-          {post.likes.length > 1 ? "s" : ""}`
+          <Icon name='thumbs up outline' /> 
+          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
     return (
       <>
-        <ThumbUpAltOutlined fontSize="small" />
+        <Icon name='thumbs up outline'/> 
         &nbsp;Like
       </>
     );
@@ -58,89 +48,50 @@ const Article = ({setCurrentId, currentId}) => {
 
   return (
     <>{/* To add modify in article {modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />} */}
-  <Card className={classes.card}>
-      <CardMedia
-        className={classes.media}
-        title={post.title}
-        image={post.selectedFile}
-      />
-      <div className={classes.overlay}>
-        <Typography variant="h6">{post.name}</Typography>
-        <Typography variant="body2">
+    {console.log(post)}
+  <Container>
+      <h1 className="title-article">{post.title}</h1>
+      <Container className="container-big-card">
+      <Image className="image-article" src={post.selectedFile}/>
+      <div>
+        <div className="name-article">di {post.name}</div>
+        <div className="date-article">
           {moment(post.createdAt).fromNow()}
-        </Typography>
-      </div>
-
-{/*     To add modify in article  {user?.result?.googleId === post?.creator ||
-        (user?.result?._id === post?.creator && (
-          <div className={classes.overlay2}>
-            <Button
-              style={{ color: "white" }}
-              size="small"
-              onClick={() => {setModifyPost(!modifyPost)}}
-            >
-              <MoreHorizIcon fontSize="medium" />
-            </Button>
-          </div>
-        ))} */}
-
-      <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary">
+        </div>
+        <div className="tags-article">
           {post.tags.map((tag) => `#${tag} `)}
-        </Typography>
+        </div>
       </div>
       
-      {post.video && <iframe
-      className={classes.video}
-      title="video"
+      {post.video &&<div className="video-article-container"><iframe
+            className="video-article"
+            title="video"
             id="video"
             src={post.video}
             frameBorder="0"
             allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-          />}
+          /></div>}
 
-
-      <Typography         
-          variant="body2"
-          color="primary"
-          className={classes.title} onClick={() => {}}  >
-        {post.title}
-      </Typography>
-      <CardContent>
-        <Typography
-          variant="body2"
-          color="textSecondary"
-          component="p"
-          gutterBottom
+      <div>
+        <div
+          className="message-article"
         > {post.message}
           
-        </Typography>
-      </CardContent>
-      <CardActions className={classes.cardActions}>
+        </div>
+      </div>
+      <div className="button-group-article">
         <Button
           size="small"
-          color="primary"
           disabled={!user?.result}
           onClick={() => dispatch(likePost(post._id))}
         >
           <Likes />
         </Button>
-        {user?.result?.googleId === post?.creator ||
-          (user?.result?._id === post?.creator && (
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => {
-                dispatch(deletePost(post._id));
-              }}
-            >
-              <DeleteIcon fontSize="small" />
-              &nbsp;Delete
-            </Button>
-          ))}
-      </CardActions>
-    </Card></>
+      </div>
+      </Container>
+    </Container>
+    </>
   );
 };
 

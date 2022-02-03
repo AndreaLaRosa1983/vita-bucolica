@@ -1,0 +1,14 @@
+@use '../globals/colors' as *;
+
+$phone: 320px;
+$phoneMin-1: 384px;
+$phoneMin: 385px;
+$phoneMax: 768px;
+$tabletMin: 769px;
+$tabletMax: 1024px;
+$desktopMin: 1025px;
+
+
+* {
+    -webkit-font-smoothing: subpixel-antialiased;
+}

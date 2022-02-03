@@ -1,0 +1,49 @@
+$color_blue: #2373b9;
+$color_dark_blue: #19558c;
+$color_black: #191919;
+$color_orange: #ff7d00;
+$color_gray: #7d8287;
+$color_white: #ffffff;
+$color_blue_gray: #507da0;
+$color_gray_light: #a7c7e3;
+$color_background: #f1f5f7;
+$color_grey: #5f6469;
+$color_button_login: #1c71bb;
+$color_icon_table: #95bcdd;
+$color_input_error: rgba(255, 246, 246, 0.6);
+$color_error_red: rgba(220, 50, 32, 0.4);
+$color_error_placeholder: #9f3a38;
+$color_input_border: #e0e1e2;
+
+/* Slightly lighten a color
+/// @access public
+/// @param {Color} $color - color to tint
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color} */
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+
+/* Slightly darken a color
+/// @access public
+/// @param {Color} $color - color to shade
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color} */
+@function shade($color, $percentage) {
+    @return mix(black, $color, $percentage);
+}
+
+// aggiunge un 44% di bianco
+$color_blue_56t: tint($color_blue, 44%); //#84b1d8
+$color_blue_92t: tint($color_blue, 8%);
+
+$color_gray_8t: tint($color_gray, 92%); //#f5f5f5
+$color_gray_12t: tint($color_gray, 88%); // #eff0f1
+$color_gray_56t: tint($color_gray, 44%); // #b6b9bc
+$color_gray_85t: tint($color_gray, 15%);
+
+// aggiunge un XX% di nero
+$color_blue_24s: shade($color_blue, 76%);
+$color_gray_24s: shade($color_gray, 76%);
+
+$color_blue_gray_56t: tint($color_gray_light, 44%);

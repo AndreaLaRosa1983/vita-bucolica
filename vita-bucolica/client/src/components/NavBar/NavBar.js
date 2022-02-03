@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Typography, Toolbar, Button, Avatar } from "@material-ui/core";
+import {Menu, Button, Image, Icon}  from "semantic-ui-react";
 import vitaBucolica from "./../../images/vitaBucolica.png";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
+import { useNavigate, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
-import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 const NavBar = (openArticle, setOpenArticle) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,59 +23,39 @@ const NavBar = (openArticle, setOpenArticle) => {
     setUser(null);
   };
   return (
-    <AppBar className={classes.appBar} position="static" color="inherit">
-      <div className={classes.brandContainer}>
-        <Typography
-          component={Link}
-          to="/"
-          className={classes.heading}
-          varaint="h2"
-          align="center"
+    <Menu className="appBar">
+    <Menu.Item
+          href='/'
           onClick={()=> {setOpenArticle(false)}}
-        ><img
-          className={classes.image}
-          src={vitaBucolica}
-          alt="Vita Bucolica"
-          height="60"
-        />
-        <HomeIcon className={classes.imageHome} fontSize="medium" />
-        </Typography>
-
-        <Toolbar className={classes.toolbar}>
-          {user ? (
-            <div className={classes.profile}>
-              <Avatar
-                className={classes.purple}
-                alt={user.result.name}
-                src={user.result.imageUrl}
-              >
-                {user.result.name.charAt(0)}
-              </Avatar>
-              <Typography className={classes.userName} variant="h6">
+        >
+        <Icon className="imageHome" name='home' alt="icon home" size="large" />
+        </Menu.Item>
+        {user && <Menu.Item>             
+         <div className="userName" >
                 {user.result.name}
-              </Typography>
+              </div>
+         </Menu.Item>}
+        <Menu.Item position='right'>
+          {user ? (
+            <div >
               <Button
-                variant="contained"
-                className={classes.logout}
-                color="secondary"
+                className="logout"
                 onClick={logout}
               >
-                Logout
+                Disconnetti
               </Button>
             </div>
           ) : (
             <Button
-              component={Link}
-              to="/auth"
-              variant="contained"
-              color="primary"
+            className="orange"
+              href='/auth'
+              onClick={()=> setOpenArticle(false)}
             >
-              Sign in
+              Accedi
             </Button>
           )}
-        </Toolbar>
-      </div>
-    </AppBar>
+        </Menu.Item>
+    </Menu>
   );
 };
 
