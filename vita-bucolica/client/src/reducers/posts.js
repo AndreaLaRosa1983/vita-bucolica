@@ -8,7 +8,7 @@ import {
   LIKE,
 } from "../constants/actionTypes";
 
-export default (posts = [], action) => {
+const post =  (posts = [], action) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
       return action.payload;
@@ -32,3 +32,5 @@ export default (posts = [], action) => {
       return posts;
   }
 };
+
+export default post;

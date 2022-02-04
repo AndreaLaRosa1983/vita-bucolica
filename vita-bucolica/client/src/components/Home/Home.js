@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import  { Grid, Image } from "semantic-ui-react";
+import  { Grid } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
 import FormArticle from "../FormArticle/FormArticle";
 import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
@@ -16,7 +16,6 @@ const Home = (openArticle) => {
     if(tagSearch){
       dispatch(getPostsByTag(tagSearch));
     } else if (stringSearch){
-      console.log('in String search')
       dispatch(getPostsBySearch(stringSearch));
     } else {dispatch(getPosts());}
   }, [tagSearch,currentId, dispatch, stringSearch]);
@@ -24,7 +23,7 @@ const Home = (openArticle) => {
     
     <div>
     <div className="section">{!openArticle.openArticle &&<TagSearch setStringSearch={setStringSearch} stringSearch = {stringSearch} setTagSearch={setTagSearch}  tagSearch={tagSearch} ></TagSearch>}
-      {openArticle.openArticle ? ( <Grid stakable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle.openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={openArticle.setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
+      {openArticle.openArticle ? ( <Grid stackable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle.openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={openArticle.setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
       :( <Grid stackable className="main-grid">
         <Grid.Row   columns={2}>
             <Grid.Column width={10}>

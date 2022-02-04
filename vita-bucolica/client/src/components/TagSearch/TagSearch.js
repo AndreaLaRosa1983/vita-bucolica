@@ -1,5 +1,5 @@
 import React, { useState }  from 'react'
-import { Button, Form, Input } from 'semantic-ui-react'
+import { Button, Form, Input, Icon, Breakpoint } from 'semantic-ui-react'
 import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tags";
 
 const TagSearch = (tagSearch, stringSearch) => {
@@ -14,9 +14,6 @@ const setTag = (tag) => {
 };
 
 const search = () => {
-    console.log(tagSearch.stringSearch)
-    console.log(tagSearch.tagSearch)
-    console.log(searchData)
     if(tagSearch.stringSearch !== null || tagSearch.stringSearch !== ""){
     if(tagSearch.tagSearch !== null){
         tagSearch.setTagSearch(null);
@@ -30,8 +27,9 @@ if (!user?.result?.name) {
   }
 
 
-return (  <div className = "pills-container">
-    
+return (  
+<div className = "search-item-container">
+<div className = "pills-container">    
     <Button className = {tagSearch.tagSearch === AGRIMACHINERY ? "pill-highlighted" : "pill"}  onClick={()=>setTag(AGRIMACHINERY)}>
     {AGRIMACHINERY}
     </Button>
@@ -44,15 +42,20 @@ return (  <div className = "pills-container">
     <Button  className = {tagSearch.tagSearch === FARMLIFE ? "pill-highlighted" : "pill"} onClick={()=>setTag(FARMLIFE)}>
     {FARMLIFE} 
     </Button>
-    <Form.Field  name="video"
+
+  </div>    <div className="search-group">
+     <Form.Field
+          className="search-field"  
+          name="search"
           control={Input}
-          placeholder="Ricerca"
-          value={searchData}
+          placeholder="Ricerca..."
           onChange={(e) => setSearchData(e.target.value)}>
         </Form.Field>
-    <Form.Field>
-    </Form.Field>
-    <Button onClick={()=> search()}>Search</Button>
+    <Button className="search-button" onClick={()=> search()}><Icon name="search" size="small"/></Button>
+    </div>
+    <Form.Group>
+
+    </Form.Group>
   </div>
 )
 }

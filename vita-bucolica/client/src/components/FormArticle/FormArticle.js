@@ -34,11 +34,9 @@ const FormArticle = ({ currentId, setCurrentId }) => {
     if(e.target.checked){
       newTags.push(value);
       setPostData({ ...postData, tags: newTags });
-      console.log(postData);
     } else {
       newTags = newTags.filter( (e) => e !== value);
       setPostData({ ...postData, tags: newTags });
-      console.log(postData);
     }
   }
 

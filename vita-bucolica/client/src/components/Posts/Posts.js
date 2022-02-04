@@ -1,5 +1,5 @@
 import React from "react";
-import  {Loader, Card, Dimmer } from "semantic-ui-react";
+import  {Loader, Card } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle, setOpenArticleId }) => {
@@ -8,11 +8,10 @@ const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle, setOpenAr
 
     <Loader active size='big'>Caricamento</Loader>
   ) : (openArticle ? (<>
-  {console.log("post" + posts.length)}
   {posts.find(x => x._id === currentId)}</>) : (
     <Card.Group centered>
     {posts.map((post) => (
-      <Post post={post} setCurrentId={setCurrentId} openArticle={openArticle} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>
+      <Post post={post} key={post._id} setCurrentId={setCurrentId} openArticle={openArticle} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>
       ))} </Card.Group>
 )
   );

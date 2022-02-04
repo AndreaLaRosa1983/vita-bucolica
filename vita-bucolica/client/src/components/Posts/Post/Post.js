@@ -76,7 +76,6 @@ const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId }) => {
         {user?.result?._id === post?.creator && (
             <Button
               size="small"
-              color="primary"
               onClick={() => {
                 dispatch(deletePost(post._id));
               }}

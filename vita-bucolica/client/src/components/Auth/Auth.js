@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import {Form, Input, Image, Button, Icon}  from "semantic-ui-react";
+import {Form, Input, Image, Button, Icon, Label}  from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signin, signup } from "../../actions/auth";
-
+import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tags";
 const Auth = () => {
-  const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])(?=.{8,})");
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -14,13 +14,15 @@ const Auth = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    tags: [],
   });
   const [errors, setError] = useState({
     firstName: false,
     lastName:false,
     email: false,
     password: false,
-    confirmPassword: false
+    confirmPassword: false,
+    tags: false
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,7 +59,16 @@ const Auth = () => {
     setError({...checkedErrors})
     return valid;
   }
-
+  const changeTags = (e,value) => {
+    var newTags = formData.tags;
+    if(e.target.checked){
+      newTags.push(value);
+      setFormData({ ...formData, tags: newTags });
+    } else {
+      newTags = newTags.filter( (e) => e !== value);
+      setFormData({ ...formData, tags: newTags });
+    }
+  }
 
   const checkFormSignUp = () => {
     var values = formData;
@@ -107,8 +118,13 @@ const Auth = () => {
     } else {
       checkedErrors.password = false;
     }
+    if (values.tags.length <= 0){
+      valid = false;
+      checkedErrors.tags = true;
+    } else {
+      checkedErrors.tags = false;
+    }
     setError({...checkedErrors})
-    console.log(checkedErrors)
     return valid;
   }
 
@@ -175,6 +191,13 @@ const Auth = () => {
                         />
             )}
             </Form.Group>
+            {isSignup && (<><Form.Group grouped className="checkbox-group" > 
+              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, FARMLIFE)} label={FARMLIFE} checked={formData.tags.includes(FARMLIFE)}/>
+              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, GROWING)} label={GROWING} checked={formData.tags.includes(GROWING)} />
+              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, BREEDING)} label={BREEDING}  checked={formData.tags.includes(BREEDING)} />
+              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, AGRIMACHINERY)} label={AGRIMACHINERY}  checked={formData.tags.includes(AGRIMACHINERY)} />
+            </Form.Group>
+            {errors.tags ? <Label pointing='above' className="error-tips">Seleziona Almeno uno dei Tags</Label> : null}</>)}
           <Form.Group >
           <Form.Field control={Button} type='submit'>
             {isSignup ? "Iscriviti" : "Accedi"}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -69,7 +69,7 @@ const Article = ({setOpenArticle, openArticleId}) => {
             id="video"
             src={post.video}
             frameBorder="0"
-            allow="accelerometer, autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           /></div>}
 
