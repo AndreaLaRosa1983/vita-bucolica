@@ -1,5 +1,7 @@
 import {
   FETCH_ALL,
+  FETCH_ALL_SEARCH,
+  FETCH_ALL_TAG,
   CREATE,
   UPDATE,
   DELETE,
@@ -8,6 +10,10 @@ import {
 
 export default (posts = [], action) => {
   switch (action.type) {
+    case FETCH_ALL_TAG:
+      return action.payload;
+    case FETCH_ALL_SEARCH:
+        return action.payload;
     case FETCH_ALL:
       return action.payload;
     case LIKE:

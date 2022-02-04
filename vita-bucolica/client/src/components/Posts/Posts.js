@@ -2,7 +2,7 @@ import React from "react";
 import  {Loader, Card, Dimmer } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
-const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle }) => {
+const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle, setOpenArticleId }) => {
   const posts = useSelector((state) => state.posts);
   return !posts.length ? (
 
@@ -12,7 +12,7 @@ const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle }) => {
   {posts.find(x => x._id === currentId)}</>) : (
     <Card.Group centered>
     {posts.map((post) => (
-      <Post post={post} setCurrentId={setCurrentId} openArticle={openArticle} setOpenArticle={setOpenArticle}/>
+      <Post post={post} setCurrentId={setCurrentId} openArticle={openArticle} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>
       ))} </Card.Group>
 )
   );

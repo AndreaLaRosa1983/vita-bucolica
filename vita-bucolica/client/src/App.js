@@ -8,14 +8,14 @@ import colline from "./images/colline.jpg";
 import albero from "./images/albero.png";
 const App = () => {
 
-  const [openArticle, setOpenArticle] = useState(false);
+  const [openArticle, setOpenArticle] = useState(null);
   return (
     <BrowserRouter>
       <Container className="wrapper">
     <header className="header">
       <Grid>
       <Grid.Row className="navbarRow">
-        <NavBar setOpenArticle={setOpenArticle} openArticle={openArticle} />
+        <NavBar setOpenArticle={setOpenArticle}/>
       </Grid.Row>
       <Grid.Row>  
         <h1 className="titleHeader">Vita Bucolica</h1>

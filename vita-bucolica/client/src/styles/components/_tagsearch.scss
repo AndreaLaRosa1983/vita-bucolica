@@ -1,0 +1,16 @@
+@use '../globals' as *;
+.pills-container{
+    height:2 rem;
+    margin-bottom: 25px;
+    align-items: center;
+.pill{
+    border-radius: 25px;
+    margin-top: 3px;
+    background-color:orange !important;
+}
+.pill-highlighted{
+    border-radius: 25px;
+    margin-top: 3px;
+    background-color:red !important;
+}
+}

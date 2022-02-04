@@ -2,25 +2,33 @@ import React, { useEffect, useState } from "react";
 import  { Grid, Image } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
 import FormArticle from "../FormArticle/FormArticle";
-import { getPosts } from "../../actions/posts";
+import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Article from "../Article/Article"
-const Home = () => {
+import TagSearch from "../TagSearch/TagSearch"
+const Home = (openArticle) => {
   const [currentId, setCurrentId] = useState(null);
-  const [openArticle, setOpenArticle] = useState(null);
+  const [openArticleId, setOpenArticleId] = useState(null);
+  const [tagSearch, setTagSearch] = useState(null);
+  const [stringSearch, setStringSearch] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+    if(tagSearch){
+      dispatch(getPostsByTag(tagSearch));
+    } else if (stringSearch){
+      console.log('in String search')
+      dispatch(getPostsBySearch(stringSearch));
+    } else {dispatch(getPosts());}
+  }, [tagSearch,currentId, dispatch, stringSearch]);
   return (
     
     <div>
-    <div className="section">
-      {openArticle ? ( <Grid stakable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle}/></Grid.Column></Grid.Row></Grid>)
+    <div className="section">{!openArticle.openArticle &&<TagSearch setStringSearch={setStringSearch} stringSearch = {stringSearch} setTagSearch={setTagSearch}  tagSearch={tagSearch} ></TagSearch>}
+      {openArticle.openArticle ? ( <Grid stakable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle.openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={openArticle.setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
       :( <Grid stackable className="main-grid">
         <Grid.Row   columns={2}>
             <Grid.Column width={10}>
-                <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle}/>  
+                <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={openArticle.setOpenArticle} setOpenArticleId={setOpenArticleId}/>  
             </Grid.Column>  
             <Grid.Column className="home-form-article-column" width={6}>
                 <FormArticle currentId={currentId} setCurrentId={setCurrentId} />

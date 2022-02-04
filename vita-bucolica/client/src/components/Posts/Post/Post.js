@@ -1,12 +1,4 @@
 import React from "react";
-/* import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Button,
-  Typography,
-} from "@material-ui/core"; */
 import {
   Card,
   Icon,
@@ -18,7 +10,7 @@ import 'moment/locale/it';
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 import genericForPost from "../../../images/genericForPost.png"
-const Post = ({ post, setCurrentId, setOpenArticle }) => {
+const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId }) => {
   moment.locale('it');
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -56,7 +48,7 @@ const Post = ({ post, setCurrentId, setOpenArticle }) => {
       <Card.Header
         className="post-header"
       ><div><span  className='post-title'  onClick={() => {  
-        setCurrentId(post._id)
+        setOpenArticleId(post._id)
         setOpenArticle(true)}}>{post.title}</span>
             {user?.result?._id === post?.creator && (
             <span><Icon className='post-edit-icon' size='small' onClick={() => setCurrentId(post._id)} name='edit'/></span> 

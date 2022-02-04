@@ -65,14 +65,12 @@ const Auth = () => {
     var valid = true;
 
     if (values.firstName === "" ){
-      console.log('here')
       valid= false;
       checkedErrors.firstName = true;
     } else {
       checkedErrors.firstName = false;
     }
     if (values.lastName === ""){
-      console.log('here2')
       valid = false;
       checkedErrors.lastName = true;
     } else {

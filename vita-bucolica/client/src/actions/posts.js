@@ -23,10 +23,9 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const getPostsTag = () => async (dispatch) => {
+export const getPostsByTag = (tag) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPostsTag("Vita Contadina");
-
+    const { data } = await api.fetchPostsTag(tag);
     dispatch({ type: FETCH_ALL_TAG, payload: data });
   } catch (error) {
     console.log(error.message);
@@ -36,7 +35,6 @@ export const getPostsTag = () => async (dispatch) => {
 export const getPostsBySearch = (search) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsSearch(search);
-
     dispatch({ type: FETCH_ALL_SEARCH, payload: data });
   } catch (error) {
     console.log(error.message);

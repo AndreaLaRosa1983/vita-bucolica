@@ -4,7 +4,7 @@ import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import { useSelector } from "react-redux";
-import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tagsTypes";
+import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tags";
 const FormArticle = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     title: "",

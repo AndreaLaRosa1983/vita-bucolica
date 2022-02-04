@@ -4,7 +4,7 @@ import vitaBucolica from "./../../images/vitaBucolica.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-const NavBar = (openArticle, setOpenArticle) => {
+const NavBar = (openArticle) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,8 +25,7 @@ const NavBar = (openArticle, setOpenArticle) => {
   return (
     <Menu className="appBar">
     <Menu.Item
-          href='/'
-          onClick={()=> {setOpenArticle(false)}}
+          onClick={()=> openArticle.setOpenArticle(false)}
         >
         <Icon className="imageHome" name='home' alt="icon home" size="large" />
         </Menu.Item>
@@ -49,7 +48,7 @@ const NavBar = (openArticle, setOpenArticle) => {
             <Button
             className="orange"
               href='/auth'
-              onClick={()=> setOpenArticle(false)}
+              onClick={()=> openArticle.setOpenArticle(false)}
             >
               Accedi
             </Button>

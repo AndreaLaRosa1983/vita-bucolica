@@ -12,6 +12,7 @@ export const getPosts = async (req, res) => {
 
 export const getPostsTag = async (req, res) => {
   const { tag } = req.params;
+  console.log({tag: tag})
   try {
     const postMessages = await PostMessage.find({tags: tag});
     res.status(200).json(postMessages.reverse());
@@ -22,8 +23,19 @@ export const getPostsTag = async (req, res) => {
 
 export const getPostsSearch = async (req, res) => {
   const { search } = req.params;
-  try {
-    const postMessages = await PostMessage.find({title: { $search: search }, message: {$search: search}});
+  console.log({search:search});
+  try {  
+    const postMessages = await PostMessage.aggregate([{
+      '$search': {
+        'index': 'search in postmessages',
+        'text': {
+          'query': search,
+          'path': {
+            'wildcard': '*'
+          }
+        }
+      }
+     } ])
     res.status(200).json(postMessages.reverse());
   } catch (error) {
     res.status(404).json({ message: error.message });

@@ -12,10 +12,10 @@ import 'moment/locale/it';
 import { likePost } from "../../actions/posts";
 
 
-const Article = ({setCurrentId, currentId}) => { 
+const Article = ({setOpenArticle, openArticleId}) => { 
   moment.locale('it');
   const post = useSelector((state) =>
-  currentId ? state.posts.find((p) => p._id === currentId) : null
+  openArticleId? state.posts.find((p) => p._id === openArticleId) : null
 );
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -47,8 +47,8 @@ const Article = ({setCurrentId, currentId}) => {
   };
 
   return (
-    <>{/* To add modify in article {modifyPost && <Form currentId={currentId} setCurrentId={setCurrentId} />} */}
-    {console.log(post)}
+    <>
+    {post &&
   <Container>
       <h1 className="title-article">{post.title}</h1>
       <Container className="container-big-card">
@@ -88,9 +88,16 @@ const Article = ({setCurrentId, currentId}) => {
         >
           <Likes />
         </Button>
+        <Button
+          size="small"
+          onClick={()=>{setOpenArticle(false)}}
+        >
+          <Icon name="home"/>
+          Torna nella home
+        </Button>
       </div>
       </Container>
-    </Container>
+    </Container>}
     </>
   );
 };
