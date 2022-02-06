@@ -5,9 +5,13 @@ import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/user.js";
 import dotenv from "dotenv";
+import path from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
+
 const app = express();
+
+
 dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -17,17 +21,6 @@ app.use("/user", userRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Vita Bucolica API");
 });
-
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors: {
-    origin: 'http://localhost:8080', // here put the address to port in remote server
-    methods: ['GET', 'POST']
-  }
-})
-
-
-
 const CONNECTION_URL = process.env.CONNECTION_URL;
 
 const PORT = process.env.PORT || 5000;
@@ -35,8 +28,28 @@ const PORT = process.env.PORT || 5000;
 mongoose
   .connect(CONNECTION_URL)
   .then(() =>
-    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+  httpServer.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
   )
   .catch((error) => console.log(error.message));
+  const httpServer = createServer(app);
+  const io = new Server(httpServer, { /* options */ });
+  let interval;
 
-// http://www.mongodb.com/cloud/atlas
+  io.on("connection", (socket) => {
+    console.log("New client connected");
+    if (interval) {
+      clearInterval(interval);
+    }
+    interval = setInterval(() => getApiAndEmit(socket), 1000);
+    socket.on("disconnect", () => {
+      console.log("Client disconnected");
+      clearInterval(interval);
+    });
+  });
+  
+  const getApiAndEmit = socket => {
+    const response = new Date();
+    // Emitting a new message. Will be consumed by the client
+    socket.emit("FromAPI", response);
+  };
+  

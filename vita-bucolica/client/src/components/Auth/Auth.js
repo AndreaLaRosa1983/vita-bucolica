@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signin, signup } from "../../actions/auth";
 import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tags";
-const Auth = () => {
+const Auth = ({setSocketStatus, socketStatus}) => {
   const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])(?=.{8,})");
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   const [isSignup, setIsSignup] = useState(false);
@@ -30,11 +30,15 @@ const Auth = () => {
     e.preventDefault();
     if (isSignup) {
       if(checkFormSignUp()){
-      dispatch(signup(formData, navigate));
+      dispatch(signup(formData, navigate))
+      setSocketStatus(true)
+     ;
       } 
     } else {
       if(checkFormSignIn()){
       dispatch(signin(formData, navigate));
+      setSocketStatus(true)
+      ;
       }
     }
   };
