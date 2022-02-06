@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback  }from "react";
-import { Container, Image, Grid } from "semantic-ui-react";
+import { Container, Image, Grid, Button } from "semantic-ui-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import Home from "./components/Home/Home";
@@ -13,28 +13,40 @@ const App = () => {
   const [response, setResponse] = useState("");
   const [socketStatus, setSocketStatus] = useState(false);
   const [socket, setSocket] = useState(false);
+  const [user, setUser] = useState(null)
   useEffect(() => {
     console.log({socketstatus:socketStatus});
     if(socketStatus){
     setSocket(socketIOClient(ENDPOINT))
-
     console.log("open the socket")
-
   }
   },[socketStatus]);
   
   useEffect(() => {
     if(socket){
+      setUser(JSON.parse(localStorage.getItem("profile")));
     socket.on("FromAPI", data => {
       setResponse(data);
-    });}
+    });
+    socket.on("Ciccio", data => {
+      console.log(data)
+    })
+  }
   },[socket]);
+
+  const onclick = () =>  {
+    console.log("in onclick");
+    console.log({user})
+    socket.emit("Pippo", user)
+  }
+
 
   return (
     <BrowserRouter>
    <p>
       It's <time dateTime={response}>{response}</time>
     </p> 
+    <Button onClick={onclick}></Button>
       <Container className="wrapper">
     <header className="header">
       <Grid>

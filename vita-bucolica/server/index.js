@@ -41,6 +41,11 @@ mongoose
       clearInterval(interval);
     }
     interval = setInterval(() => getApiAndEmit(socket), 1000);
+    socket.on("Pippo",(arg)=> {
+      console.log(arg);
+      socket.emit("Ciccio", "ingrassia")
+    }
+    );
     socket.on("disconnect", () => {
       console.log("Client disconnected");
       clearInterval(interval);
