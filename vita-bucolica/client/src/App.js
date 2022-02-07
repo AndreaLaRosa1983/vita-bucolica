@@ -13,7 +13,7 @@ const App = () => {
   const [socketStatus, setSocketStatus] = useState(false);
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null)
-  const [newPost, setNewPost] = useState([]) // to trigger the notifications
+  
   useEffect(() => {
     console.log({socketstatus:socketStatus});
     if(socketStatus){
@@ -27,9 +27,8 @@ const App = () => {
       console.log({socket: socket,
       user : user});
     socket.emit("connectionTags",user.result.tags);
-
-    socket.on("est", () => 
-    console.log("pippo"))
+    socket.on("newPost", (arg) => 
+    console.log(arg))
   }},[socket, user]);
 
   const onclick = () =>  {

@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
+import app from "../index.js";
 
 export const getPosts = async (req, res) => {
   try {
     const postMessages = await PostMessage.find();
     res.status(200).json(postMessages.reverse());
+    return;
   } catch (error) {
     res.status(404).json({ message: error.message });
+    return;
   }
 };
 
@@ -15,8 +18,10 @@ export const getPostsTag = async (req, res) => {
   try {
     const postMessages = await PostMessage.find({tags: tag});
     res.status(200).json(postMessages.reverse());
+    return;
   } catch (error) {
     res.status(404).json({ message: error.message });
+    return;
   }
 };
 
@@ -35,8 +40,10 @@ export const getPostsSearch = async (req, res) => {
       }
      } ])
     res.status(200).json(postMessages.reverse());
+    return;
   } catch (error) {
     res.status(404).json({ message: error.message });
+    return;
   }
 };
 
@@ -47,14 +54,18 @@ export const createPost = async (req, res) => {
     creator: req.userId,
     createdAt: new Date().toISOString(),
   });
-
+  let io = app.get("io");
   try {
-    await newPostMessage.save();
+    await newPostMessage.save()
+    let tags = newPostMessage.tags;
+    console.log("here in emit");
+    newPostMessage.tags.forEach(tag => io.to(tag).emit("newPost", newPostMessage));
     res.status(201).json(newPostMessage);
+    return;
   } catch (error) {
     res.status(409).json({ message: error.message });
+    return;
   }
-  res.send("Post Creation");
 };
 
 export const updatePost = async (req, res) => {
@@ -62,7 +73,6 @@ export const updatePost = async (req, res) => {
   const post = req.body;
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with that id - update");
-
   const updatedPost = await PostMessage.findByIdAndUpdate(
     id,
     { ...post, id },
@@ -70,8 +80,8 @@ export const updatePost = async (req, res) => {
       new: true,
     }
   );
-
   res.json(updatedPost);
+  return;
 };
 
 export const deletePost = async (req, res) => {
@@ -80,6 +90,7 @@ export const deletePost = async (req, res) => {
     return res.status(404).send("No post with that id");
   const updatedPost = await PostMessage.findByIdAndRemove(id);
   res.json({ message: " Post deleted succesfully" });
+  return;
 };
 
 export const likePost = async (req, res) => {
@@ -99,6 +110,7 @@ export const likePost = async (req, res) => {
     new: true,
   });
   res.json(updatedPost);
+  return;
 };
 
 

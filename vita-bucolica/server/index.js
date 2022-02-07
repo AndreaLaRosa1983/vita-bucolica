@@ -5,7 +5,6 @@ import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/user.js";
 import dotenv from "dotenv";
-import path from "path";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -40,7 +39,7 @@ mongoose
     if (interval) {
       clearInterval(interval);
     }
-    interval = setInterval(() => getApiAndEmit(socket), 1000);
+    /* interval = setInterval(() => getApiAndEmit(socket), 1000); */
     socket.on("Pippo",(arg)=> {
       io.in("Allevamento").emit("Test");
     }
@@ -56,10 +55,13 @@ mongoose
     });
   });
   
-  const getApiAndEmit = socket => {
+/*   const getApiAndEmit = socket => {
     const response = new Date();
     // Emitting a new message. Will be consumed by the client
     socket.emit("FromAPI", response);
     socket.to("Allevamento").emit("funzionerà")
-  };
+  }; */
   
+  app.set("io", io);
+
+  export default app;
