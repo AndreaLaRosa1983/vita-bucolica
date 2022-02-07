@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {Menu, Button, Icon}  from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-const NavBar = ({openArticle, setOpenArticle, setSocketStatus}) => {
+const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const tokenHandler = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
-    const token = user?.token;
+    const token = tokenHandler?.token;
     if (token) {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) {
         logout()} ;
     }
     setUser(JSON.parse(localStorage.getItem("profile")));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]); // Quando cambia la location setta lo user
 
   const logout = () => {

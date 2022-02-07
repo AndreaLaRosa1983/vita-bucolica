@@ -6,7 +6,7 @@ import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
 import { useDispatch } from "react-redux";
 import Article from "../Article/Article"
 import TagSearch from "../TagSearch/TagSearch"
-const Home = (openArticle) => {
+const Home = ({openArticle, setOpenArticle, socket}) => {
   const [currentId, setCurrentId] = useState(null);
   const [openArticleId, setOpenArticleId] = useState(null);
   const [tagSearch, setTagSearch] = useState(null);
@@ -22,12 +22,12 @@ const Home = (openArticle) => {
   return (
     
     <div>
-    <div className="section">{!openArticle.openArticle &&<TagSearch setStringSearch={setStringSearch} stringSearch = {stringSearch} setTagSearch={setTagSearch}  tagSearch={tagSearch} ></TagSearch>}
-      {openArticle.openArticle ? ( <Grid stackable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle.openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={openArticle.setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
+    <div className="section">{!openArticle &&<TagSearch setStringSearch={setStringSearch} stringSearch = {stringSearch} setTagSearch={setTagSearch}  tagSearch={tagSearch} ></TagSearch>}
+      {openArticle ? ( <Grid stackable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
       :( <Grid stackable className="main-grid">
         <Grid.Row   columns={2}>
             <Grid.Column width={10}>
-                <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={openArticle.setOpenArticle} setOpenArticleId={setOpenArticleId}/>  
+                <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>  
             </Grid.Column>  
             <Grid.Column className="home-form-article-column" width={6}>
                 <FormArticle currentId={currentId} setCurrentId={setCurrentId} />

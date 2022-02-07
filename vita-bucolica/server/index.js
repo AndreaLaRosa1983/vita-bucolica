@@ -36,16 +36,20 @@ mongoose
   let interval;
 
   io.on("connection", (socket) => {
-    console.log("New client connected");
+    console.log("Client connected " + socket.id);
     if (interval) {
       clearInterval(interval);
     }
     interval = setInterval(() => getApiAndEmit(socket), 1000);
     socket.on("Pippo",(arg)=> {
-      console.log(arg);
-      socket.emit("Ciccio", "ingrassia")
+      io.in("Allevamento").emit("Test");
     }
     );
+    socket.on("connectionTags", (arg) => {
+      if(arg) { socket.join(arg);
+      console.log("la " + socket.id + " ha joinato le stanze " + arg) }
+      ;
+    });
     socket.on("disconnect", () => {
       console.log("Client disconnected");
       clearInterval(interval);
@@ -56,5 +60,6 @@ mongoose
     const response = new Date();
     // Emitting a new message. Will be consumed by the client
     socket.emit("FromAPI", response);
+    socket.to("Allevamento").emit("funzionerà")
   };
   
