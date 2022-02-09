@@ -7,9 +7,8 @@ import { getLastPostsNotifications } from "../../actions/notifications";
 import { useDispatch } from "react-redux";
 import Article from "../Article/Article"
 import TagSearch from "../TagSearch/TagSearch"
-const Home = ({openArticle, setOpenArticle, socket}) => {
+const Home = ({openArticle, setOpenArticle, openArticleId, setOpenArticleId}) => {
   const [currentId, setCurrentId] = useState(null);
-  const [openArticleId, setOpenArticleId] = useState(null);
   const [tagSearch, setTagSearch] = useState(null);
   const [stringSearch, setStringSearch] = useState(null);
   const dispatch = useDispatch();

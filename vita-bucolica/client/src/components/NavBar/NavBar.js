@@ -1,16 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {Menu, Button, Icon, Image, Label}  from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
 import { useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
+const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId, setSocketStatus, }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
-  const notifications = useSelector((state) => state.notifications);
+  const notificationsState = useSelector((state) => state.notifications)
+  const [notifications, setNotifications] = useState(null)
+  console.log({notifications:notifications})
+  console.log({notificationsState:notificationsState})
+  const updateNotifications = (id) => {
+    console.log(id);
+    let notificationsTmp = notifications.filter(n => n.id !== id);
+    setNotifications(notificationsTmp);
+  }
+
+  useEffect(() => {
+    setNotifications(notificationsState)
+  },[notificationsState])
   useEffect(() => {
     const token = tokenHandler?.token;
     if (token) {
@@ -47,8 +59,9 @@ const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
          </Menu.Item>}  
         {user &&
           <Menu.Item>
-            <Icon circular className="navbar-icon" name="bell outline" alt="icon bell" size="large">
-            { notifications && notifications.length > 0 && <span alt="number of notification" className="badge">{notifications.length}<NotificationsDropdown/></span>}</Icon>
+            {console.log(notifications)}
+            { (!notifications || notifications.length === 0) && <Icon circular className="navbar-icon" name="bell outline" alt="icon bell" size="large"/> }
+            { notifications && notifications.length > 0 && <><NotificationsDropdown setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId} notifications={notifications} updateNotifications={updateNotifications}/><span alt="number of notification" className="badge">{notifications.length}</span></>}
             </Menu.Item> 
           }
         <Menu.Item position="right">

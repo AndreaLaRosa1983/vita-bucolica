@@ -1,4 +1,5 @@
 import React, { useState, useEffect}from "react";
+import { useSelector } from "react-redux";
 import { Container, Image, Grid, Button } from "semantic-ui-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
@@ -8,13 +9,13 @@ import colline from "./images/colline.jpg";
 import albero from "./images/albero.png";
 import io from "socket.io-client";
 const App = () => {
+  const [openArticleId, setOpenArticleId] = useState(null);
   const [openArticle, setOpenArticle] = useState(null);
   const ENDPOINT = "http://localhost:3000";
   const [socketStatus, setSocketStatus] = useState(false);
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null)
   useEffect(() => {
-    console.log({socketstatus:socketStatus});
     if(socketStatus){
     setSocket(io(ENDPOINT));
     console.log("open the socket")
@@ -30,20 +31,13 @@ const App = () => {
     console.log(arg))
   }},[socket, user]);
 
-  const onclick = () =>  {
-    console.log("in onclick");
-    console.log({user})
-    socket.emit("Pippo", user.result.tags)
-  }
-
-
   return (
     <BrowserRouter> 
       <Container className="wrapper">
     <header className="header">
       <Grid>
       <Grid.Row className="navbarRow">
-        <NavBar setOpenArticle={setOpenArticle} setSocketStatus={setSocketStatus} user={user} setUser={setUser} />
+        <NavBar setOpenArticleId={setOpenArticleId} setOpenArticle={setOpenArticle} setSocketStatus={setSocketStatus} user={user} setUser={setUser} />
       </Grid.Row>
       <Grid.Row>  
         <h1 className="titleHeader">Vita Bucolica</h1>
@@ -54,7 +48,7 @@ const App = () => {
 
     </header>
         <Routes>
-          <Route path="/" element={<Home openArticle={openArticle} setOpenArticle={setOpenArticle} socket={socket}/> } />
+          <Route path="/" element={<Home openArticleId={openArticleId} setOpenArticleId={setOpenArticleId} openArticle={openArticle} setOpenArticle={setOpenArticle} socket={socket}/> } />
           <Route path="/auth" element={<Auth setSocketStatus={setSocketStatus} socketStatus={socketStatus}/>} />
         </Routes>
       </Container>
