@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import {Menu, Button, Icon}  from "semantic-ui-react";
+import {Menu, Button, Icon, Image, Label}  from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
+import { useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
@@ -8,7 +10,7 @@ const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
-
+  const notifications = useSelector((state) => state.notifications);
   useEffect(() => {
     const token = tokenHandler?.token;
     if (token) {
@@ -28,21 +30,34 @@ const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
 
 
   return (
+    
     <Menu className="appBar">
+      {console.log(notifications)}
     <Menu.Item
     href={!user ? "/" : null} 
           onClick={()=> setOpenArticle(false)}
         >
-        <Icon className="imageHome" name='home' alt="icon home" size="large" />
+        <Icon circular className="navbar-icon" name="home" alt="icon home" size="large" />
         </Menu.Item>
         {user && <Menu.Item>             
-         <div className="userName" >
+         <div className="user-name" >
                 {user.result.name}
               </div>
-         </Menu.Item>}
-        <Menu.Item position='right'>
+              <Icon circular size="large" className="navbar-icon user-round-icon"><div className="letter-name">{user.result.name.charAt(0)}</div></Icon>
+         </Menu.Item>}  
+        {user &&
+          <Menu.Item>
+            <Icon circular className="navbar-icon" name="bell outline" alt="icon bell" size="large">
+            { notifications && notifications.length > 0 && <span alt="number of notification" className="badge">{notifications.length}<NotificationsDropdown/></span>}</Icon>
+            </Menu.Item> 
+          }
+        <Menu.Item position="right">
+
           {user ? (
             <div >
+              <Button className="access-icon" onClick={logout} href="/">
+              <Icon name="log out" alt="log out"/>
+              </Button>
               <Button
                 href="/"
                 className="logout"
@@ -51,14 +66,17 @@ const NavBar = ({user, setUser, setOpenArticle, setSocketStatus}) => {
                 Disconnetti
               </Button>
             </div>
-          ) : (
+          ) : (<div>
+            <Button className="access-icon" onClick={()=> setOpenArticle(false)} href="/auth">
+            <Icon name="sign-in" alt="sign in"/>
+            </Button>
             <Button
             className="orange"
-              href='/auth'
+              href="/auth"
               onClick={()=> setOpenArticle(false)}
             >
               Accedi
-            </Button>
+            </Button></div>
           )}
         </Menu.Item>
     </Menu>

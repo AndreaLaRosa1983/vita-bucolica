@@ -2,13 +2,14 @@ import {
   FETCH_ALL,
   FETCH_ALL_SEARCH,
   FETCH_ALL_TAG,
+  FETCH_NEW_POSTS_NOTIFICATIONS,
   CREATE,
   UPDATE,
   DELETE,
   LIKE,
 } from "../constants/actionTypes";
 
-const post =  (posts = [], action) => {
+const post =  (posts = [], action, newPostsNotifications = []) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
       return action.payload;
@@ -21,7 +22,7 @@ const post =  (posts = [], action) => {
         post._id === action.payload._id ? action.payload : post
       );
     case CREATE:
-      return [...posts, action.payload];
+      return [action.payload, ...posts];
     case UPDATE:
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post

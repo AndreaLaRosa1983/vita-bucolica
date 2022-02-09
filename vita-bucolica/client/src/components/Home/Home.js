@@ -3,6 +3,7 @@ import  { Grid } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
 import FormArticle from "../FormArticle/FormArticle";
 import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
+import { getLastPostsNotifications } from "../../actions/notifications";
 import { useDispatch } from "react-redux";
 import Article from "../Article/Article"
 import TagSearch from "../TagSearch/TagSearch"
@@ -17,7 +18,7 @@ const Home = ({openArticle, setOpenArticle, socket}) => {
       dispatch(getPostsByTag(tagSearch));
     } else if (stringSearch){
       dispatch(getPostsBySearch(stringSearch));
-    } else {dispatch(getPosts());}
+    } else {dispatch(getLastPostsNotifications());dispatch(getPosts());}
   }, [tagSearch,currentId, dispatch, stringSearch]);
   return (
     

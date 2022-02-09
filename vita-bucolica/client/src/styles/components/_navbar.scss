@@ -16,12 +16,46 @@
     margin-left: 15px;
     display: flex !important;
   }
-@media (min-width: $tabletMin ) and (max-width: $tabletMax) {
-} 
-@media (min-width: $desktopMin ) {
+  .user-round-icon{
+    display: none !important;
+  }
 
+  .logout, .orange {
+    display: flex !important;
+  }
+
+  .access-icon {
+    display: none !important;
+  }
+@media (max-width: $tabletMax ) {
+  .user-name{
+    display:none !important;
+  }
+  .logout, .orange {
+    display: none !important;
+  }
+  .access-icon {
+    display: flex !important;
+    box-shadow: 0 0 0 0.1em rgb(0 0 0 / 10%) inset !important;
+  }
+} 
+@media (max-width: $tabletMax ) {
+  .user-round-icon{
+    display: flex !important;
+  }
 } 
 
+
+
+.letter-name{
+  padding-left:10px;
+}
+.navbar-icon {
+  background-color:lightgrey;
+}
+.navbar-icon:hover, .navbar-icon:active{
+  background-color:orange;
+}
 
   .ui.menu{
       width:94%;
@@ -31,4 +65,19 @@
     top:3%;
     left:3%;
     right:3%;
+  }
+
+  .notification:hover {
+    background: red;
+  }
+  
+  .badge {
+    font-size: 9px !important;
+    position: absolute;
+    top: 5px;
+    right: 17px;
+    padding: 5px 8px;
+    border-radius: 50%;
+    background: red;
+    color: white;
   }

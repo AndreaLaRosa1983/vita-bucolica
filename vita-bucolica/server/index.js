@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/user.js";
+import notificationsRoutes from "./routes/notifications.js";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
+app.use("/notifications", notificationsRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Vita Bucolica API");
 });
@@ -54,14 +56,7 @@ mongoose
       clearInterval(interval);
     });
   });
-  
-/*   const getApiAndEmit = socket => {
-    const response = new Date();
-    // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
-    socket.to("Allevamento").emit("funzionerà")
-  }; */
-  
+    
   app.set("io", io);
 
   export default app;

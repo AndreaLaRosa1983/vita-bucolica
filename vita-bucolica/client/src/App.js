@@ -13,7 +13,6 @@ const App = () => {
   const [socketStatus, setSocketStatus] = useState(false);
   const [socket, setSocket] = useState(null);
   const [user, setUser] = useState(null)
-  
   useEffect(() => {
     console.log({socketstatus:socketStatus});
     if(socketStatus){
@@ -40,7 +39,6 @@ const App = () => {
 
   return (
     <BrowserRouter> 
-    <Button onClick={onclick}></Button>
       <Container className="wrapper">
     <header className="header">
       <Grid>

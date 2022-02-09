@@ -8,7 +8,7 @@ import {
   Container
 } from "semantic-ui-react"
 import moment from "moment";
-import 'moment/locale/it';
+import "moment/locale/it";
 import { likePost } from "../../actions/posts";
 
 

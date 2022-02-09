@@ -6,7 +6,7 @@ const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle, setOpenAr
   const posts = useSelector((state) => state.posts);
   return !posts.length ? (
 
-    <Loader active size='big'>Caricamento</Loader>
+    <Loader active size="big">Caricamento</Loader>
   ) : (openArticle ? (<>
   {posts.find(x => x._id === currentId)}</>) : (
     <Card.Group centered>
