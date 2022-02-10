@@ -4,8 +4,12 @@ import app from "../index.js";
 
 export const getPosts = async (req, res) => {
   try {
-    const postMessages = await PostMessage.find();
-    res.status(200).json(postMessages.reverse());
+    console.log("here");
+    const maxToShow = 6;
+    const more  = parseInt(req.params.more);
+    const totalMessages = await PostMessage.count();
+    const postMessages = await PostMessage.find().sort({ $natural: -1 }).limit(maxToShow*more);
+    res.status(200).json({ data: postMessages, numberOfPages: Math.ceil(totalMessages / maxToShow)});
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -57,9 +61,10 @@ export const createPost = async (req, res) => {
   let io = app.get("io");
   try {
     await newPostMessage.save()
-    let tags = newPostMessage.tags;
-    console.log("here in emit");
-    newPostMessage.tags.forEach(tag => io.to(tag).emit("newPost", newPostMessage));
+    const tags = newPostMessage.tags;
+    const notificationToSend = { name:newPostMessage.name, title:newPostMessage.title, tags:newPostMessage.tags, id:newPostMessage._id}
+    tags.forEach(tag => {io.to(tag).emit("newPost", notificationToSend);
+  });
     res.status(201).json(newPostMessage);
     return;
   } catch (error) {

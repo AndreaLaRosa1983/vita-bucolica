@@ -15,7 +15,7 @@ import { likePost } from "../../actions/posts";
 const Article = ({setOpenArticle, openArticleId}) => { 
   moment.locale('it');
   const post = useSelector((state) =>
-  openArticleId? state.posts.find((p) => p._id === openArticleId) : null
+  openArticleId? state.posts.posts.find((p) => p._id === openArticleId) : null
 );
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));

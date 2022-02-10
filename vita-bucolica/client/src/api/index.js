@@ -12,9 +12,9 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPosts = () => API.get("/posts");
+export const fetchPosts = (more) => API.get(`/posts/${more}`);
 export const fetchLastPostsNotifications = (user) => API.post("/notifications", user);
-export const fetchPostsTag = (tag) => API.get(`/posts/${tag}`);
+export const fetchPostsTag = (tag) => API.get(`/posts/tag/${tag}`);
 export const fetchPostsSearch = (search) => API.get(`/posts/search/${search}`);
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);

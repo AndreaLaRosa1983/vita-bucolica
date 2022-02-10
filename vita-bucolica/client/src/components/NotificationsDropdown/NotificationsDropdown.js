@@ -1,19 +1,12 @@
-import React, {useState} from "react";
+import React from "react";
 import { Icon, Dropdown}  from "semantic-ui-react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import {
-  DELETE_NOTIFICATION_AFTER_CLICK
-} from "../../constants/actionTypes";
+
 const NotificationsDropdown = ({setOpenArticle, setOpenArticleId, notifications, updateNotifications}) => {
-  
-  const dispatch = useDispatch();
+
   const handleClick = (id) => {
     setOpenArticle(true);
     setOpenArticleId(id);
-    console.log(updateNotifications)
     updateNotifications(id);
-
   }
 
 
@@ -26,7 +19,6 @@ const NotificationsDropdown = ({setOpenArticle, setOpenArticleId, notifications,
   >
     <Dropdown.Menu>
       <Dropdown.Header content='Post che ti sei perso' />
-      {console.log({notificationssss: notifications})}
       {notifications.map((n) => (
         <Dropdown.Item key={n.id} text={n.title + " in " + n.tags.map((tag) => `#${tag} `).join('')} value={n.id} onClick={()=>handleClick(n.id)}/>
       ))}

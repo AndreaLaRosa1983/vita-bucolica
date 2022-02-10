@@ -42,10 +42,6 @@ mongoose
       clearInterval(interval);
     }
     /* interval = setInterval(() => getApiAndEmit(socket), 1000); */
-    socket.on("Pippo",(arg)=> {
-      io.in("Allevamento").emit("Test");
-    }
-    );
     socket.on("connectionTags", (arg) => {
       if(arg) { socket.join(arg);
       console.log("la " + socket.id + " ha joinato le stanze " + arg) }

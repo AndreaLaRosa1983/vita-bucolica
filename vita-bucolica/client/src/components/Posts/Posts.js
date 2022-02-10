@@ -1,11 +1,11 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import  {Loader, Card } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 const Posts = ({ setCurrentId, currentId, openArticle, setOpenArticle, setOpenArticleId }) => {
-  const posts = useSelector((state) => state.posts);
-  return !posts.length ? (
+  const { posts } = useSelector((state) => state.posts);
 
+  return !posts.length ? (
     <Loader active size="big">Caricamento</Loader>
   ) : (openArticle ? (<>
   {posts.find(x => x._id === currentId)}</>) : (

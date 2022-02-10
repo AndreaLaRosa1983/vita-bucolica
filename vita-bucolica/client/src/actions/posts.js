@@ -5,7 +5,6 @@ import {
   FETCH_ALL,
   FETCH_ALL_TAG,
   FETCH_ALL_SEARCH,
-  FETCH_NEW_POSTS_NOTIFICATIONS,
   CREATE,
   UPDATE,
   DELETE,
@@ -16,10 +15,14 @@ import * as api from "../api/index.js";
 
 
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (limit) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPosts();
-    dispatch({ type: FETCH_ALL, payload: data });
+    const { data: { data, numberOfPages } } = await api.fetchPosts(limit);
+    console.log({data:data});
+    console.log({numberOfPages: numberOfPages});
+    dispatch({ type: FETCH_ALL, payload: { data, numberOfPages } });
+/*     const { data } = await api.fetchPosts(limit);
+    dispatch({ type: FETCH_ALL, payload: data }); */
   } catch (error) {
     console.log(error.message);
   }
@@ -28,7 +31,7 @@ export const getPosts = () => async (dispatch) => {
 export const getPostsByTag = (tag) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsTag(tag);
-    dispatch({ type: FETCH_ALL_TAG, payload: data });
+    dispatch({ type: FETCH_ALL_TAG, payload: {data} });
   } catch (error) {
     console.log(error.message);
   }
@@ -37,7 +40,7 @@ export const getPostsByTag = (tag) => async (dispatch) => {
 export const getPostsBySearch = (search) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsSearch(search);
-    dispatch({ type: FETCH_ALL_SEARCH, payload: data });
+    dispatch({ type: FETCH_ALL_SEARCH, payload: {data} });
   } catch (error) {
     console.log(error.message);
   }

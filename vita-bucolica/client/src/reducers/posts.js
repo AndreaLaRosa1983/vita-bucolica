@@ -2,35 +2,35 @@ import {
   FETCH_ALL,
   FETCH_ALL_SEARCH,
   FETCH_ALL_TAG,
-  FETCH_NEW_POSTS_NOTIFICATIONS,
   CREATE,
   UPDATE,
   DELETE,
   LIKE,
 } from "../constants/actionTypes";
 
-const post =  (posts = [], action, newPostsNotifications = []) => {
+const post =  (state = { posts: [] }, action) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
-      return action.payload;
+      return { ...state, posts: action.payload.data };
     case FETCH_ALL_SEARCH:
-        return action.payload;
+      {console.log({state:state})}
+      return { ...state, posts: action.payload.data };
     case FETCH_ALL:
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload.data,
+        numberOfPages: action.payload.numberOfPages,
+      };
     case LIKE:
-      return posts.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case CREATE:
-      return [action.payload, ...posts];
+      return { ...state, posts: [action.payload, ...state.posts] };
     case UPDATE:
-      return posts.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case DELETE:
-      return posts.filter((post) => post._id !== action.payload);
+      return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
     default:
-      return posts;
+      return state;
   }
 };
 
