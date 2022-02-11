@@ -13,7 +13,6 @@ const post =  (state = { posts: [] }, action) => {
     case FETCH_ALL_TAG:
       return { ...state, posts: action.payload.data };
     case FETCH_ALL_SEARCH:
-      {console.log({state:state})}
       return { ...state, posts: action.payload.data };
     case FETCH_ALL:
       return {

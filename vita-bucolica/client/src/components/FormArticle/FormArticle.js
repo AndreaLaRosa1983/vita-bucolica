@@ -96,8 +96,10 @@ const FormArticle = ({ currentId, setCurrentId }) => {
           Accedi per interagire con i post
         </div>
     );
+  } 
+  if (!user.result.isCreator) {
+    return  null
   }
-
   return (
       <Form 
       className="form-article-container"

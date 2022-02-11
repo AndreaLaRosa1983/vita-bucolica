@@ -15,6 +15,7 @@ const Auth = ({setSocketStatus, socketStatus}) => {
     password: "",
     confirmPassword: "",
     tags: [],
+    isCreator: false
   });
   const [errors, setError] = useState({
     firstName: false,
@@ -22,7 +23,8 @@ const Auth = ({setSocketStatus, socketStatus}) => {
     email: false,
     password: false,
     confirmPassword: false,
-    tags: false
+    tags: false,
+    isCreator: false,
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,6 +75,10 @@ const Auth = ({setSocketStatus, socketStatus}) => {
       setFormData({ ...formData, tags: newTags });
     }
   }
+
+  const isCreator = () => {
+      setFormData({ ...formData, isCreator: !formData.isCreator });
+    } 
 
   const checkFormSignUp = () => {
     var values = formData;
@@ -128,11 +134,25 @@ const Auth = ({setSocketStatus, socketStatus}) => {
     } else {
       checkedErrors.tags = false;
     }
+    if (values.isCreator !== true && values.isCreator !== false){
+      valid = false;
+      checkedErrors.isCreator = true;
+    } else {
+      checkedErrors.isCreator = false;
+    }
     setError({...checkedErrors})
     return valid;
   }
 
   const switchMode = () => {
+    setFormData({    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    tags: [],
+    isCreator: false
+    })
     setIsSignup((prevIsSignup) => !prevIsSignup);
   };
   return (
@@ -194,16 +214,21 @@ const Auth = ({setSocketStatus, socketStatus}) => {
                           onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                         />
             )}
+
             </Form.Group>
             {isSignup && (<><Form.Group grouped className="checkbox-group" > 
-              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, FARMLIFE)} label={FARMLIFE} checked={formData.tags.includes(FARMLIFE)}/>
-              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, GROWING)} label={GROWING} checked={formData.tags.includes(GROWING)} />
-              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, BREEDING)} label={BREEDING}  checked={formData.tags.includes(BREEDING)} />
-              <Form.Field error={errors.tags} control='input' type='checkbox' onChange={(e, ) => changeTags(e, AGRIMACHINERY)} label={AGRIMACHINERY}  checked={formData.tags.includes(AGRIMACHINERY)} />
+              <Form.Field error={errors.isCreator} control="input" type="checkbox" onChange={() => isCreator()} label={"sei un creatore di articoli?"} checked={formData.isCreator}/>
+            </Form.Group></>)}
+            {isSignup && (<><Form.Group grouped className="checkbox-group" > 
+              <div>Scegli i tuoi argomenti di interesse</div>
+              <Form.Field error={errors.tags} control="input" type="checkbox" onChange={(e, ) => changeTags(e, FARMLIFE)} label={FARMLIFE} checked={formData.tags.includes(FARMLIFE)}/>
+              <Form.Field error={errors.tags} control="input" type="checkbox" onChange={(e, ) => changeTags(e, GROWING)} label={GROWING} checked={formData.tags.includes(GROWING)} />
+              <Form.Field error={errors.tags} control="input" type="checkbox" onChange={(e, ) => changeTags(e, BREEDING)} label={BREEDING}  checked={formData.tags.includes(BREEDING)} />
+              <Form.Field error={errors.tags} control="input" type="checkbox" onChange={(e, ) => changeTags(e, AGRIMACHINERY)} label={AGRIMACHINERY}  checked={formData.tags.includes(AGRIMACHINERY)} />
             </Form.Group>
-            {errors.tags ? <Label pointing='above' className="error-tips">Seleziona Almeno uno dei Tags</Label> : null}</>)}
+            {errors.tags ? <Label pointing="above" className="error-tips">Seleziona Almeno uno dei Tags</Label> : null}</>)}
           <Form.Group >
-          <Form.Field control={Button} type='submit'>
+          <Form.Field control={Button} type="submit">
             {isSignup ? "Iscriviti" : "Accedi"}
           </Form.Field> 
           

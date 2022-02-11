@@ -19,6 +19,7 @@ const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId, setSocketStatu
 
   useEffect(() => {
     setNotifications(notificationsState)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[notificationsState])
   useEffect(() => {
     const token = tokenHandler?.token;

@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   tags: { type: [String], required: true },
   id: { type: String },
+  isCreator: { type: Boolean, required: true},
 });
 
 const User = mongoose.model("User", userSchema);

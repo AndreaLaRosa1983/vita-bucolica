@@ -34,7 +34,7 @@ export const signin = async (req, res) => {
 };
 
 export const signup = async (req, res) => {
-  const { email, password, confirmPassword, firstName, lastName, tags } = req.body;
+  const { email, password, confirmPassword, firstName, lastName, tags, isCreator } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -43,11 +43,13 @@ export const signup = async (req, res) => {
     if (password !== confirmPassword)
       return res.status(400).json({ message: "Passwords don't match" });
     const hashedPassword = await bcrypt.hash(password, 12);
+    console.log("here")
     const result = await User.create({
       email,
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
       tags,
+      isCreator
     });
     const token = jwt.sign({ email: result.email, id: result._id }, "test", {
       expiresIn: "1h",
@@ -56,7 +58,7 @@ export const signup = async (req, res) => {
       user: result._id,
       createdAt: new Date().toISOString()
     });
-    return res.status(404).json({ message: "Can't create a connection Log"})
+    /* if(!connectionLog) return res.status(404).json({ message: "Can't create a connection Log"}) */
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500) - json({ message: "Something went wrong!" });

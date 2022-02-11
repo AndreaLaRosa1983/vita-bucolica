@@ -18,8 +18,6 @@ import * as api from "../api/index.js";
 export const getPosts = (limit) => async (dispatch) => {
   try {
     const { data: { data, numberOfPages } } = await api.fetchPosts(limit);
-    console.log({data:data});
-    console.log({numberOfPages: numberOfPages});
     dispatch({ type: FETCH_ALL, payload: { data, numberOfPages } });
 /*     const { data } = await api.fetchPosts(limit);
     dispatch({ type: FETCH_ALL, payload: data }); */

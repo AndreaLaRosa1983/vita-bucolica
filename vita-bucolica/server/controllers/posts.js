@@ -4,7 +4,6 @@ import app from "../index.js";
 
 export const getPosts = async (req, res) => {
   try {
-    console.log("here");
     const maxToShow = 6;
     const more  = parseInt(req.params.more);
     const totalMessages = await PostMessage.count();

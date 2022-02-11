@@ -29,18 +29,17 @@ const Home = ({openArticle, setOpenArticle, openArticleId, setOpenArticleId, use
   return (
     
     <div>
-      {console.log({numberOfPages : numberOfPages})}
     <div className="section">{!openArticle &&<TagSearch setStringSearch={setStringSearch} stringSearch = {stringSearch} setTagSearch={setTagSearch}  tagSearch={tagSearch} ></TagSearch>}
       {openArticle ? ( <Grid stackable className="main-grid" ><Grid.Row><Grid.Column columns={16}><Article openArticle={openArticle} currentId={currentId} setCurrentId={setCurrentId}  setOpenArticle={setOpenArticle} openArticleId={openArticleId} setOpenArticleId={setOpenArticleId}/></Grid.Column></Grid.Row></Grid>)
       :( <Grid stackable className="main-grid">
-        <Grid.Row   columns={2}>
-            <Grid.Column width={10}>
+        <Grid.Row   columns={(( user && user.result.isCreator) || (!user)) ? 2 : 1}>
+            <Grid.Column width={(( user && user.result.isCreator) || (!user)) ? 10 : 16}>
                 <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>  
                 {!tagSearch && !stringSearch && user && <div className="button-post-group"><Button disabled={more === 1 ? true : false} icon="arrow left" onClick={()=> setMore(more-1)}/><span> Pagina {more}/{numberOfPages} </span><Button disabled={more === numberOfPages ? true : false}icon="arrow right" onClick={()=> setMore(more+1)}/></div>}
             </Grid.Column>  
-            <Grid.Column className="home-form-article-column" width={6}>
+            {(( user && user.result.isCreator) || (!user)) &&  <Grid.Column className="home-form-article-column" width={6}>
                 <FormArticle currentId={currentId} setCurrentId={setCurrentId} />
-            </Grid.Column>
+            </Grid.Column>}
             </Grid.Row>
           </Grid>)}
     </div>
