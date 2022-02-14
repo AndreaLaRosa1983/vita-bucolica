@@ -1,13 +1,20 @@
 import {
     FETCH_NEW_POSTS_NOTIFICATIONS,
+    ADD_RECIEVED_NOTIFICATION,
   } from "../constants/actionTypes";
   
-  const notifications =  (notifications = [], action) => {
+  const notification =  (state = { notifications: [] }, action) => {
     switch (action.type) {
       case FETCH_NEW_POSTS_NOTIFICATIONS:
-        return action.payload;
+        return {
+          ...state,
+          notifications: action.payload.data
+        };
+      case ADD_RECIEVED_NOTIFICATION:
+        // mi arrivano due notifiche da due diverse room, perchè??? 
+        return { ...state, notifications: [action.payload, ...state.notifications]};
     default:
-        return notifications;
+        return state;
   };
 }
-  export default notifications;
+  export default notification;

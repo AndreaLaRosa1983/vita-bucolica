@@ -5,6 +5,7 @@ import cors from "cors";
 import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/user.js";
 import notificationsRoutes from "./routes/notifications.js";
+import logsRoutes from "./routes/logs.js";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -19,6 +20,7 @@ app.use(cors());
 app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
 app.use("/notifications", notificationsRoutes);
+app.use("/logs", logsRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to Vita Bucolica API");
 });
@@ -38,9 +40,6 @@ mongoose
 
   io.on("connection", (socket) => {
     console.log("Client connected " + socket.id);
-    if (interval) {
-      clearInterval(interval);
-    }
     /* interval = setInterval(() => getApiAndEmit(socket), 1000); */
     socket.on("connectionTags", (arg) => {
       if(arg) { socket.join(arg);
@@ -49,7 +48,6 @@ mongoose
     });
     socket.on("disconnect", () => {
       console.log("Client disconnected");
-      clearInterval(interval);
     });
   });
     

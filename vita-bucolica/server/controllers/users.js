@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
-import ConnectionLog from "../models/connectionLog.js"
+import Log from "../models/log.js"
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -15,19 +15,15 @@ export const signin = async (req, res) => {
     const token = await jwt.sign({ email: oldUser.email, id: oldUser._id }, "test", {
       expiresIn: "1h",
     });
-    
-    const lastConnection = await ConnectionLog.find({ user: oldUser._id}).sort({createdAt:-1}).limit(1);
-    if(!lastConnection)
-      return res.status(404).json({ message: "Impossible to retrive last connection"})
-      //connection Log
-    const connectionLog = await ConnectionLog.create({
+    const log = await Log.create({
       user: oldUser._id,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      log: "SIGNIN"
     });
-    if(!connectionLog)
-    return res.status(404).json({ message: "Can't create a connection Log"})
-    
-    res.status(200).json({ result: oldUser, token, lastConnection });
+
+    if(!log)
+    return res.status(404).json({ message: "Can't create a log"})
+    res.status(200).json({ result: oldUser, token });
   } catch (error) {
     res.status(500) - json({ message: "Something went wrong!" });
   }
@@ -35,7 +31,6 @@ export const signin = async (req, res) => {
 
 export const signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName, tags, isCreator } = req.body;
-
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
@@ -43,7 +38,6 @@ export const signup = async (req, res) => {
     if (password !== confirmPassword)
       return res.status(400).json({ message: "Passwords don't match" });
     const hashedPassword = await bcrypt.hash(password, 12);
-    console.log("here")
     const result = await User.create({
       email,
       password: hashedPassword,
@@ -54,11 +48,16 @@ export const signup = async (req, res) => {
     const token = jwt.sign({ email: result.email, id: result._id }, "test", {
       expiresIn: "1h",
     });
-    const connectionLog = await ConnectionLog.create({
+    const LogSignUp = await Log.create({
       user: result._id,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      log:"SIGNUP"
     });
-    /* if(!connectionLog) return res.status(404).json({ message: "Can't create a connection Log"}) */
+    const LogNotification = await Log.create({
+      user: oldUser._id,
+      createdAt: new Date().toISOString(),
+      log: "NOTIFICATIONOK"
+    });
     res.status(200).json({ result, token });
   } catch (error) {
     res.status(500) - json({ message: "Something went wrong!" });

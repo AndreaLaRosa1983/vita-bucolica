@@ -15,29 +15,27 @@ import * as api from "../api/index.js";
 
 
 
-export const getPosts = (limit) => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data: { data, numberOfPages } } = await api.fetchPosts(limit);
+    const { data: { data, numberOfPages } } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: { data, numberOfPages } });
-/*     const { data } = await api.fetchPosts(limit);
-    dispatch({ type: FETCH_ALL, payload: data }); */
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const getPostsByTag = (tag) => async (dispatch) => {
+export const getPostsByTag = (tag, more) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPostsTag(tag);
-    dispatch({ type: FETCH_ALL_TAG, payload: {data} });
+    const {data: { data, numberOfPosts, numberOfPostsToSee }} = await api.fetchPostsTag(tag, more);
+    dispatch({ type: FETCH_ALL_TAG, payload: {data, numberOfPosts, numberOfPostsToSee} });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-export const getPostsBySearch = (search) => async (dispatch) => {
+export const getPostsBySearch = (search, more) => async (dispatch) => {
   try {
-    const { data } = await api.fetchPostsSearch(search);
+    const { data } = await api.fetchPostsSearch(search, more);
     dispatch({ type: FETCH_ALL_SEARCH, payload: {data} });
   } catch (error) {
     console.log(error.message);
@@ -75,7 +73,6 @@ export const likePost = (id) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id);
-
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
     console.log(error.message);

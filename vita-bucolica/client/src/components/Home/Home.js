@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import  { Grid, Button } from "semantic-ui-react";
+import  { Grid, Button, Icon } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
 import FormArticle from "../FormArticle/FormArticle";
 import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
-import { getLastPostsNotifications } from "../../actions/notifications";
+import { getLastPostsNotifications } from "../../actions/utils";
 import { useDispatch, useSelector } from "react-redux";
 import Article from "../Article/Article"
 import TagSearch from "../TagSearch/TagSearch"
@@ -12,20 +12,28 @@ const Home = ({openArticle, setOpenArticle, openArticleId, setOpenArticleId, use
   const [currentId, setCurrentId] = useState(null);
   const [tagSearch, setTagSearch] = useState(null);
   const [stringSearch, setStringSearch] = useState(null);
+  const [page, setPage] = useState(0)
   const [more, setMore] = useState(1)
   const dispatch = useDispatch();
   const { numberOfPages } = useSelector((state) => state.posts);
   useEffect(() => {
     if(tagSearch){
-      setMore(1)
-      dispatch(getPostsByTag(tagSearch));
+      if(stringSearch){
+        setMore(1)
+      }
+      setPage(0)
+      dispatch(getPostsByTag(tagSearch,more));
     } else if (stringSearch){
-      setMore(1)
-      dispatch(getPostsBySearch(stringSearch));
+      if(tagSearch){
+        setMore(1)
+      }
+      setPage(0)
+      dispatch(getPostsBySearch(stringSearch,more));
     } else {
+      setMore(1)
       dispatch(getLastPostsNotifications());
-      dispatch(getPosts(more));}
-  }, [tagSearch,currentId, dispatch, stringSearch, more]);
+      dispatch(getPosts(page));}
+  }, [tagSearch,currentId, dispatch, stringSearch, page, more]);
   return (
     
     <div>
@@ -35,7 +43,9 @@ const Home = ({openArticle, setOpenArticle, openArticleId, setOpenArticleId, use
         <Grid.Row   columns={(( user && user.result.isCreator) || (!user)) ? 2 : 1}>
             <Grid.Column width={(( user && user.result.isCreator) || (!user)) ? 10 : 16}>
                 <Posts setCurrentId={setCurrentId} currentId={currentId} setOpenArticle={setOpenArticle} setOpenArticleId={setOpenArticleId}/>  
-                {!tagSearch && !stringSearch && user && <div className="button-post-group"><Button disabled={more === 1 ? true : false} icon="arrow left" onClick={()=> setMore(more-1)}/><span> Pagina {more}/{numberOfPages} </span><Button disabled={more === numberOfPages ? true : false}icon="arrow right" onClick={()=> setMore(more+1)}/></div>}
+                {!tagSearch && !stringSearch && user && <div className="button-post-group"><Button disabled={page === 0 ? true : false} icon="arrow left" onClick={()=> setPage(page-1)}/><span> Pagina {page+1}/{numberOfPages} </span><Button disabled={page+1 === numberOfPages ? true : false}icon="arrow right" onClick={()=> setPage(page+1)}/></div>}
+                {tagSearch && !stringSearch && user &&  <div className="button-post-group"><Button onClick={()=> setMore(more+1)}><Icon name="arrow down" /><span> try get more from {tagSearch} </span></Button></div>}
+                {!tagSearch && stringSearch && user &&  <div className="button-post-group"><Button onClick={()=> setMore(more+1)}><Icon name="arrow down" /><span> try get more from {stringSearch} </span></Button></div>}
             </Grid.Column>  
             {(( user && user.result.isCreator) || (!user)) &&  <Grid.Column className="home-form-article-column" width={6}>
                 <FormArticle currentId={currentId} setCurrentId={setCurrentId} />

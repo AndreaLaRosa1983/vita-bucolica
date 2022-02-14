@@ -6,6 +6,7 @@ const connectionLogSchema = mongoose.Schema({
     type: Date,
     default: new Date().toISOString(),
   },
+  log: { type: String, required: true },
 });
 
 const ConnectionLog = mongoose.model("ConnectionLog", connectionLogSchema);

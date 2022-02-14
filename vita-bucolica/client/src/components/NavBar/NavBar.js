@@ -1,26 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {Menu, Button, Icon}  from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
 import { useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
-const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId, setSocketStatus, notifications, setNotifications}) => {
+const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
-  const notificationsState = useSelector((state) => state.notifications)
+  const {notifications} = useSelector((state) => state.notifications);
+  console.log(notifications)
   
   const updateNotifications = (id) => {
-    let notificationsTmp = notifications.filter(n => n.id !== id);
-    setNotifications(notificationsTmp);
+    /* let notificationsTmp = notifications.filter(n => n.id !== id);
+    setNotifications(notificationsTmp); */
   }
 
-  useEffect(() => {
-    setNotifications(notificationsState)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[notificationsState])
   useEffect(() => {
     const token = tokenHandler?.token;
     if (token) {
@@ -34,7 +31,6 @@ const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId, setSocketStatu
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    setSocketStatus(false)
     navigate("/");
   };
 

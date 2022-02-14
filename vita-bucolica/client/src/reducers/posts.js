@@ -11,7 +11,12 @@ import {
 const post =  (state = { posts: [] }, action) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
-      return { ...state, posts: action.payload.data };
+      return { 
+        ...state,
+        posts: action.payload.data,
+        numberOfPosts: action.payload.numberOfPosts,
+        numberOfPostsToSee: action.payload.numberOfPostsToSee,
+        };
     case FETCH_ALL_SEARCH:
       return { ...state, posts: action.payload.data };
     case FETCH_ALL:
