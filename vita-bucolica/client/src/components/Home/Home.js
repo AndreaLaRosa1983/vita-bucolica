@@ -3,7 +3,7 @@ import  { Grid, Button, Icon } from "semantic-ui-react";
 import Posts from "../Posts/Posts";
 import FormArticle from "../FormArticle/FormArticle";
 import { getPosts, getPostsByTag, getPostsBySearch } from "../../actions/posts";
-import { getLastPostsNotifications } from "../../actions/utils";
+import { getLastPostsNotifications } from "../../actions/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import Article from "../Article/Article"
 import TagSearch from "../TagSearch/TagSearch"

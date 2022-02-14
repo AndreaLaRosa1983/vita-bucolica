@@ -5,17 +5,18 @@ import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdow
 import { useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
+import { deleteFromRecievedNotification } from "../../actions/notifications";
+
 const NavBar = ({user, setUser, setOpenArticle, setOpenArticleId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
   const {notifications} = useSelector((state) => state.notifications);
-  console.log(notifications)
   
   const updateNotifications = (id) => {
-    /* let notificationsTmp = notifications.filter(n => n.id !== id);
-    setNotifications(notificationsTmp); */
+    console.log(id);
+    dispatch(deleteFromRecievedNotification(id));
   }
 
   useEffect(() => {

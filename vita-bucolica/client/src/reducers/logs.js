@@ -1,9 +1,9 @@
 import {
     GET_LAST_NOTIFICATION_LOG,
-    CREATE_LOG,
+    UPDATE_LAST_LOG,
   } from "../constants/actionTypes";
-  
-  const logs =  (state = { logs: [] }, action) => {
+
+  const log =  (state = { logs: [] }, action) => {
     switch (action.type) {
       case GET_LAST_NOTIFICATION_LOG:
         localStorage.setItem("lastNotificationLog", JSON.stringify({ ...action?.payload?.data[0] }));
@@ -11,11 +11,12 @@ import {
           ...state,
           lastNotificationLog: action.payload.lastNotificationLog,
         };
-      case CREATE_LOG:
-        return { ...state, posts: [action.payload, ...state.logs] };
+      case UPDATE_LAST_LOG:
+        localStorage.setItem("lastNotificationLog", JSON.stringify({ ...action?.payload }));
+        return log;
       default:
-        return logs;
+        return log;
     }
   };
   
-  export default logs;
+  export default log;

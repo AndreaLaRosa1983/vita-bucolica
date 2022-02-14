@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 import app from "../index.js";
-
+//multiemit to avoid multiple message at client in the same room (at the moment funtionality is 
+//reduced to the max number of preference of a client one for each tipe of article)
 const multiEmit = (io,tags,notificationToSend) => {
   console.log(tags);
   console.log(notificationToSend);
@@ -85,13 +86,6 @@ export const createPost = async (req, res) => {
     const tags = newPostMessage.tags;
     const notificationToSend = { name:newPostMessage.name, title:newPostMessage.title, tags:newPostMessage.tags, id:newPostMessage._id};
     console.log("hereOK")
-    /*     let StringEmit = '"io.';
-    tags.forEach(tag => StringEmit = StringEmit+`to("${tag}").` );
-    StringEmit = StringEmit+'emit("NEWPOST", notificationToSend)"';
-    console.log(StringEmit);
-    var emitFunction= Function(StringEmit);
-    emitFunction(); */
-   /*  tags.forEach(tag => {io.to(tag).emit("NEWPOST", notificationToSend);}); */
     multiEmit(io, tags, notificationToSend);
     res.status(201).json(newPostMessage);
     return;

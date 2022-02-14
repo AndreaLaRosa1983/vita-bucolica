@@ -2,7 +2,7 @@ import io from "socket.io-client";
 import {
     SOCKET_ON,
   } from "../constants/actionTypes";
-import { addRecievedNotification } from "./utils";
+import { addRecievedNotification } from "./notifications";
   
   
   export const startClientSocket = (user) => async (dispatch) => {

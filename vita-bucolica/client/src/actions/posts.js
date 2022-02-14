@@ -1,6 +1,3 @@
-// actions creators
-// notare la doppia freccia una funzione che crea una funzione (questo ci è permesso da thunk)
-// invece di ritornare l'azione la dispatchamo
 import {
   FETCH_ALL,
   FETCH_ALL_TAG,

@@ -1,9 +1,7 @@
-
 import {
     FETCH_NEW_POSTS_NOTIFICATIONS,
-    CREATE_LOG,
-    GET_LAST_NOTIFICATION_LOG,
     ADD_RECIEVED_NOTIFICATION,
+    DELETE_FROM_RECIEVED_NOTIFICATIONS,
   } from "../constants/actionTypes";
   
   import * as api from "../api/index.js";
@@ -28,21 +26,11 @@ import {
     }
   }
 
-
-  export const createLog = (log) => async (dispatch) => {
+  export const deleteFromRecievedNotification = (notificationToDeleteId) => async (dispatch) => {
     try {
-      const { data } = await api.createLog(log);
-      dispatch({ type: CREATE_LOG, payload: data });
-    } catch (error) {
+      dispatch({ type: DELETE_FROM_RECIEVED_NOTIFICATIONS, payload: notificationToDeleteId});
+    } catch (error){
       console.log(error.message);
     }
   }
 
-  export const getLastNotificationLog = (user) => async (dispatch) => {
-    try {
-      const { data } = await api.getLastNotificationLog(user.result._id);
-      dispatch({ type: GET_LAST_NOTIFICATION_LOG, payload: data });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }

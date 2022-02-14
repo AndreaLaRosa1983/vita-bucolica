@@ -1,5 +1,5 @@
-import React, { useState }  from 'react'
-import { Button, Form, Input, Icon } from 'semantic-ui-react'
+import React, { useState }  from "react"
+import { Button, Form, Input, Icon } from "semantic-ui-react"
 import {AGRIMACHINERY, GROWING, BREEDING, FARMLIFE } from "../../constants/tags";
 
 const TagSearch = ({tagSearch, setTagSearch, stringSearch, setStringSearch}) => {
