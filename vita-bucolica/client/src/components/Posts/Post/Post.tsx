@@ -4,8 +4,9 @@ import moment from "moment";
 import "moment/locale/it";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
-import genericForPost from "../../../images/genericForPost.png";
-const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId }) => {
+/* eslint-disable spaced-comment */
+import  genericForPost  from "../../../images/genericForPost.png";
+const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId, openArticle }) => {
   moment.locale("it");
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));

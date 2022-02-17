@@ -37,7 +37,7 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkFormChangeData()) {
-      dispatch(/* changeData(formData) */);
+     /*  dispatch( changeData(formData) ); */
     }
   };
 
@@ -137,7 +137,7 @@ const Auth = () => {
           control={Input}
           placeholder="Nome"
           name="firstName"
-          value={FormData.firstName}
+          value={formData.firstName}
           onChange={(e) =>
             setFormData({ ...formData, firstName: e.target.value })
           }
@@ -147,7 +147,7 @@ const Auth = () => {
           error={errors.lastName}
           placeholder="Cognome"
           name="lastName"
-          value={FormData.lastName}
+          value={formData.lastName}
           onChange={(e) =>
             setFormData({ ...formData, lastName: e.target.value })
           }
@@ -159,7 +159,7 @@ const Auth = () => {
           error={errors.email}
           placeholder="e-mail"
           name="email"
-          value={FormData.email}
+          value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
       </Form.Group>
@@ -170,7 +170,7 @@ const Auth = () => {
           error={errors.password}
           placeholder="Password"
           name="password"
-          value={FormData.password}
+          value={formData.password}
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }
@@ -181,7 +181,7 @@ const Auth = () => {
           error={errors.confirmPassword}
           placeholder="Conferma password"
           name="confirmPassword"
-          value={FormData.confirmPassword}
+          value={formData.confirmPassword}
           onChange={(e) =>
             setFormData({ ...formData, confirmPassword: e.target.value })
           }
@@ -241,7 +241,6 @@ const Auth = () => {
           </Label>
         ) : null}
       </>
-      )}
       <Form.Group>
         <Form.Field control={Button} type="submit">
           Modifica

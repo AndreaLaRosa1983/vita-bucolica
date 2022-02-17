@@ -4,7 +4,7 @@ import {
   DELETE_FROM_RECIEVED_NOTIFICATIONS,
 } from "../constants/actionTypes";
 
-import * as api from "../api/index.js";
+import * as api from "../api/index.jsx";
 
 export const getLastPostsNotifications = () => async (dispatch) => {
   try {

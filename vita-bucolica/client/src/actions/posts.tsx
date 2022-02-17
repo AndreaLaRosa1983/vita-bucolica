@@ -8,7 +8,7 @@ import {
   LIKE,
 } from "../constants/actionTypes";
 
-import * as api from "../api/index.js";
+import * as api from "../api/index.jsx";
 
 export const getPosts = (page) => async (dispatch) => {
   try {
@@ -65,7 +65,7 @@ export const updatePost = (id, post) => async (dispatch) => {
 export const likePost = (id) => async (dispatch) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   try {
-    const { data } = await api.likePost(id, user?.token);
+    const { data } = await api.likePost(id);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
     console.log(error.message);

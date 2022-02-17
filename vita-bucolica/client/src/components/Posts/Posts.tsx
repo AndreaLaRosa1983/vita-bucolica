@@ -9,7 +9,7 @@ const Posts = ({
   setOpenArticle,
   setOpenArticleId,
 }) => {
-  const { posts } = useSelector((state) => state.posts);
+  const { posts } = useSelector((state: RootState) => state.posts);
 
   return !posts.length ? (
     <Loader active size="big">

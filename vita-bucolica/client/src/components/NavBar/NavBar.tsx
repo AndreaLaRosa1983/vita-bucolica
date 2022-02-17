@@ -6,13 +6,13 @@ import { useSelector } from "react-redux";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { deleteFromRecievedNotification } from "../../actions/notifications";
-
+import { RootState } from "../../reducers/index";
 const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
-  const { notifications } = useSelector((state) => state.notifications);
+  const { notifications } = useSelector((state: RootState) => state.notifications);
 
   const updateNotifications = (id) => {
     console.log(id);
@@ -23,6 +23,7 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
     const token = tokenHandler?.token;
     if (token) {
       const decodedToken = decode(token);
+      /* @ts-ignore */
       if (decodedToken.exp * 1000 < new Date().getTime()) {
         logout();
       }
@@ -77,7 +78,7 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
                 notifications={notifications}
                 updateNotifications={updateNotifications}
               />
-              <span alt="number of notification" className="badge">
+              <span className="badge">
                 {notifications.length}
               </span>
             </>

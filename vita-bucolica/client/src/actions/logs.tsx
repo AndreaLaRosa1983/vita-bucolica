@@ -3,7 +3,7 @@ import {
   GET_LAST_NOTIFICATION_LOG,
 } from "../constants/actionTypes";
 
-import * as api from "../api/index.js";
+import * as api from "../api/index.jsx";
 
 export const getLastNotificationLog = (user) => async (dispatch) => {
   try {

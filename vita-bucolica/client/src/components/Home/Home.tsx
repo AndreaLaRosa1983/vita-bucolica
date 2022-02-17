@@ -7,7 +7,7 @@ import { getLastPostsNotifications } from "../../actions/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import Article from "../Article/Article";
 import TagSearch from "../TagSearch/TagSearch";
-
+import { RootState } from "../../reducers/index";
 const Home = ({
   openArticle,
   setOpenArticle,
@@ -21,7 +21,8 @@ const Home = ({
   const [page, setPage] = useState(0);
   const [more, setMore] = useState(1);
   const dispatch = useDispatch();
-  const { numberOfPages } = useSelector((state) => state.posts);
+  /*@ts-ignore*/
+  const { numberOfPages } = useSelector((state:RootState) => state.posts.numberOfPages);
   useEffect(() => {
     if (tagSearch) {
       if (stringSearch) {
@@ -57,12 +58,8 @@ const Home = ({
             <Grid.Row>
               <Grid.Column columns={16}>
                 <Article
-                  openArticle={openArticle}
-                  currentId={currentId}
-                  setCurrentId={setCurrentId}
                   setOpenArticle={setOpenArticle}
                   openArticleId={openArticleId}
-                  setOpenArticleId={setOpenArticleId}
                 />
               </Grid.Column>
             </Grid.Row>
@@ -76,6 +73,7 @@ const Home = ({
                 width={(user && user.result.isCreator) || !user ? 10 : 16}
               >
                 <Posts
+                  openArticle={openArticle}
                   setCurrentId={setCurrentId}
                   currentId={currentId}
                   setOpenArticle={setOpenArticle}

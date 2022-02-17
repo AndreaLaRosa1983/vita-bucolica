@@ -5,10 +5,10 @@ import { Icon, Image, Button, Container } from "semantic-ui-react";
 import moment from "moment";
 import "moment/locale/it";
 import { likePost } from "../../actions/posts";
-
+import { RootState } from "../../reducers/index"
 const Article = ({ setOpenArticle, openArticleId }) => {
   moment.locale("it");
-  const post = useSelector((state) =>
+  const post = useSelector((state:RootState) =>
     openArticleId
       ? state.posts.posts.find((p) => p._id === openArticleId)
       : null

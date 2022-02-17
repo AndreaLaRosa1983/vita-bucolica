@@ -1,6 +1,6 @@
 import { AUTH } from "../constants/actionTypes";
-import { getLastNotificationLog } from "../actions/logs";
-import * as api from "../api/index.js";
+import { getLastNotificationLog } from "./logs";
+import * as api from "../api/index.jsx";
 
 export const signin = (formData, navigate) => async (dispatch) => {
   try {

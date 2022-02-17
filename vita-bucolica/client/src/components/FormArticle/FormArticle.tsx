@@ -10,6 +10,7 @@ import {
   BREEDING,
   FARMLIFE,
 } from "../../constants/tags";
+import { RootState } from "../../reducers/index"
 const FormArticle = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     title: "",
@@ -18,7 +19,8 @@ const FormArticle = ({ currentId, setCurrentId }) => {
     tags: [],
     selectedFile: "",
   });
-  const post = useSelector((state) =>
+  const post = useSelector((state:RootState) =>
+  /*@ts-ignore */
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
   const [errors, setError] = useState({

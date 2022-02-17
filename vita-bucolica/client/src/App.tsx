@@ -34,8 +34,6 @@ const App = () => {
                 setOpenArticle={setOpenArticle}
                 user={user}
                 setUser={setUser}
-                notifications={notifications}
-                setNotifications={setNotifications}
               />
             </Grid.Row>
             <Grid.Row>
@@ -46,7 +44,7 @@ const App = () => {
           <Image alt="Alberi" src={albero} className="foreground" />
         </header>
         <Routes>
-          <Route path="/" exact element={<Navigate to="/posts" />} />
+          <Route path="/"  element={<Navigate to="/posts" />} />
           <Route
             path="/posts"
             element={
