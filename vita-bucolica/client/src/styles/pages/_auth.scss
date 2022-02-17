@@ -1,53 +1,51 @@
-@use '../globals' as *;
-@use '../components' as *;
+@use "../globals" as *;
+@use "../components" as *;
 
-.auth-container{
-    background-color: white;
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-    border-radius:25px;
-    @media (max-width: $phoneMax) {
-             width:75%;
+.auth-container {
+  background-color: white;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  border-radius: 25px;
+  @media (max-width: $phoneMax) {
+    width: 75%;
+  }
+  .title-icon {
+    margin: auto !important;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+  }
+  .checkbox-group {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    .field {
+      margin: auto !important;
+      .label {
+      }
     }
-    .title-icon{
-        margin:auto !important;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        padding-bottom: 15px;
-    }
-    .checkbox-group{
-        display: flex !important;
-        flex-direction:row;
-        align-items:center;
-        .field{
-            margin: auto !important;
-        .label{
-
-        }
-    }
-    }
-    .error-tips{
-        border: 1px solid;
-        border-radius: 0.28571429rem;
-        background: #fff6f6;
-        border-color: #e0b4b4;
-        color: #9f3a38;
-        box-shadow: none;
-        text-align:center;    
-        margin-bottom: 15px;
-        width:100%;
-    }
-    
+  }
+  .error-tips {
+    border: 1px solid;
+    border-radius: 0.28571429rem;
+    background: #fff6f6;
+    border-color: #e0b4b4;
+    color: #9f3a38;
+    box-shadow: none;
+    text-align: center;
+    margin-bottom: 15px;
+    width: 100%;
+  }
 }
-.have-account{ 
-    text-decoration: underline;
-    vertical-align: middle !important;   
+.have-account {
+  text-decoration: underline;
+  vertical-align: middle !important;
+  padding-top: 20px;
+  padding-left: 33% !important;
+  @media (max-width: $phoneMax) {
     padding-top: 20px;
-    padding-left: 33% !important;
-    @media (max-width: $phoneMax) {
-        padding-top: 20px;
-        padding-left: 8% !important;
-}
+    padding-left: 8% !important;
+  }
 }

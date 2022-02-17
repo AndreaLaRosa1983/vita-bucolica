@@ -1,66 +1,61 @@
-
-@use '../globals' as *;
+@use "../globals" as *;
 
 .post-layout {
-box-shadow: none !important;
-background-color: white;
-border-radius: 25px !important;
-margin-bottom: 15px;
-max-width:100% !important;
-font-size: 16px;
-.post-description {
-    margin-top:10px !important;
+  box-shadow: none !important;
+  background-color: white;
+  border-radius: 25px !important;
+  margin-bottom: 15px;
+  max-width: 100% !important;
+  font-size: 16px;
+  .post-description {
+    margin-top: 10px !important;
     font-size: 15px !important;
-}
-.image-card{
+  }
+  .image-card {
     border-radius: 28px 28px 0px 0px !important;
-    height:151px;
+    height: 151px;
     object-fit: cover;
-}
-.ui.image.image{
+  }
+  .ui.image.image {
     border-radius: 25px 25px 0px 0px !important;
-}
-.post-header-no-image{
+  }
+  .post-header-no-image {
     border-radius: 25px 25px 0px 0px !important;
-}
-.post-header{
+  }
+  .post-header {
     z-index: 1 !important;
     max-height: 100px;
-}
+  }
 
-.post-title-container{
-    padding-left: 15px !important; 
+  .post-title-container {
+    padding-left: 15px !important;
     font-size: 21px !important;
     height: 280px;
-    .post-title{
-    text-decoration: underline;
+    .post-title {
+      text-decoration: underline;
     }
-    .post-edit-icon{
-        margin-top:5px;
-        float:right;
+    .post-edit-icon {
+      margin-top: 5px;
+      float: right;
     }
-    .under-title-group{
-        font-size: 15px !important;
-        div{
-        }
-        .post-tags{
-            
-        }
-        .post-name{
-
-        }
-        .post-date{
-            color:grey !important;
-            font-size:12px;
-        }
+    .under-title-group {
+      font-size: 15px !important;
+      div {
+      }
+      .post-tags {
+      }
+      .post-name {
+      }
+      .post-date {
+        color: grey !important;
+        font-size: 12px;
+      }
     }
-}
-@media (max-width: $phoneMax) {
-    }
-@media (min-width: $tabletMin ) and (max-width: $tabletMax) {
-
-} 
-@media (min-width: $desktopMin ) {
-
-} 
+  }
+  @media (max-width: $phoneMax) {
+  }
+  @media (min-width: $tabletMin) and (max-width: $tabletMax) {
+  }
+  @media (min-width: $desktopMin) {
+  }
 }

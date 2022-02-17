@@ -8,15 +8,15 @@ import {
   LIKE,
 } from "../constants/actionTypes";
 
-const post =  (state = { posts: [] }, action) => {
+const post = (state = { posts: [] }, action) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
-      return { 
+      return {
         ...state,
         posts: action.payload.data,
         numberOfPosts: action.payload.numberOfPosts,
         numberOfPostsToSee: action.payload.numberOfPostsToSee,
-        };
+      };
     case FETCH_ALL_SEARCH:
       return { ...state, posts: action.payload.data };
     case FETCH_ALL:
@@ -26,13 +26,26 @@ const post =  (state = { posts: [] }, action) => {
         numberOfPages: action.payload.numberOfPages,
       };
     case LIKE:
-      return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case CREATE:
       return { ...state, posts: [action.payload, ...state.posts] };
     case UPDATE:
-      return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case DELETE:
-      return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== action.payload),
+      };
     default:
       return state;
   }

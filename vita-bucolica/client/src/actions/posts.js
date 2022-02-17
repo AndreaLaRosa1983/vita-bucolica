@@ -10,11 +10,11 @@ import {
 
 import * as api from "../api/index.js";
 
-
-
 export const getPosts = (page) => async (dispatch) => {
   try {
-    const { data: { data, numberOfPages } } = await api.fetchPosts(page);
+    const {
+      data: { data, numberOfPages },
+    } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: { data, numberOfPages } });
   } catch (error) {
     console.log(error.message);
@@ -23,8 +23,13 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsByTag = (tag, more) => async (dispatch) => {
   try {
-    const {data: { data, numberOfPosts, numberOfPostsToSee }} = await api.fetchPostsTag(tag, more);
-    dispatch({ type: FETCH_ALL_TAG, payload: {data, numberOfPosts, numberOfPostsToSee} });
+    const {
+      data: { data, numberOfPosts, numberOfPostsToSee },
+    } = await api.fetchPostsTag(tag, more);
+    dispatch({
+      type: FETCH_ALL_TAG,
+      payload: { data, numberOfPosts, numberOfPostsToSee },
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -33,7 +38,7 @@ export const getPostsByTag = (tag, more) => async (dispatch) => {
 export const getPostsBySearch = (search, more) => async (dispatch) => {
   try {
     const { data } = await api.fetchPostsSearch(search, more);
-    dispatch({ type: FETCH_ALL_SEARCH, payload: {data} });
+    dispatch({ type: FETCH_ALL_SEARCH, payload: { data } });
   } catch (error) {
     console.log(error.message);
   }

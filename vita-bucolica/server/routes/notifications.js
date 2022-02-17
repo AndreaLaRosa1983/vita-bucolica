@@ -1,7 +1,5 @@
 import express from "express";
-import {
-  getLastPostsNotifications,
-} from "../controllers/notifications.js";
+import { getLastPostsNotifications } from "../controllers/notifications.js";
 
 const router = express.Router();
 

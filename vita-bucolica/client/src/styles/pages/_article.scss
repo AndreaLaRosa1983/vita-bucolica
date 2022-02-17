@@ -1,75 +1,73 @@
-@use '../globals' as *;
-@use '../components' as *;
+@use "../globals" as *;
+@use "../components" as *;
 
-.title-article{
-    font-size: 3rem !important; 
-    text-align: center;
+.title-article {
+  font-size: 3rem !important;
+  text-align: center;
 }
-.container-big-card{
-    border-radius: 25px;
-    background-color:white;
-    color:black;
-    font-size: 18px;
-    align-items:center;
+.container-big-card {
+  border-radius: 25px;
+  background-color: white;
+  color: black;
+  font-size: 18px;
+  align-items: center;
 
-.image-article{
+  .image-article {
     border-radius: 25px 25px 0px 0px !important;
     width: 100%;
     object-fit: cover;
-}
-.name-article{
-    margin-top:15px;
+  }
+  .name-article {
+    margin-top: 15px;
     font-size: 21px;
     font-style: bold;
     margin-left: 20px;
-}
-.date-article{
+  }
+  .date-article {
     color: grey;
     margin-left: 20px;
-}
-.tags-article{
-    font-size:14px;
+  }
+  .tags-article {
+    font-size: 14px;
     font-weight: 700;
     margin-left: 20px;
-}
+  }
 
-.video-article-container{
+  .video-article-container {
     margin: auto !important;
-    width:600px;
+    width: 600px;
     height: 338px;
-    @media (min-width: $phoneMin ) and (max-width: $phoneMax)  {
-        height:169px;
-        width:300px;
-      }
-      @media (max-width: $phoneMin-1)  {
-        height:141px;
-        width:250px;
-      }
-    .video-article{
-        border-radius: 25px !important;
-        width: 600px;
-        height: 338px;
-        @media (min-width: $phoneMin ) and (max-width: $phoneMax)  {
-            width: 300px;
-          height:169px;
-        }
-        @media (max-width: $phoneMin-1)  {
-            height:141px;
-            width:250px;
-          }
+    @media (min-width: $phoneMin) and (max-width: $phoneMax) {
+      height: 169px;
+      width: 300px;
     }
-
-}
-.message-article{
-   
-    width:95%;
-    margin:auto;
+    @media (max-width: $phoneMin-1) {
+      height: 141px;
+      width: 250px;
+    }
+    .video-article {
+      border-radius: 25px !important;
+      width: 600px;
+      height: 338px;
+      @media (min-width: $phoneMin) and (max-width: $phoneMax) {
+        width: 300px;
+        height: 169px;
+      }
+      @media (max-width: $phoneMin-1) {
+        height: 141px;
+        width: 250px;
+      }
+    }
+  }
+  .message-article {
+    width: 95%;
+    margin: auto;
     margin-top: 20px;
-}
-.button-group-article{
-    margin:auto;
+  }
+  .button-group-article {
+    margin: auto;
     width: 95%;
     margin-top: 20px;
     padding-bottom: 20px !important;
-}
+  }
 }

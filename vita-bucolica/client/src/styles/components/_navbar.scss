@@ -1,83 +1,84 @@
-@use '../globals' as *;
+@use "../globals" as *;
 .appBar {
-    border-radius: 25px !important;
-    margin: 30px 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 10px
-  }
-  .heading {
-    color: rgba(0,183,255, 1);
-    text-decoration: none;
-  }
-  .imageHome {
-    margin-left: 15px;
-    display: flex !important;
-  }
-  .user-round-icon{
+  border-radius: 25px !important;
+  margin: 30px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+}
+.heading {
+  color: rgba(0, 183, 255, 1);
+  text-decoration: none;
+}
+.imageHome {
+  margin-left: 15px;
+  display: flex !important;
+}
+.user-round-icon {
+  display: none !important;
+}
+
+.logout,
+.orange {
+  display: flex !important;
+}
+
+.access-icon {
+  display: none !important;
+}
+@media (max-width: $tabletMax) {
+  .user-name {
     display: none !important;
   }
-
-  .logout, .orange {
-    display: flex !important;
-  }
-
-  .access-icon {
-    display: none !important;
-  }
-@media (max-width: $tabletMax ) {
-  .user-name{
-    display:none !important;
-  }
-  .logout, .orange {
+  .logout,
+  .orange {
     display: none !important;
   }
   .access-icon {
     display: flex !important;
     box-shadow: 0 0 0 0.1em rgb(0 0 0 / 10%) inset !important;
   }
-} 
-@media (max-width: $tabletMax ) {
-  .user-round-icon{
+}
+@media (max-width: $tabletMax) {
+  .user-round-icon {
     display: flex !important;
   }
-} 
+}
 
-
-
-.letter-name{
-  padding-left:10px;
+.letter-name {
+  padding-left: 10px;
 }
 .navbar-icon {
-  background-color:lightgrey !important;
+  background-color: lightgrey !important;
 }
-.navbar-icon:hover, .navbar-icon:active{
-  background-color:orange !important;
+.navbar-icon:hover,
+.navbar-icon:active {
+  background-color: orange !important;
 }
 
-  .ui.menu{
-      width:94%;
-  }
-  .navbarRow{
-    position:absolute !important;
-    top:3%;
-    left:3%;
-    right:3%;
-  }
+.ui.menu {
+  width: 94%;
+}
+.navbarRow {
+  position: absolute !important;
+  top: 3%;
+  left: 3%;
+  right: 3%;
+}
 
-  .notification:hover {
-    background: red;
-  }
-  
-  .badge {
-    font-size: 9px !important;
-    position: absolute;
-    top: 5px;
-    right: 17px;
-    padding: 5px 8px;
-    border-radius: 50%;
-    background: red;
-    color: white;
-  }
+.notification:hover {
+  background: red;
+}
+
+.badge {
+  font-size: 9px !important;
+  position: absolute;
+  top: 5px;
+  right: 17px;
+  padding: 5px 8px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+}

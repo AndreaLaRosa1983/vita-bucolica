@@ -12,7 +12,6 @@ import { Server } from "socket.io";
 
 const app = express();
 
-
 dotenv.config();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -31,26 +30,31 @@ const PORT = process.env.PORT || 5000;
 mongoose
   .connect(CONNECTION_URL)
   .then(() =>
-  httpServer.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+    httpServer.listen(PORT, () =>
+      console.log(`Server running on port: ${PORT}`)
+    )
   )
   .catch((error) => console.log(error.message));
-  const httpServer = createServer(app);
-  const io = new Server(httpServer, { /* options */ });
-  let interval;
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  /* options */
+});
+let interval;
 
-  io.on("connection", (socket) => {
-    console.log("Client connected " + socket.id);
-    /* interval = setInterval(() => getApiAndEmit(socket), 1000); */
-    socket.on("connectionTags", (arg) => {
-      if(arg) { socket.join(arg);
-      console.log("la " + socket.id + " ha joinato le stanze " + arg) }
-      ;
-    });
-    socket.on("disconnect", () => {
-      console.log("Client disconnected");
-    });
+io.on("connection", (socket) => {
+  console.log("Client connected " + socket.id);
+  /* interval = setInterval(() => getApiAndEmit(socket), 1000); */
+  socket.on("connectionTags", (arg) => {
+    if (arg) {
+      socket.join(arg);
+      console.log("la " + socket.id + " ha joinato le stanze " + arg);
+    }
   });
-    
-  app.set("io", io);
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 
-  export default app;
+app.set("io", io);
+
+export default app;

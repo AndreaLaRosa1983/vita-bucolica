@@ -1,34 +1,49 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 import app from "../index.js";
-//multiemit to avoid multiple message at client in the same room (at the moment funtionality is 
+//multiemit to avoid multiple message at client in the same room (at the moment funtionality is
 //reduced to the max number of preference of a client one for each tipe of article)
-const multiEmit = (io,tags,notificationToSend) => {
+const multiEmit = (io, tags, notificationToSend) => {
   console.log(tags);
   console.log(notificationToSend);
-  switch(tags.length){
+  switch (tags.length) {
     case 1:
       return io.to(tags[0]).emit("NEWPOST", notificationToSend);
     case 2:
       return io.to(tags[0]).to(tags[1]).emit("NEWPOST", notificationToSend);
     case 3:
-      return io.to(tags[0]).to(tags[1]).to(tags[2]).emit("NEWPOST", notificationToSend);
+      return io
+        .to(tags[0])
+        .to(tags[1])
+        .to(tags[2])
+        .emit("NEWPOST", notificationToSend);
     case 4:
-      return io.to(tags[0]).to(tags[1]).to(tags[2]).to(tags[3]).emit("NEWPOST", notificationToSend);
+      return io
+        .to(tags[0])
+        .to(tags[1])
+        .to(tags[2])
+        .to(tags[3])
+        .emit("NEWPOST", notificationToSend);
     default:
-      return 
+      return;
   }
-}
-
-
+};
 
 export const getPosts = async (req, res) => {
   try {
     const maxToShow = 6;
-    const page  = parseInt(req.params.page);
+    const page = parseInt(req.params.page);
     const totalMessages = await PostMessage.count();
-    const postMessages = await PostMessage.find().sort({ $natural: -1 }).skip(maxToShow*page).limit(maxToShow);
-    res.status(200).json({ data: postMessages, numberOfPages: Math.ceil(totalMessages / maxToShow)});
+    const postMessages = await PostMessage.find()
+      .sort({ $natural: -1 })
+      .skip(maxToShow * page)
+      .limit(maxToShow);
+    res
+      .status(200)
+      .json({
+        data: postMessages,
+        numberOfPages: Math.ceil(totalMessages / maxToShow),
+      });
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -40,10 +55,18 @@ export const getPostsTag = async (req, res) => {
   const { more, tag } = req.params;
   const maxToShow = 6;
   try {
-    const postMessages = await PostMessage.find({tags: tag}).limit(maxToShow*(more));
-    const numberOfPosts = await PostMessage.find({tags: tag}).count();
+    const postMessages = await PostMessage.find({ tags: tag }).limit(
+      maxToShow * more
+    );
+    const numberOfPosts = await PostMessage.find({ tags: tag }).count();
     const numberOfPostsToSee = numberOfPosts - postMessages.length;
-    res.status(200).json({data: postMessages.reverse(), numberOfPosts: numberOfPosts, numberOfPostsToSee: numberOfPostsToSee});
+    res
+      .status(200)
+      .json({
+        data: postMessages.reverse(),
+        numberOfPosts: numberOfPosts,
+        numberOfPostsToSee: numberOfPostsToSee,
+      });
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -53,18 +76,20 @@ export const getPostsTag = async (req, res) => {
 
 export const getPostsSearch = async (req, res) => {
   const { search } = req.params;
-  try {  
-    const postMessages = await PostMessage.aggregate([{
-      '$search': {
-        'index': 'search in postmessages',
-        'text': {
-          'query': search,
-          'path': {
-            'wildcard': '*'
-          }
-        }
-      }
-     } ])
+  try {
+    const postMessages = await PostMessage.aggregate([
+      {
+        $search: {
+          index: "search in postmessages",
+          text: {
+            query: search,
+            path: {
+              wildcard: "*",
+            },
+          },
+        },
+      },
+    ]);
     res.status(200).json(postMessages.reverse());
     return;
   } catch (error) {
@@ -82,10 +107,15 @@ export const createPost = async (req, res) => {
   });
   let io = app.get("io");
   try {
-    await newPostMessage.save()
+    await newPostMessage.save();
     const tags = newPostMessage.tags;
-    const notificationToSend = { name:newPostMessage.name, title:newPostMessage.title, tags:newPostMessage.tags, id:newPostMessage._id};
-    console.log("hereOK")
+    const notificationToSend = {
+      name: newPostMessage.name,
+      title: newPostMessage.title,
+      tags: newPostMessage.tags,
+      id: newPostMessage._id,
+    };
+    console.log("hereOK");
     multiEmit(io, tags, notificationToSend);
     res.status(201).json(newPostMessage);
     return;
@@ -139,5 +169,3 @@ export const likePost = async (req, res) => {
   res.json(updatedPost);
   return;
 };
-
-

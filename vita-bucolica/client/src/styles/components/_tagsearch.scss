@@ -1,54 +1,60 @@
-@use '../globals' as *;
-.search-item-container{
-    height:2 rem;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@use "../globals" as *;
+.search-item-container {
+  height: 2 rem;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: $phoneMax) {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .pills-container {
     @media (max-width: $phoneMax) {
-        display: -ms-grid;
-        display: grid;
-        -ms-grid-columns: 1fr;
-        grid-template-columns: repeat(1, 1fr);
+      display: -ms-grid;
+      display: grid;
+      -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
     }
-.pills-container{
-
-    @media (max-width: $phoneMax) {
-        display: -ms-grid;
-        display: grid;
-        -ms-grid-columns: 1fr 1fr;
-        grid-template-columns: repeat(2, 1fr);
+    .pill {
+      height: 38px;
+      border-radius: 25px;
+      margin-top: 3px;
+      background-color: orange !important;
     }
-.pill{
-    height: 38px;
-    border-radius: 25px;
-    margin-top: 3px;
-    background-color:orange !important;
-}
-.pill-highlighted{
-    height: 38px;
-    border-radius: 25px;
-    margin-top: 3px;
-    background-color:red !important;
-}
-
-
-}
-.search-group{ 
-    display:flex !important;
+    .pill-highlighted {
+      height: 38px;
+      border-radius: 25px;
+      margin-top: 3px;
+      background-color: red !important;
+    }
+  }
+  .search-group {
+    display: flex !important;
     margin-top: 3px;
 
     @media (max-width: $phoneMax) {
     }
-.search-field{ max-height:50px !important;input {
-    font-size:14px;
-    border-radius: 25px 0px 0px 25px !important;
-    max-height:50px !important;
-}
-} 
-.search-button, .search-button-clear{ border-radius: 0px 25px 25px 0px !important;}
-.search-button:hover{ background-color:orange}
+    .search-field {
+      max-height: 50px !important;
+      input {
+        font-size: 14px;
+        border-radius: 25px 0px 0px 25px !important;
+        max-height: 50px !important;
+      }
+    }
+    .search-button,
+    .search-button-clear {
+      border-radius: 0px 25px 25px 0px !important;
+    }
+    .search-button:hover {
+      background-color: orange;
+    }
 
-.search-button-clear:hover{ background-color:red}
-}
+    .search-button-clear:hover {
+      background-color: red;
+    }
+  }
 }
