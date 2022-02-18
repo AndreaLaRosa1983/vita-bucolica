@@ -1,3 +1,4 @@
+
 import {
   FETCH_ALL,
   FETCH_ALL_SEARCH,
@@ -7,8 +8,8 @@ import {
   DELETE,
   LIKE,
 } from "../constants/actionTypes";
-
-const post = (state = { posts: [] }, action) => {
+import Post from "../models/post";
+const post = (state = { posts: [], numberOfPosts: 0, numberOfPostsToSee: 0, numberOfPages:0 }, action: any) => {
   switch (action.type) {
     case FETCH_ALL_TAG:
       return {
@@ -28,7 +29,7 @@ const post = (state = { posts: [] }, action) => {
     case LIKE:
       return {
         ...state,
-        posts: state.posts.map((post) =>
+        posts: state.posts.map((post : Post) =>
           post._id === action.payload._id ? action.payload : post
         ),
       };
@@ -37,14 +38,14 @@ const post = (state = { posts: [] }, action) => {
     case UPDATE:
       return {
         ...state,
-        posts: state.posts.map((post) =>
+        posts: state.posts.map((post: Post) =>
           post._id === action.payload._id ? action.payload : post
         ),
       };
     case DELETE:
       return {
         ...state,
-        posts: state.posts.filter((post) => post._id !== action.payload),
+        posts: state.posts.filter((post: Post) => post._id !== action.payload),
       };
     default:
       return state;

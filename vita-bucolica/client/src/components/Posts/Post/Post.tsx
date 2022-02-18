@@ -1,29 +1,40 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Card, Icon, Image, Button } from "semantic-ui-react";
 import moment from "moment";
 import "moment/locale/it";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 /* eslint-disable spaced-comment */
-import  genericForPost  from "../../../images/genericForPost.png";
-const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId, openArticle }) => {
+import genericForPost from "../../../images/genericForPost.png";
+import PostType from "../../../models/post";
+const Post = (props: {
+  post: PostType;
+  setCurrentId: Dispatch<SetStateAction<string>>;
+  setOpenArticle: Dispatch<SetStateAction<boolean>>;
+  setOpenArticleId: Dispatch<SetStateAction<string>>;
+  openArticle: boolean;
+}) => {
   moment.locale("it");
   const dispatch = useDispatch();
+  //@ts-ignore
   const user = JSON.parse(localStorage.getItem("profile"));
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find((like) => like === user?.result?._id) ? (
+    if (props.post.likes.length > 0) {
+      return props.post.likes.find((like) => like === user?.result?._id) ? (
         <>
           <Icon name="thumbs up" />
           &nbsp;
-          {post.likes.length > 2
-            ? `Tu e ${post.likes.length - 1} altri`
-            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+          {props.post.likes.length > 2
+            ? `Tu e ${props.post.likes.length - 1} altri`
+            : `${props.post.likes.length} like${
+                props.post.likes.length > 1 ? "s" : ""
+              }`}
         </>
       ) : (
         <>
           <Icon name="thumbs up outline" />
-          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{props.post.likes.length}{" "}
+          {props.post.likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
@@ -39,7 +50,7 @@ const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId, openArticl
     <Card className="post-layout">
       <Image
         className="image-card"
-        src={post.selectedFile ? post.selectedFile : genericForPost}
+        src={props.post.selectedFile ? props.post.selectedFile : genericForPost}
       />
       <Card.Content className="post-title-container">
         <Card.Header className="post-header">
@@ -47,18 +58,19 @@ const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId, openArticl
             <span
               className="post-title"
               onClick={() => {
-                setOpenArticleId(post._id);
-                setOpenArticle(true);
+                props.setOpenArticleId(props.post._id);
+                props.setOpenArticle(true);
               }}
             >
-              {post.title}
+              {props.post.title}
             </span>
-            {user?.result?._id === post?.creator && (
+
+            {user?.user._id === props.post?.creator && (
               <span>
                 <Icon
                   className="post-edit-icon"
                   size="small"
-                  onClick={() => setCurrentId(post._id)}
+                  onClick={() => props.setCurrentId(props.post._id)}
                   name="edit"
                 />
               </span>
@@ -66,31 +78,36 @@ const Post = ({ post, setCurrentId, setOpenArticle, setOpenArticleId, openArticl
           </div>
           <div className="under-title-group">
             <div className="post-tags">
-              {post.tags.map((tag) => `#${tag} `)}
+              {props.post.tags.map((tag: string) => `#${tag} `)}
             </div>
           </div>
         </Card.Header>
         <Card.Meta className="meta">
-          {post.video && <Icon name="youtube" />}
+          {props.post.video && <Icon name="youtube" />}
         </Card.Meta>
         <Card.Description className="post-description">
-          <div className="post-name">{post.name}</div>
-          <div className="post-date">{moment(post.createdAt).fromNow()}</div>
-          {post.message ? post.message.replace(/(.{100})..+/, "$1…") : ""}
+          <div className="post-name">{props.post.name}</div>
+          <div className="post-date">
+            {moment(props.post.createdAt).fromNow()}
+          </div>
+          {props.post.message
+            ? props.post.message.replace(/(.{100})..+/, "$1…")
+            : ""}
         </Card.Description>
       </Card.Content>
       <Card.Content>
         <Button
           disabled={!user?.result}
-          onClick={() => dispatch(likePost(post._id))}
+          onClick={() => dispatch(likePost(""/* props.post._id */))}
         >
           <Likes />
         </Button>
-        {user?.result?._id === post?.creator && (
+
+        {user?.result?._id === props.post?.creator && (
           <Button
             size="small"
             onClick={() => {
-              dispatch(deletePost(post._id));
+              dispatch(deletePost(props.post._id));
             }}
           >
             <Icon name="trash alternate outline" />

@@ -1,13 +1,14 @@
-import React from "react";
+import React, {SetStateAction, Dispatch} from "react";
 import { Loader, Card } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
-const Posts = ({
-  setCurrentId,
-  currentId,
-  openArticle,
-  setOpenArticle,
-  setOpenArticleId,
+import { RootState } from "../../reducers/index"
+const Posts = ( props:{
+  setCurrentId:Dispatch<SetStateAction<string>>,
+  currentId:string,
+  openArticle:boolean,
+  setOpenArticle:Dispatch<SetStateAction<boolean>>,
+  setOpenArticleId:Dispatch<SetStateAction<string>>,
 }) => {
   const { posts } = useSelector((state: RootState) => state.posts);
 
@@ -15,18 +16,24 @@ const Posts = ({
     <Loader active size="big">
       Caricamento
     </Loader>
-  ) : openArticle ? (
-    <>{posts.find((x) => x._id === currentId)}</>
+  ) : props.openArticle ? (
+    <>{
+      //@ts-ignore
+      posts.find((x) => x._id === currentId)}</>
   ) : (
     <Card.Group centered>
-      {posts.map((post) => (
+      //@ts-ignore
+      {
+      //@ts-ignore
+      posts.map((post) => (
         <Post
+        //@ts-ignore
           post={post}
           key={post._id}
-          setCurrentId={setCurrentId}
-          openArticle={openArticle}
-          setOpenArticle={setOpenArticle}
-          setOpenArticleId={setOpenArticleId}
+          setCurrentId={props.setCurrentId}
+          openArticle={props.openArticle}
+          setOpenArticle={props.setOpenArticle}
+          setOpenArticleId={props.setOpenArticleId}
         />
       ))}{" "}
     </Card.Group>

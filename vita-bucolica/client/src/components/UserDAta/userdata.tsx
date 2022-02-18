@@ -20,7 +20,7 @@ const Auth = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    tags: [],
+    tags: [""],
     isCreator: false,
   });
   const [errors, setError] = useState({
@@ -34,16 +34,18 @@ const Auth = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  //@ts-ignore
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkFormChangeData()) {
      /*  dispatch( changeData(formData) ); */
     }
   };
-
+//@ts-ignore
   const changeTags = (e, value) => {
     var newTags = formData.tags;
     if (e.target.checked) {
+      //@ts-ignore
       newTags.push(value);
       setFormData({ ...formData, tags: newTags });
     } else {
@@ -138,6 +140,7 @@ const Auth = () => {
           placeholder="Nome"
           name="firstName"
           value={formData.firstName}
+          //@ts-ignore
           onChange={(e) =>
             setFormData({ ...formData, firstName: e.target.value })
           }
@@ -148,6 +151,7 @@ const Auth = () => {
           placeholder="Cognome"
           name="lastName"
           value={formData.lastName}
+          //@ts-ignore
           onChange={(e) =>
             setFormData({ ...formData, lastName: e.target.value })
           }
@@ -160,6 +164,7 @@ const Auth = () => {
           placeholder="e-mail"
           name="email"
           value={formData.email}
+          //@ts-ignore
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
       </Form.Group>
@@ -171,6 +176,7 @@ const Auth = () => {
           placeholder="Password"
           name="password"
           value={formData.password}
+          //@ts-ignore
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }
@@ -182,6 +188,7 @@ const Auth = () => {
           placeholder="Conferma password"
           name="confirmPassword"
           value={formData.confirmPassword}
+          //@ts-ignore
           onChange={(e) =>
             setFormData({ ...formData, confirmPassword: e.target.value })
           }
@@ -206,15 +213,17 @@ const Auth = () => {
             error={errors.tags}
             control="input"
             type="checkbox"
+            //@ts-ignore
             onChange={(e) => changeTags(e, FARMLIFE)}
             label={FARMLIFE}
+            //@ts-ignore
             checked={formData.tags.includes(FARMLIFE)}
           />
           <Form.Field
             error={errors.tags}
             control="input"
             type="checkbox"
-            onChange={(e) => changeTags(e, GROWING)}
+            onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => changeTags(e, GROWING)}
             label={GROWING}
             checked={formData.tags.includes(GROWING)}
           />
@@ -222,7 +231,7 @@ const Auth = () => {
             error={errors.tags}
             control="input"
             type="checkbox"
-            onChange={(e) => changeTags(e, BREEDING)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => changeTags(e, BREEDING)}
             label={BREEDING}
             checked={formData.tags.includes(BREEDING)}
           />
@@ -230,7 +239,7 @@ const Auth = () => {
             error={errors.tags}
             control="input"
             type="checkbox"
-            onChange={(e) => changeTags(e, AGRIMACHINERY)}
+            onChange={(e :React.ChangeEvent<HTMLTextAreaElement>) => changeTags(e, AGRIMACHINERY)}
             label={AGRIMACHINERY}
             checked={formData.tags.includes(AGRIMACHINERY)}
           />

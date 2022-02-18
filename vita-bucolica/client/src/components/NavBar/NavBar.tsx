@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, Dispatch, SetStateAction } from "react";
 import { Menu, Button, Icon } from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
@@ -7,15 +7,16 @@ import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { deleteFromRecievedNotification } from "../../actions/notifications";
 import { RootState } from "../../reducers/index";
-const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
+import cookie from "../../models/cookie";
+const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction<cookie | undefined>>, setOpenArticle:Dispatch<SetStateAction<boolean>>, setOpenArticleId:Dispatch<SetStateAction<string>>} ) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  //@ts-ignore
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
   const { notifications } = useSelector((state: RootState) => state.notifications);
-
-  const updateNotifications = (id) => {
-    console.log(id);
+ console.log(props.user)
+  const updateNotifications = (id:string) => {
     dispatch(deleteFromRecievedNotification(id));
   };
 
@@ -28,7 +29,8 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
         logout();
       }
     }
-    setUser(JSON.parse(localStorage.getItem("profile")));
+    //@ts-ignore
+    props.setUser(JSON.parse(localStorage.getItem("profile")));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]); // Quando cambia la location setta lo user
 
@@ -40,8 +42,8 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
   return (
     <Menu className="appBar">
       <Menu.Item
-        href={!user ? "/" : null}
-        onClick={() => setOpenArticle(false)}
+        href={!props.user ? "/" : null}
+        onClick={() => props.setOpenArticle(false)}
       >
         <Icon
           circular
@@ -51,15 +53,18 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
           size="large"
         />
       </Menu.Item>
-      {user && (
+      {(props.user === undefined) && (
         <Menu.Item>
-          <div className="user-name">{user.result.name}</div>
+            
+      <div className="user-name">
+        
+            {/* {props.user.result.name} */}</div>
           <Icon circular size="large" className="navbar-icon user-round-icon">
-            <div className="letter-name">{user.result.name.charAt(0)}</div>
+            <div className="letter-name">{/* {props.user.result.name.charAt(0)} */}</div>
           </Icon>
         </Menu.Item>
       )}
-      {user && (
+      {props.user && (
         <Menu.Item>
           {(!notifications || notifications.length === 0) && (
             <Icon
@@ -73,8 +78,8 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
           {notifications && notifications.length > 0 && (
             <>
               <NotificationsDropdown
-                setOpenArticle={setOpenArticle}
-                setOpenArticleId={setOpenArticleId}
+                setOpenArticle={props.setOpenArticle}
+                setOpenArticleId={props.setOpenArticleId}
                 notifications={notifications}
                 updateNotifications={updateNotifications}
               />
@@ -86,7 +91,7 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
         </Menu.Item>
       )}
       <Menu.Item position="right">
-        {user ? (
+        {props.user ? (
           <div>
             <Button className="access-icon" onClick={logout} href="/">
               <Icon name="log out" alt="log out" />
@@ -99,7 +104,7 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
           <div>
             <Button
               className="access-icon"
-              onClick={() => setOpenArticle(false)}
+              onClick={() => props.setOpenArticle(false)}
               href="/auth"
             >
               <Icon name="sign-in" alt="sign in" />
@@ -107,7 +112,7 @@ const NavBar = ({ user, setUser, setOpenArticle, setOpenArticleId }) => {
             <Button
               className="orange"
               href="/auth"
-              onClick={() => setOpenArticle(false)}
+              onClick={() => props.setOpenArticle(false)}
             >
               Accedi
             </Button>

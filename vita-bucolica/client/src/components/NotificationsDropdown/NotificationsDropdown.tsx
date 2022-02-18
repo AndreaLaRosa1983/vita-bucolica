@@ -1,22 +1,23 @@
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import { useDispatch } from "react-redux";
 import { Icon, Dropdown } from "semantic-ui-react";
 import { updateLastLog } from "../../actions/logs";
 
-const NotificationsDropdown = ({
-  setOpenArticle,
-  setOpenArticleId,
-  notifications,
-  updateNotifications,
-}) => {
+const NotificationsDropdown = (props:{
+  setOpenArticle:Dispatch<SetStateAction<boolean>>,
+  setOpenArticleId:Dispatch<SetStateAction<string>>,
+  notifications:[],
+  updateNotifications:Function,}
+) => {
+  //@ts-ignore
   const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
-  const handleClick = (id) => {
-    setOpenArticle(true);
-    setOpenArticleId(id);
-    updateNotifications(id);
+  const handleClick = (id:string) => {
+    props.setOpenArticle(true);
+    props.setOpenArticleId(id);
+    props.updateNotifications(id);
   };
-  console.log({ notifications: notifications });
+  console.log({ notifications: props.notifications });
 
   return (
     <Dropdown
@@ -33,21 +34,26 @@ const NotificationsDropdown = ({
       floating
       /* onClose={(user && notifications.length > 0) ? updateLastLog({user:user.result._id,log:"NOTIFICATIONOK"}) : null} */
       onClose={() =>
-        user && notifications.length > 0
+        user && props.notifications.length > 0
           ? dispatch(
+            //@ts-ignore
               updateLastLog({ user: user.result._id, log: "NOTIFICATIONOK" })
             )
           : null
       }
     >
-      {notifications && (
+      {props.notifications && (
         <Dropdown.Menu>
           <Dropdown.Header content="Post che ti sei perso" />
-          {notifications.map((n) => (
+          {props.notifications.map((n) => (
             <Dropdown.Item
+            //@ts-ignore
               key={n.id}
+              //@ts-ignore
               text={n.title + " in " + n.tags.map((tag) => `#${tag} `).join("")}
+              //@ts-ignore
               value={n.id}
+              //@ts-ignore
               onClick={() => handleClick(n.id)}
             />
           ))}

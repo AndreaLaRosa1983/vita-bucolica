@@ -4,7 +4,7 @@ import {
   DELETE_FROM_RECIEVED_NOTIFICATIONS,
 } from "../constants/actionTypes";
 
-const notification = (state = { notifications: [] }, action) => {
+const notification = (state = { notifications: [] }, action: any) => {
   switch (action.type) {
     case FETCH_NEW_POSTS_NOTIFICATIONS:
       return {
@@ -18,7 +18,7 @@ const notification = (state = { notifications: [] }, action) => {
       };
     case DELETE_FROM_RECIEVED_NOTIFICATIONS:
       const notificationsFilteredFromRecieved = state.notifications.filter(
-        (x) => x.id !== action.payload
+        (x: any) => x.id !== action.payload
       );
       return { ...state, notifications: notificationsFilteredFromRecieved };
     default:

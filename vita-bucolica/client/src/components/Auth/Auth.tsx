@@ -21,7 +21,7 @@ const Auth = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    tags: [],
+    tags: [""],
     isCreator: false,
   });
   const [errors, setError] = useState({
@@ -35,7 +35,7 @@ const Auth = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:Event) => {
     e.preventDefault();
     if (isSignup) {
       if (checkFormSignUp()) {
@@ -67,9 +67,11 @@ const Auth = () => {
     setError({ ...checkedErrors });
     return valid;
   };
-  const changeTags = (e, value) => {
+  const changeTags = (e: React.FormEvent<HTMLInputElement>, value:String) => {
     var newTags = formData.tags;
-    if (e.target.checked) {
+    //@ts-ignore
+    if (e!.target!.checked) {
+      //@ts-ignore
       newTags.push(value);
       setFormData({ ...formData, tags: newTags });
     } else {
@@ -162,6 +164,7 @@ const Auth = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
   };
   return (
+    //@ts-ignore
     <Form className="auth-container" onSubmit={handleSubmit}>
       <div className="title-icon">
         <Image>
@@ -177,8 +180,8 @@ const Auth = () => {
             control={Input}
             placeholder="Nome"
             name="firstName"
-            value={FormData.firstName}
-            onChange={(e) =>
+            value={formData.firstName}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setFormData({ ...formData, firstName: e.target.value })
             }
           />
@@ -187,8 +190,8 @@ const Auth = () => {
             error={errors.lastName}
             placeholder="Cognome"
             name="lastName"
-            value={FormData.lastName}
-            onChange={(e) =>
+            value={formData.lastName}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setFormData({ ...formData, lastName: e.target.value })
             }
           />
@@ -200,8 +203,8 @@ const Auth = () => {
           error={errors.email}
           placeholder="e-mail"
           name="email"
-          value={FormData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          value={formData.email}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, email: e.target.value })}
         />
       </Form.Group>
       <Form.Group widths="equal">
@@ -211,8 +214,8 @@ const Auth = () => {
           error={errors.password}
           placeholder="Password"
           name="password"
-          value={FormData.password}
-          onChange={(e) =>
+          value={formData.password}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setFormData({ ...formData, password: e.target.value })
           }
         />
@@ -223,8 +226,9 @@ const Auth = () => {
             error={errors.confirmPassword}
             placeholder="Conferma password"
             name="confirmPassword"
-            value={FormData.confirmPassword}
-            onChange={(e) =>
+            value={formData.confirmPassword}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              
               setFormData({ ...formData, confirmPassword: e.target.value })
             }
           />
@@ -252,7 +256,7 @@ const Auth = () => {
               error={errors.tags}
               control="input"
               type="checkbox"
-              onChange={(e) => changeTags(e, FARMLIFE)}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, FARMLIFE)}
               label={FARMLIFE}
               checked={formData.tags.includes(FARMLIFE)}
             />
@@ -260,7 +264,7 @@ const Auth = () => {
               error={errors.tags}
               control="input"
               type="checkbox"
-              onChange={(e) => changeTags(e, GROWING)}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, GROWING)}
               label={GROWING}
               checked={formData.tags.includes(GROWING)}
             />
@@ -268,7 +272,7 @@ const Auth = () => {
               error={errors.tags}
               control="input"
               type="checkbox"
-              onChange={(e) => changeTags(e, BREEDING)}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, BREEDING)}
               label={BREEDING}
               checked={formData.tags.includes(BREEDING)}
             />
@@ -276,7 +280,7 @@ const Auth = () => {
               error={errors.tags}
               control="input"
               type="checkbox"
-              onChange={(e) => changeTags(e, AGRIMACHINERY)}
+              onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, AGRIMACHINERY)}
               label={AGRIMACHINERY}
               checked={formData.tags.includes(AGRIMACHINERY)}
             />

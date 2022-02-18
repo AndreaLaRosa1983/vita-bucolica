@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction  } from "react";
 import { Form, Input, Button, TextArea } from "semantic-ui-react";
+//@ts-ignore
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
@@ -11,17 +12,18 @@ import {
   FARMLIFE,
 } from "../../constants/tags";
 import { RootState } from "../../reducers/index"
-const FormArticle = ({ currentId, setCurrentId }) => {
+
+const FormArticle = ( props:{ currentId: string, setCurrentId: Dispatch<SetStateAction<string>> }) => {
   const [postData, setPostData] = useState({
     title: "",
     message: "",
     video: "",
-    tags: [],
+    tags: [""],
     selectedFile: "",
   });
   const post = useSelector((state:RootState) =>
-  /*@ts-ignore */
-    currentId ? state.posts.find((p) => p._id === currentId) : null
+  //@ts-ignore
+    props.currentId ? state.posts.find((p) => p._id === currentId) : null
   );
   const [errors, setError] = useState({
     title: false,
@@ -31,12 +33,13 @@ const FormArticle = ({ currentId, setCurrentId }) => {
     selectedFile: false,
   });
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  //@ts-ignore
+  const user = localStorage.getItem("profile") ? JSON.parse(localStorage.getItem("profile")) : {} ;
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-
-  const changeTags = (e, value) => {
+//@ts-ignore
+  const changeTags = (e, value:string) => {
     var newTags = postData.tags;
     if (e.target.checked) {
       newTags.push(value);
@@ -72,22 +75,21 @@ const FormArticle = ({ currentId, setCurrentId }) => {
     setError({ ...checkedErrors });
     return valid;
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     if (checkForm()) {
-      if (currentId === null) {
+      if (props.currentId === null) {
         dispatch(createPost({ ...postData, name: user?.result?.name }));
       } else {
         dispatch(
-          updatePost(currentId, { ...postData, name: user?.result?.name })
+          updatePost(props.currentId, { ...postData, name: user?.result?.name })
         );
       }
       clear();
     }
   };
   const clear = () => {
-    setCurrentId(null);
+    props.setCurrentId("");
     setPostData({
       title: "",
       message: "",
@@ -106,7 +108,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
   return (
     <Form className="form-article-container">
       <div className="article-header">
-        {currentId ? "Edita " : "Crea "}un post
+        {props.currentId ? "Edita " : "Crea "}un post
       </div>
 
       <Form.Field
@@ -115,7 +117,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
         placeholder="Titolo"
         value={postData.title}
         error={errors.title}
-        onChange={(e) => setPostData({ ...postData, title: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPostData({ ...postData, title: e.target.value })}
       ></Form.Field>
       <Form.TextArea
         name="message"
@@ -123,21 +125,21 @@ const FormArticle = ({ currentId, setCurrentId }) => {
         placeholder="Articolo"
         error={errors.message}
         value={postData.message}
-        onChange={(e) => setPostData({ ...postData, message: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPostData({ ...postData, message: e.target.value })}
       ></Form.TextArea>
       <Form.Field
         name="video"
         control={Input}
         placeholder="Link al Video"
         value={postData.video}
-        onChange={(e) => setPostData({ ...postData, video: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPostData({ ...postData, video: e.target.value })}
       ></Form.Field>
       <Form.Group grouped className="checkbox-group">
         <Form.Field
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e) => changeTags(e, FARMLIFE)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, FARMLIFE)}
           label={FARMLIFE}
           checked={postData.tags.includes(FARMLIFE)}
         />
@@ -145,7 +147,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e) => changeTags(e, GROWING)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, GROWING)}
           label={GROWING}
           checked={postData.tags.includes(GROWING)}
         />
@@ -153,7 +155,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e) => changeTags(e, BREEDING)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, BREEDING)}
           label={BREEDING}
           checked={postData.tags.includes(BREEDING)}
         />
@@ -165,7 +167,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
           }
           control="input"
           type="checkbox"
-          onChange={(e) => changeTags(e, AGRIMACHINERY)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, AGRIMACHINERY)}
           label={AGRIMACHINERY}
           checked={postData.tags.includes(AGRIMACHINERY)}
         />
@@ -174,6 +176,7 @@ const FormArticle = ({ currentId, setCurrentId }) => {
         <FileBase
           type="file"
           multiple={false}
+          //@ts-ignore
           onDone={({ base64 }) =>
             setPostData({ ...postData, selectedFile: base64 })
           }

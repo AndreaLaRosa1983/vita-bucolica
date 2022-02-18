@@ -3,7 +3,7 @@ import {
   UPDATE_LAST_LOG,
 } from "../constants/actionTypes";
 
-const log = (state = { logs: [] }, action) => {
+const log = (state = { logs: [] }, action: any) => {
   switch (action.type) {
     case GET_LAST_NOTIFICATION_LOG:
       localStorage.setItem(

@@ -5,20 +5,24 @@ import {
 
 import * as api from "../api/index.jsx";
 
-export const getLastNotificationLog = (user) => async (dispatch) => {
+export const getLastNotificationLog = (user:{}) => async (dispatch:Function) => {
   try {
-    const { data } = await api.getLastNotificationLog(user.result._id);
+    //@ts-ignore
+    const id = user.result._id;
+    const { data } = await api.getLastNotificationLog(id);
     dispatch({ type: GET_LAST_NOTIFICATION_LOG, payload: data });
   } catch (error) {
+    //@ts-ignore
     console.log(error.message);
   }
 };
 
-export const updateLastLog = (log) => async (dispatch) => {
+export const updateLastLog = (log:string) => async (dispatch:Function) => {
   try {
     const { data } = await api.createLog(log);
     dispatch({ type: UPDATE_LAST_LOG, payload: { data } });
   } catch (error) {
+    //@ts-ignore
     console.log(error.message);
   }
 };

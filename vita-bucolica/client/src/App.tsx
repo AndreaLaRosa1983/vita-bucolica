@@ -8,11 +8,12 @@ import Auth from "./components/Auth/Auth";
 import colline from "./images/colline.jpg";
 import albero from "./images/albero.png";
 import { startClientSocket } from "./actions/socket";
+import cookie from "./models/cookie";
 const App = () => {
-  const [openArticleId, setOpenArticleId] = useState(null);
-  const [openArticle, setOpenArticle] = useState(null);
-  const [user, setUser] = useState(null);
-  const [notifications, setNotifications] = useState(null);
+  const [openArticleId, setOpenArticleId] = React.useState<string>("");
+  const [openArticle, setOpenArticle] = useState(false);
+  const [user, setUser] = useState<cookie>();
+  const [notifications, setNotifications] = useState([]);
   const [stop, setStop] = useState(false);
   const dispatch = useDispatch();
 

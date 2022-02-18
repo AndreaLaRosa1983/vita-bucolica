@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { Button, Form, Input, Icon } from "semantic-ui-react";
 import {
   AGRIMACHINERY,
@@ -7,35 +7,36 @@ import {
   FARMLIFE,
 } from "../../constants/tags";
 
-const TagSearch = ({
-  tagSearch,
-  setTagSearch,
-  stringSearch,
-  setStringSearch,
+const TagSearch = (props:{
+  tagSearch:string,
+  setTagSearch:Dispatch<SetStateAction<string>>,
+  stringSearch:string,
+  setStringSearch:Dispatch<SetStateAction<string>>,
 }) => {
+  //@ts-ignore
   const user = JSON.parse(localStorage.getItem("profile"));
-  const [searchData, setSearchData] = useState(null);
-  const setTag = (tag) => {
-    setStringSearch(null);
-    if (tagSearch === tag) {
-      setTagSearch(null);
+  const [searchData, setSearchData] = useState("");
+  const setTag = (tag:string) => {
+    props.setStringSearch("");
+    if (props.tagSearch === tag) {
+      props.setTagSearch("");
     } else {
-      setTagSearch(tag);
+      props.setTagSearch(tag);
     }
   };
 
   const clearSearch = () => {
-    if (tagSearch !== null) {
-      setTagSearch(null);
+    if (props.tagSearch !== null || props.tagSearch !== "") {
+      props.setTagSearch("");
     }
-    setStringSearch(null);
+    props.setStringSearch("");
   };
   const search = () => {
-    if (stringSearch !== null || stringSearch !== "") {
-      if (tagSearch !== null) {
-        setTagSearch(null);
+    if (props.stringSearch !== null || props.stringSearch !== "") {
+      if (props.tagSearch !== null) {
+        props.setTagSearch("");
       }
-      setStringSearch(searchData);
+      props.setStringSearch(searchData);
     }
   };
 
@@ -47,39 +48,39 @@ const TagSearch = ({
     <div className="search-item-container">
       <div className="pills-container">
         <Button
-          className={tagSearch === AGRIMACHINERY ? "pill-highlighted" : "pill"}
+          className={props.tagSearch === AGRIMACHINERY ? "pill-highlighted" : "pill"}
           onClick={() => setTag(AGRIMACHINERY)}
         >
           {AGRIMACHINERY}
         </Button>
         <Button
-          className={tagSearch === GROWING ? "pill-highlighted" : "pill"}
+          className={props.tagSearch === GROWING ? "pill-highlighted" : "pill"}
           onClick={() => setTag(GROWING)}
         >
           {GROWING}
         </Button>
         <Button
-          className={tagSearch === BREEDING ? "pill-highlighted" : "pill"}
+          className={props.tagSearch === BREEDING ? "pill-highlighted" : "pill"}
           onClick={() => setTag(BREEDING)}
         >
           {BREEDING}
         </Button>
         <Button
-          className={tagSearch === FARMLIFE ? "pill-highlighted" : "pill"}
+          className={props.tagSearch === FARMLIFE ? "pill-highlighted" : "pill"}
           onClick={() => setTag(FARMLIFE)}
         >
           {FARMLIFE}
         </Button>
       </div>
       <div className="search-group">
-        {!stringSearch ? (
+        {!props.stringSearch ? (
           <>
             <Form.Field
               className="search-field"
               name="search"
               control={Input}
               placeholder="Ricerca..."
-              onChange={(e) => setSearchData(e.target.value)}
+              onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setSearchData(e.target.value)}
             ></Form.Field>
             <Button className="search-button" onClick={() => search()}>
               <Icon name="search" size="small" />
@@ -92,7 +93,7 @@ const TagSearch = ({
               name="search"
               control={Input}
               placeholder=""
-              value={stringSearch}
+              value={props.stringSearch}
               disabled
             ></Form.Field>
             <Button

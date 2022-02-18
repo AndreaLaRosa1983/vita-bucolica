@@ -6,18 +6,20 @@ import moment from "moment";
 import "moment/locale/it";
 import { likePost } from "../../actions/posts";
 import { RootState } from "../../reducers/index"
-const Article = ({ setOpenArticle, openArticleId }) => {
+const Article = ( setOpenArticle: Function , openArticleId: String ) => {
   moment.locale("it");
   const post = useSelector((state:RootState) =>
     openArticleId
-      ? state.posts.posts.find((p) => p._id === openArticleId)
+    //@ts-ignore
+      ? state.posts.posts.find((p:{}) => p._id === openArticleId)
       : null
   );
   const dispatch = useDispatch();
+  //@ts-ignore
   const user = JSON.parse(localStorage.getItem("profile"));
   const Likes = () => {
     if (post.likes.length > 0) {
-      return post.likes.find((like) => like === user?.result?._id) ? (
+      return post.likes.find((like:string) => like === user?.result?._id) ? (
         <>
           <Icon name="thumbs up" />
           &nbsp;
@@ -53,7 +55,7 @@ const Article = ({ setOpenArticle, openArticleId }) => {
                 {moment(post.createdAt).fromNow()}
               </div>
               <div className="tags-article">
-                {post.tags.map((tag) => `#${tag} `)}
+                {post.tags.map((tag:string) => `#${tag} `)}
               </div>
             </div>
 

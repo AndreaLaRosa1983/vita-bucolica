@@ -115,7 +115,6 @@ export const createPost = async (req, res) => {
       tags: newPostMessage.tags,
       id: newPostMessage._id,
     };
-    console.log("hereOK");
     multiEmit(io, tags, notificationToSend);
     res.status(201).json(newPostMessage);
     return;
