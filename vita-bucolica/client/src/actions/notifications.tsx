@@ -16,8 +16,10 @@ export const getLastPostsNotifications = () => async (dispatch:Function) => {
     } = await api.fetchLastPostsNotifications(lastAccess);
     dispatch({ type: FETCH_NEW_POSTS_NOTIFICATIONS, payload: { data } });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -27,8 +29,10 @@ export const addRecievedNotification =
       const data = recievedNotification;
       dispatch({ type: ADD_RECIEVED_NOTIFICATION, payload: data });
     } catch (error) {
-      //@ts-ignore
-      console.log(error.message);
+      let message
+      if (error instanceof Error) message = error.message
+      else message = String(error)
+      console.log(message);
     }
   };
 
@@ -40,7 +44,9 @@ export const deleteFromRecievedNotification =
         payload: notificationToDeleteId,
       });
     } catch (error) {
-      //@ts-ignore
-      console.log(error.message);
+      let message
+      if (error instanceof Error) message = error.message
+      else message = String(error)
+      console.log(message);
     }
   };

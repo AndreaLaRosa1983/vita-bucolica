@@ -5,6 +5,7 @@ import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createPost, updatePost } from "../../actions/posts";
 import { useSelector } from "react-redux";
+import PostType from "../../models/post"
 import {
   AGRIMACHINERY,
   GROWING,
@@ -33,8 +34,7 @@ const newPostToSend: PostToSend = {
 const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Dispatch<SetStateAction<string|null|undefined>> }) => {
   const [postData, setPostData] = useState(newPostToSend);
   const post = useSelector((state:RootState) =>
-  //@ts-ignore
-    props.currentId ? state.posts.find((p) => p._id === currentId) : null
+    props.currentId ? state.posts.posts.find((p: PostType) => p._id === props.currentId) : null
   );
   const [errors, setError] = useState({
     title: false,
@@ -49,9 +49,10 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-//@ts-ignore
+  //@ts-ignore
   const changeTags = (e, value:string) => {
     var newTags = postData.tags;
+    //@ts-ignore
     if (e.target.checked) {
       newTags.push(value);
       setPostData({ ...postData, tags: newTags });
@@ -93,7 +94,6 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
         dispatch(createPost({ ...postData, name: user?.result?.name }));
       } else {
         dispatch(
-          //@ts-ignore
           updatePost(props!.currentId, { ...postData, name: user?.result?.name })
         );
       }

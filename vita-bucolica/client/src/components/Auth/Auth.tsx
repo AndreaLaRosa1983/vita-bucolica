@@ -67,11 +67,10 @@ const Auth = () => {
     setError({ ...checkedErrors });
     return valid;
   };
-  const changeTags = (e: React.FormEvent<HTMLInputElement>, value:String) => {
+  const changeTags = (e: React.FormEvent<HTMLInputElement>, value:string) => {
     var newTags = formData.tags;
     //@ts-ignore
     if (e!.target!.checked) {
-      //@ts-ignore
       newTags.push(value);
       setFormData({ ...formData, tags: newTags });
     } else {

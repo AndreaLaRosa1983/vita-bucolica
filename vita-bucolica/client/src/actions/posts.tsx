@@ -16,8 +16,10 @@ export const getPosts = (page:number) => async (dispatch:Function) => {
     } = await api.fetchPosts(page);
     dispatch({ type: FETCH_ALL, payload: { data, numberOfPages } });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -31,8 +33,10 @@ export const getPostsByTag = (tag:string, more:number) => async (dispatch:Functi
       payload: { data, numberOfPosts, numberOfPostsToSee },
     });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -41,8 +45,10 @@ export const getPostsBySearch = (search:string, more:number) => async (dispatch:
     const { data } = await api.fetchPostsSearch(search, more);
     dispatch({ type: FETCH_ALL_SEARCH, payload: { data } });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -51,8 +57,10 @@ export const createPost = (post: {}) => async (dispatch:Function) => {
     const { data } = await api.createPost(post);
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -61,8 +69,10 @@ export const updatePost = (id:string, post:{}) => async (dispatch:Function) => {
     const { data } = await api.updatePost(id, post);
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -74,8 +84,10 @@ export const likePost = (id:string) => async (dispatch:Function) => {
     const { data } = await api.likePost(id,user.token);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -84,7 +96,9 @@ export const deletePost = (id:string) => async (dispatch:Function) => {
     await api.deletePost(id);
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };

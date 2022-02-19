@@ -11,7 +11,10 @@ export const signin = (formData:{}, navigate:Function) => async (dispatch:Functi
     dispatch(getLastNotificationLog(user));
     navigate("/");
   } catch (error) {
-    console.log(error);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
 
@@ -19,11 +22,14 @@ export const signup = (formData:{}, navigate:Function) => async (dispatch:Functi
   try {
     const { data } = await api.signUp(formData);
     dispatch({ type: AUTH, data });
-    //@ts-ignore//
+    //@ts-ignore
     const user = JSON.parse(localStorage.getItem("profile"));
     dispatch(getLastNotificationLog(user));
     navigate("/");
   } catch (error) {
-    console.log(error);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };

@@ -14,7 +14,9 @@ export const startClientSocket = (user:{}) => async (dispatch:Function) => {
     socket.emit("connectionTags", user.result.tags);
     dispatch({ type: SOCKET_ON, payload: socket });
   } catch (error) {
-    //@ts-ignore
-    console.log(error.message);
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
   }
 };
