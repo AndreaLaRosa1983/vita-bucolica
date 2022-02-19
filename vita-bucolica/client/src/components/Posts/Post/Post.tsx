@@ -60,6 +60,7 @@ const Post = (props: {
               className="post-title"
               onClick={() => {
                 props.setOpenArticleId(props.post._id);
+                console.log(props.post._id);
                 props.setOpenArticle(true);
               }}
             >
@@ -98,8 +99,9 @@ const Post = (props: {
       </Card.Content>
       <Card.Content>
         <Button
+          size="small"
           disabled={!user?.result}
-          onClick={() => dispatch(likePost("" /* props.post._id */))}
+          onClick={() => dispatch(likePost(props.post._id))}
         >
           <Likes />
         </Button>

@@ -13,14 +13,25 @@ import {
 } from "../../constants/tags";
 import { RootState } from "../../reducers/index"
 
+export interface PostToSend {
+  title: string,
+  message: string,
+  video: string,
+  tags:  string[],
+  selectedFile: string,
+}
+
+const newPostToSend: PostToSend = {
+  title: "",
+  message: "",
+  video: "",
+  tags:  [],
+  selectedFile: "",
+}
+
+
 const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Dispatch<SetStateAction<string|null|undefined>> }) => {
-  const [postData, setPostData] = useState({
-    title: "",
-    message: "",
-    video: "",
-    tags: [""],
-    selectedFile: "",
-  });
+  const [postData, setPostData] = useState(newPostToSend);
   const post = useSelector((state:RootState) =>
   //@ts-ignore
     props.currentId ? state.posts.find((p) => p._id === currentId) : null

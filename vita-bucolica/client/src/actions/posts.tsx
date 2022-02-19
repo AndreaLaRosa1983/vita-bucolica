@@ -7,7 +7,6 @@ import {
   DELETE,
   LIKE,
 } from "../constants/actionTypes";
-import Post from "../models/post";
 import * as api from "../api/index.jsx";
 
 export const getPosts = (page:number) => async (dispatch:Function) => {
@@ -47,7 +46,7 @@ export const getPostsBySearch = (search:string, more:number) => async (dispatch:
   }
 };
 
-export const createPost = (post: Post) => async (dispatch:Function) => {
+export const createPost = (post: {}) => async (dispatch:Function) => {
   try {
     const { data } = await api.createPost(post);
     dispatch({ type: CREATE, payload: data });
@@ -57,7 +56,7 @@ export const createPost = (post: Post) => async (dispatch:Function) => {
   }
 };
 
-export const updatePost = (id:string, post:Post) => async (dispatch:Function) => {
+export const updatePost = (id:string, post:{}) => async (dispatch:Function) => {
   try {
     const { data } = await api.updatePost(id, post);
     dispatch({ type: UPDATE, payload: data });
@@ -71,7 +70,8 @@ export const likePost = (id:string) => async (dispatch:Function) => {
   //@ts-ignore
   const user = localStorage.getItem("profile") ? JSON.parse(localStorage.getItem("profile")) : null;
   try {
-    const { data } = await api.likePost(id,user);
+    //@ts-ignore
+    const { data } = await api.likePost(id,user.token);
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
     //@ts-ignore

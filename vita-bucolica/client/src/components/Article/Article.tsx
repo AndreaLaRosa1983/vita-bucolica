@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Icon, Image, Button, Container } from "semantic-ui-react";
@@ -6,12 +6,12 @@ import moment from "moment";
 import "moment/locale/it";
 import { likePost } from "../../actions/posts";
 import { RootState } from "../../reducers/index"
-const Article = ( setOpenArticle: Function , openArticleId: String ) => {
+import  PostType  from "../../models/post"
+const Article = ( props:{setOpenArticle: Dispatch<SetStateAction<boolean>> , openArticleId: string | null | undefined} ) => {
   moment.locale("it");
   const post = useSelector((state:RootState) =>
-    openArticleId
-    //@ts-ignore
-      ? state.posts.posts.find((p:{}) => p._id === openArticleId)
+    props.openArticleId
+      ? state.posts.posts.find((p:PostType) => p._id === props.openArticleId)
       : null
   );
   const dispatch = useDispatch();
@@ -87,7 +87,7 @@ const Article = ( setOpenArticle: Function , openArticleId: String ) => {
               <Button
                 size="small"
                 onClick={() => {
-                  setOpenArticle(false);
+                  props.setOpenArticle(false);
                 }}
               >
                 <Icon name="home" />
