@@ -5,7 +5,7 @@ import { updateLastLog } from "../../actions/logs";
 
 const NotificationsDropdown = (props:{
   setOpenArticle:Dispatch<SetStateAction<boolean>>,
-  setOpenArticleId:Dispatch<SetStateAction<string>>,
+  setOpenArticleId:Dispatch<SetStateAction<string | null | undefined>>,
   notifications:[],
   updateNotifications:Function,}
 ) => {

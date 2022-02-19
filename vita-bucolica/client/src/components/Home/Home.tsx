@@ -11,11 +11,11 @@ import { RootState } from "../../reducers/index";
 import cookie from "../../models/cookie";
 const Home = ( props:{  openArticle:boolean,
   setOpenArticle:Dispatch<SetStateAction<boolean>>,
-  openArticleId:string,
-  setOpenArticleId:Dispatch<SetStateAction<string>>,
+  openArticleId:string|null|undefined,
+  setOpenArticleId:Dispatch<SetStateAction<string|null|undefined>>,
   user:cookie | undefined}
 ) => {
-  const [currentId, setCurrentId] = useState("");
+  const [currentId, setCurrentId] = useState<string|null>();
   const [tagSearch, setTagSearch] = useState("");
   const [stringSearch, setStringSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -122,7 +122,6 @@ const Home = ( props:{  openArticle:boolean,
                 props.user && props.user.result.isCreator) || !props.user) && (
                 <Grid.Column className="home-form-article-column" width={6}>
                   <FormArticle
-                  //@ts-ignore
                     currentId={currentId}
                     setCurrentId={setCurrentId}
                   />

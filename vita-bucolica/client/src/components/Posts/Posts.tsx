@@ -3,12 +3,13 @@ import { Loader, Card } from "semantic-ui-react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
 import { RootState } from "../../reducers/index"
+import PostType from "../../models/post";
 const Posts = ( props:{
-  setCurrentId:Dispatch<SetStateAction<string>>,
-  currentId:string,
+  setCurrentId:Dispatch<SetStateAction<string|null|undefined>>,
+  currentId:string|null|undefined,
   openArticle:boolean,
   setOpenArticle:Dispatch<SetStateAction<boolean>>,
-  setOpenArticleId:Dispatch<SetStateAction<string>>,
+  setOpenArticleId:Dispatch<SetStateAction<string|null|undefined>>,
 }) => {
   const { posts } = useSelector((state: RootState) => state.posts);
 
@@ -18,16 +19,13 @@ const Posts = ( props:{
     </Loader>
   ) : props.openArticle ? (
     <>{
-      //@ts-ignore
-      posts.find((x) => x._id === currentId)}</>
+      posts.find((x:PostType) => x._id === props.currentId)}</>
   ) : (
     <Card.Group centered>
-      //@ts-ignore
       {
       //@ts-ignore
       posts.map((post) => (
         <Post
-        //@ts-ignore
           post={post}
           key={post._id}
           setCurrentId={props.setCurrentId}

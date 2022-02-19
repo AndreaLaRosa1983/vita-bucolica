@@ -9,9 +9,9 @@ import genericForPost from "../../../images/genericForPost.png";
 import PostType from "../../../models/post";
 const Post = (props: {
   post: PostType;
-  setCurrentId: Dispatch<SetStateAction<string>>;
+  setCurrentId: Dispatch<SetStateAction<string | null | undefined>>;
   setOpenArticle: Dispatch<SetStateAction<boolean>>;
-  setOpenArticleId: Dispatch<SetStateAction<string>>;
+  setOpenArticleId: Dispatch<SetStateAction<string | null | undefined>>;
   openArticle: boolean;
 }) => {
   moment.locale("it");
@@ -48,6 +48,7 @@ const Post = (props: {
 
   return (
     <Card className="post-layout">
+      {console.log({ inPost: user })}
       <Image
         className="image-card"
         src={props.post.selectedFile ? props.post.selectedFile : genericForPost}
@@ -65,7 +66,7 @@ const Post = (props: {
               {props.post.title}
             </span>
 
-            {user?.user._id === props.post?.creator && (
+            {user?.result._id === props.post?.creator && (
               <span>
                 <Icon
                   className="post-edit-icon"
@@ -98,7 +99,7 @@ const Post = (props: {
       <Card.Content>
         <Button
           disabled={!user?.result}
-          onClick={() => dispatch(likePost(""/* props.post._id */))}
+          onClick={() => dispatch(likePost("" /* props.post._id */))}
         >
           <Likes />
         </Button>

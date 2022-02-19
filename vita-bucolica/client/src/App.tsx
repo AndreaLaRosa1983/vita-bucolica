@@ -10,7 +10,7 @@ import albero from "./images/albero.png";
 import { startClientSocket } from "./actions/socket";
 import cookie from "./models/cookie";
 const App = () => {
-  const [openArticleId, setOpenArticleId] = React.useState<string>("");
+  const [openArticleId, setOpenArticleId] = React.useState<string | null | undefined>("");
   const [openArticle, setOpenArticle] = useState(false);
   const [user, setUser] = useState<cookie>();
   const [notifications, setNotifications] = useState([]);

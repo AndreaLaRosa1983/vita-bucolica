@@ -8,14 +8,13 @@ import { useDispatch } from "react-redux";
 import { deleteFromRecievedNotification } from "../../actions/notifications";
 import { RootState } from "../../reducers/index";
 import cookie from "../../models/cookie";
-const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction<cookie | undefined>>, setOpenArticle:Dispatch<SetStateAction<boolean>>, setOpenArticleId:Dispatch<SetStateAction<string>>} ) => {
+const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction<cookie | undefined>>, setOpenArticle:Dispatch<SetStateAction<boolean>>, setOpenArticleId:Dispatch<SetStateAction<string | null | undefined>>} ) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   //@ts-ignore
   const tokenHandler = JSON.parse(localStorage.getItem("profile"));
   const { notifications } = useSelector((state: RootState) => state.notifications);
- console.log(props.user)
   const updateNotifications = (id:string) => {
     dispatch(deleteFromRecievedNotification(id));
   };

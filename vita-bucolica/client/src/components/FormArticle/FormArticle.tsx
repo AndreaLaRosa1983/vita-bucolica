@@ -13,7 +13,7 @@ import {
 } from "../../constants/tags";
 import { RootState } from "../../reducers/index"
 
-const FormArticle = ( props:{ currentId: string, setCurrentId: Dispatch<SetStateAction<string>> }) => {
+const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Dispatch<SetStateAction<string|null|undefined>> }) => {
   const [postData, setPostData] = useState({
     title: "",
     message: "",
@@ -78,11 +78,12 @@ const FormArticle = ( props:{ currentId: string, setCurrentId: Dispatch<SetState
   const handleSubmit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     if (checkForm()) {
-      if (props.currentId === null) {
+    if (props.currentId === undefined || props.currentId === null || props.currentId === "") {
         dispatch(createPost({ ...postData, name: user?.result?.name }));
       } else {
         dispatch(
-          updatePost(props.currentId, { ...postData, name: user?.result?.name })
+          //@ts-ignore
+          updatePost(props!.currentId, { ...postData, name: user?.result?.name })
         );
       }
       clear();
