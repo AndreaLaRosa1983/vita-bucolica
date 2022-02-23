@@ -8,12 +8,12 @@ import { useDispatch } from "react-redux";
 import { deleteFromRecievedNotification } from "../../actions/notifications";
 import { RootState } from "../../reducers/index";
 import cookie from "../../models/cookie";
+import { getUserCookie } from "../../actions/utils";
 const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction<cookie | undefined>>, setOpenArticle:Dispatch<SetStateAction<boolean>>, setOpenArticleId:Dispatch<SetStateAction<string | null | undefined>>} ) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  //@ts-ignore
-  const tokenHandler = JSON.parse(localStorage.getItem("profile"));
+  const tokenHandler = getUserCookie();
   const { notifications } = useSelector((state: RootState) => state.notifications);
   const updateNotifications = (id:string) => {
     dispatch(deleteFromRecievedNotification(id));
@@ -22,14 +22,12 @@ const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction
   useEffect(() => {
     const token = tokenHandler?.token;
     if (token) {
-      const decodedToken = decode(token);
-      /* @ts-ignore */
+      const decodedToken: any = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) {
         logout();
       }
     }
-    //@ts-ignore
-    props.setUser(JSON.parse(localStorage.getItem("profile")));
+    props.setUser(getUserCookie());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]); // Quando cambia la location setta lo user
 

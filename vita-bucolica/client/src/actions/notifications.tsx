@@ -5,12 +5,11 @@ import {
 } from "../constants/actionTypes";
 
 import * as api from "../api/index.jsx";
+import { getFromLocalStorageOrNull } from "./utils";
 
 export const getLastPostsNotifications = () => async (dispatch:Function) => {
   try {
-    //@ts-ignore
-    const lastAccess = await JSON.parse(localStorage.getItem("lastNotificationLog")
-    );
+    const lastAccess = getFromLocalStorageOrNull("lastNotificationLog");
     const {
       data: { data },
     } = await api.fetchLastPostsNotifications(lastAccess);

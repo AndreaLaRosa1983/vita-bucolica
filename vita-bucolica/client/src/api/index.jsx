@@ -5,7 +5,6 @@ const API = axios.create({ baseURL: "http://localhost:5000" });
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
     req.headers.Authorization = `Bearer ${
-
       JSON.parse(localStorage.getItem("profile")).token
     }`;
   }
@@ -20,6 +19,8 @@ export const fetchPostsTag = (tag, more) =>
   API.get(`/posts/tag/${tag}/${more}`);
 export const fetchPostsSearch = (search, more) =>
   API.get(`/posts/search/${search}/${more}`);
+  export const getPost = (id) =>
+  API.get(`/posts/post/${id}/`);
 export const createPost = (newPost) => API.post("/posts", newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const updatePost = (id, updatedPost) =>

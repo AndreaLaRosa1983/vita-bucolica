@@ -7,7 +7,6 @@ export const startClientSocket = (user:{}) => async (dispatch:Function) => {
     const ENDPOINT = "http://localhost:3000";
     const socket = io(ENDPOINT);
     socket.on("NEWPOST", function (lastNotification) {
-      console.log(lastNotification);
       dispatch(addRecievedNotification(lastNotification));
     });
     //@ts-ignore

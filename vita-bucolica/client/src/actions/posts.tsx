@@ -2,12 +2,14 @@ import {
   FETCH_ALL,
   FETCH_ALL_TAG,
   FETCH_ALL_SEARCH,
+  GET_POST,
   CREATE,
   UPDATE,
   DELETE,
   LIKE,
 } from "../constants/actionTypes";
 import * as api from "../api/index.jsx";
+import { getUserCookie } from "./utils";
 
 export const getPosts = (page:number) => async (dispatch:Function) => {
   try {
@@ -23,14 +25,28 @@ export const getPosts = (page:number) => async (dispatch:Function) => {
   }
 };
 
+export const getPost = (id:string) => async (dispatch:Function) => {
+  try {
+    const {
+      data : { data }
+    } = await api.getPost(id);
+    dispatch({ type: GET_POST, payload: { data } });
+  } catch (error) {
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
+  }
+};
+
 export const getPostsByTag = (tag:string, more:number) => async (dispatch:Function) => {
   try {
     const {
-      data: { data, numberOfPosts, numberOfPostsToSee },
+      data: { data, numberOfPostsByTag, numberOfPostsToSeeByTag },
     } = await api.fetchPostsTag(tag, more);
     dispatch({
       type: FETCH_ALL_TAG,
-      payload: { data, numberOfPosts, numberOfPostsToSee },
+      payload: { data, numberOfPostsByTag, numberOfPostsToSeeByTag },
     });
   } catch (error) {
     let message
@@ -77,8 +93,7 @@ export const updatePost = (id:string, post:{}) => async (dispatch:Function) => {
 };
 
 export const likePost = (id:string) => async (dispatch:Function) => {
-  //@ts-ignore
-  const user = localStorage.getItem("profile") ? JSON.parse(localStorage.getItem("profile")) : null;
+  const user = getUserCookie();
   try {
     //@ts-ignore
     const { data } = await api.likePost(id,user.token);

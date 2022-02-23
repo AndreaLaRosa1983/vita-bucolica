@@ -35,7 +35,7 @@ const Auth = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = (e:Event) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSignup) {
       if (checkFormSignUp()) {
@@ -163,7 +163,6 @@ const Auth = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
   };
   return (
-    //@ts-ignore
     <Form className="auth-container" onSubmit={handleSubmit}>
       <div className="title-icon">
         <Image>

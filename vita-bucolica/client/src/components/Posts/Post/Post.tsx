@@ -7,6 +7,7 @@ import { deletePost, likePost } from "../../../actions/posts";
 /* eslint-disable spaced-comment */
 import genericForPost from "../../../images/genericForPost.png";
 import PostType from "../../../models/post";
+import { getUserCookie } from "../../../actions/utils";
 const Post = (props: {
   post: PostType;
   setCurrentId: Dispatch<SetStateAction<string | null | undefined>>;
@@ -16,8 +17,7 @@ const Post = (props: {
 }) => {
   moment.locale("it");
   const dispatch = useDispatch();
-  //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = getUserCookie();
   const Likes = () => {
     if (props.post.likes.length > 0) {
       return props.post.likes.find((like) => like === user?.result?._id) ? (
@@ -48,7 +48,6 @@ const Post = (props: {
 
   return (
     <Card className="post-layout">
-      {console.log({ inPost: user })}
       <Image
         className="image-card"
         src={props.post.selectedFile ? props.post.selectedFile : genericForPost}
@@ -60,7 +59,6 @@ const Post = (props: {
               className="post-title"
               onClick={() => {
                 props.setOpenArticleId(props.post._id);
-                console.log(props.post._id);
                 props.setOpenArticle(true);
               }}
             >

@@ -15,7 +15,7 @@ const Home = ( props:{  openArticle:boolean,
   setOpenArticleId:Dispatch<SetStateAction<string|null|undefined>>,
   user:cookie | undefined}
 ) => {
-  const [currentId, setCurrentId] = useState<string|null>();
+  const [currentId, setCurrentId] = useState<string|null|undefined>();
   const [tagSearch, setTagSearch] = useState("");
   const [stringSearch, setStringSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -57,7 +57,7 @@ const Home = ( props:{  openArticle:boolean,
             <Grid.Row>
               <Grid.Column columns={16}>
                 <Article
-                //@ts-ignore
+                  openArticle={props.openArticle}
                   setOpenArticle={props.setOpenArticle}
                   openArticleId={props.openArticleId}
                 />
@@ -67,11 +67,9 @@ const Home = ( props:{  openArticle:boolean,
         ) : (
           <Grid stackable className="main-grid">
             <Grid.Row
-            //@ts-ignore
               columns={(props.user && props.user.result.isCreator) || !props.user ? 2 : 1}
             >
               <Grid.Column
-              //@ts-ignore
                 width={(props.user && props.user.result.isCreator) || !props.user ? 10 : 16}
               >
                 <Posts
@@ -117,9 +115,7 @@ const Home = ( props:{  openArticle:boolean,
                 )}
               </Grid.Column>
               
-              {((
-                //@ts-ignore
-                props.user && props.user.result.isCreator) || !props.user) && (
+              {((props.user && props.user.result.isCreator) || !props.user) && (
                 <Grid.Column className="home-form-article-column" width={6}>
                   <FormArticle
                     currentId={currentId}

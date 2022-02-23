@@ -1,13 +1,14 @@
 import { AUTH } from "../constants/actionTypes";
 import { getLastNotificationLog } from "./logs";
 import * as api from "../api/index.jsx";
+import {  getUserCookie } from "./utils";
+
 
 export const signin = (formData:{}, navigate:Function) => async (dispatch:Function) => {
   try {
     const { data } = await api.signIn(formData);
     dispatch({ type: AUTH, data });
-    //@ts-ignore
-    const user = JSON.parse(localStorage.getItem("profile"));
+    const user = getUserCookie();
     dispatch(getLastNotificationLog(user));
     navigate("/");
   } catch (error) {
@@ -22,8 +23,7 @@ export const signup = (formData:{}, navigate:Function) => async (dispatch:Functi
   try {
     const { data } = await api.signUp(formData);
     dispatch({ type: AUTH, data });
-    //@ts-ignore
-    const user = JSON.parse(localStorage.getItem("profile"));
+    const user = getUserCookie();
     dispatch(getLastNotificationLog(user));
     navigate("/");
   } catch (error) {

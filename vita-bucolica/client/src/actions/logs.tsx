@@ -4,11 +4,11 @@ import {
 } from "../constants/actionTypes";
 
 import * as api from "../api/index.jsx";
+import CookieType from "../models/cookie";
 
 export const getLastNotificationLog =
-  (user: {}) => async (dispatch: Function) => {
+  (user: CookieType) => async (dispatch: Function) => {
     try {
-      //@ts-ignore
       const id = user.result._id;
       const { data } = await api.getLastNotificationLog(id);
       dispatch({ type: GET_LAST_NOTIFICATION_LOG, payload: data });

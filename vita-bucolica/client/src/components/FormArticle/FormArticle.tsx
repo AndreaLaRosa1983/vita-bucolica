@@ -13,6 +13,7 @@ import {
   FARMLIFE,
 } from "../../constants/tags";
 import { RootState } from "../../reducers/index"
+import { getUserCookie } from "../../actions/utils";
 
 export interface PostToSend {
   title: string,
@@ -32,6 +33,7 @@ const newPostToSend: PostToSend = {
 
 
 const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Dispatch<SetStateAction<string|null|undefined>> }) => {
+  
   const [postData, setPostData] = useState(newPostToSend);
   const post = useSelector((state:RootState) =>
     props.currentId ? state.posts.posts.find((p: PostType) => p._id === props.currentId) : null
@@ -44,13 +46,11 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
     selectedFile: false,
   });
   const dispatch = useDispatch();
-  //@ts-ignore
-  const user = localStorage.getItem("profile") ? JSON.parse(localStorage.getItem("profile")) : {} ;
+  const user = getUserCookie();
   useEffect(() => {
     if (post) setPostData(post);
   }, [post]);
-  //@ts-ignore
-  const changeTags = (e, value:string) => {
+  const changeTags = (e:React.ChangeEvent<HTMLInputElement>, value:string) => {
     var newTags = postData.tags;
     //@ts-ignore
     if (e.target.checked) {
@@ -87,7 +87,7 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
     setError({ ...checkedErrors });
     return valid;
   };
-  const handleSubmit = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (checkForm()) {
     if (props.currentId === undefined || props.currentId === null || props.currentId === "") {
@@ -100,13 +100,18 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
       clear();
     }
   };
+  const clearArray = () => {
+      newPostToSend.tags.splice(0,newPostToSend.tags.length);
+  }
   const clear = () => {
     props.setCurrentId("");
+    let emptyArray: string[] = [];
+    clearArray();
     setPostData({
       title: "",
       message: "",
       video: "",
-      tags: [],
+      tags: emptyArray,
       selectedFile: "",
     });
   };
@@ -122,7 +127,6 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
       <div className="article-header">
         {props.currentId ? "Edita " : "Crea "}un post
       </div>
-
       <Form.Field
         name="title"
         control={Input}
@@ -144,14 +148,14 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
         control={Input}
         placeholder="Link al Video"
         value={postData.video}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPostData({ ...postData, video: e.target.value })}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPostData({ ...postData, video: e.target.value })}
       ></Form.Field>
       <Form.Group grouped className="checkbox-group">
         <Form.Field
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, FARMLIFE)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTags(e, FARMLIFE)}
           label={FARMLIFE}
           checked={postData.tags.includes(FARMLIFE)}
         />
@@ -159,7 +163,7 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, GROWING)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTags(e, GROWING)}
           label={GROWING}
           checked={postData.tags.includes(GROWING)}
         />
@@ -167,7 +171,7 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
           error={errors.tags}
           control="input"
           type="checkbox"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, BREEDING)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTags(e, BREEDING)}
           label={BREEDING}
           checked={postData.tags.includes(BREEDING)}
         />
@@ -179,7 +183,7 @@ const FormArticle = ( props:{ currentId: string|null|undefined, setCurrentId: Di
           }
           control="input"
           type="checkbox"
-          onChange={(e: React.FormEvent<HTMLInputElement>) => changeTags(e, AGRIMACHINERY)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => changeTags(e, AGRIMACHINERY)}
           label={AGRIMACHINERY}
           checked={postData.tags.includes(AGRIMACHINERY)}
         />

@@ -1,5 +1,6 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { Button, Form, Input, Icon } from "semantic-ui-react";
+import { getUserCookie } from "../../actions/utils";
 import {
   AGRIMACHINERY,
   GROWING,
@@ -13,8 +14,8 @@ const TagSearch = (props:{
   stringSearch:string,
   setStringSearch:Dispatch<SetStateAction<string>>,
 }) => {
-  //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("profile"));
+
+  const user = getUserCookie();
   const [searchData, setSearchData] = useState("");
   const setTag = (tag:string) => {
     props.setStringSearch("");

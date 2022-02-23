@@ -4,8 +4,6 @@ import app from "../index.js";
 //multiemit to avoid multiple message at client in the same room (at the moment funtionality is
 //reduced to the max number of preference of a client one for each tipe of article)
 const multiEmit = (io, tags, notificationToSend) => {
-  console.log(tags);
-  console.log(notificationToSend);
   switch (tags.length) {
     case 1:
       return io.to(tags[0]).emit("NEWPOST", notificationToSend);
@@ -38,12 +36,25 @@ export const getPosts = async (req, res) => {
       .sort({ $natural: -1 })
       .skip(maxToShow * page)
       .limit(maxToShow);
-    res
-      .status(200)
-      .json({
-        data: postMessages,
-        numberOfPages: Math.ceil(totalMessages / maxToShow),
-      });
+    res.status(200).json({
+      data: postMessages,
+      numberOfPages: Math.ceil(totalMessages / maxToShow),
+    });
+    return;
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+    return;
+  }
+};
+
+export const getPost = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log({id_getpost:id})
+    const postMessage = await PostMessage.find({ _id: id });
+    res.status(200).json({
+      data: postMessage,
+    });
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -53,20 +64,18 @@ export const getPosts = async (req, res) => {
 
 export const getPostsTag = async (req, res) => {
   const { more, tag } = req.params;
-  const maxToShow = 6;
+  const maxToShow = 8;
   try {
     const postMessages = await PostMessage.find({ tags: tag }).limit(
       maxToShow * more
     );
-    const numberOfPosts = await PostMessage.find({ tags: tag }).count();
-    const numberOfPostsToSee = numberOfPosts - postMessages.length;
-    res
-      .status(200)
-      .json({
-        data: postMessages.reverse(),
-        numberOfPosts: numberOfPosts,
-        numberOfPostsToSee: numberOfPostsToSee,
-      });
+    const numberOfPostsByTag = await PostMessage.find({ tags: tag }).count();
+    const numberOfPostsToSeeByTag = numberOfPostsByTag - postMessages.length;
+    res.status(200).json({
+      data: postMessages.reverse(),
+      numberOfPostsByTag: numberOfPostsByTag,
+      numberOfPostsToSeeByTag: numberOfPostsToSeeByTag,
+    });
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -90,6 +99,8 @@ export const getPostsSearch = async (req, res) => {
         },
       },
     ]);
+
+    
     res.status(200).json(postMessages.reverse());
     return;
   } catch (error) {

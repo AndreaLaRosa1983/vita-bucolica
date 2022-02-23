@@ -2,6 +2,9 @@ import React, {Dispatch, SetStateAction} from "react";
 import { useDispatch } from "react-redux";
 import { Icon, Dropdown } from "semantic-ui-react";
 import { updateLastLog } from "../../actions/logs";
+import { getPosts } from "../../actions/posts";
+import { getUserCookie } from "../../actions/utils";
+import NotificationType from "../../models/notification";
 
 const NotificationsDropdown = (props:{
   setOpenArticle:Dispatch<SetStateAction<boolean>>,
@@ -9,10 +12,10 @@ const NotificationsDropdown = (props:{
   notifications:[],
   updateNotifications:Function,}
 ) => {
-  //@ts-ignore
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const user = getUserCookie();
   const dispatch = useDispatch();
   const handleClick = (id:string) => {
+    dispatch(getPosts(0));
     props.setOpenArticle(true);
     props.setOpenArticleId(id);
     props.updateNotifications(id);
@@ -45,15 +48,11 @@ const NotificationsDropdown = (props:{
       {props.notifications && (
         <Dropdown.Menu>
           <Dropdown.Header content="Post che ti sei perso" />
-          {props.notifications.map((n) => (
+          {props.notifications.map((n: NotificationType) => (
             <Dropdown.Item
-            //@ts-ignore
               key={n.id}
-              //@ts-ignore
               text={n.title + " in " + n.tags.map((tag) => `#${tag} `).join("")}
-              //@ts-ignore
               value={n.id}
-              //@ts-ignore
               onClick={() => handleClick(n.id)}
             />
           ))}
