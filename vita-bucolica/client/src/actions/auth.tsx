@@ -33,3 +33,18 @@ export const signup = (formData:{}, navigate:Function) => async (dispatch:Functi
     console.log(message);
   }
 };
+
+export const updateUser = (formData:{}, navigate:Function) => async (dispatch:Function) => {
+  try {
+    const { data } = await api.signUp(formData);
+    dispatch({ type: AUTH, data });
+    const user = getUserCookie();
+    dispatch(getLastNotificationLog(user));
+    navigate("/");
+  } catch (error) {
+    let message
+    if (error instanceof Error) message = error.message
+    else message = String(error)
+    console.log(message);
+  }
+};

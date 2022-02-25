@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useReducer,
+} from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Icon, Image, Button, Container } from "semantic-ui-react";
@@ -9,32 +15,22 @@ import { RootState } from "../../reducers/index";
 import PostType from "../../models/post";
 import { getUserCookie } from "../../actions/utils";
 import { getPost } from "../../actions/posts";
-
+import { setConstantValue } from "typescript";
 
 const Article = (props: {
   openArticle: boolean;
   setOpenArticle: Dispatch<SetStateAction<boolean>>;
   openArticleId: string | null | undefined;
 }) => {
-  moment.locale("it"); 
+  moment.locale("it");
 
-  const [post, setPost] = useState(useSelector((state: RootState) => state.posts.openPost));
-  const usePostState = () => {
-    return useSelector((state: RootState) => state.posts.openPost);
-  }
- 
 
-  useEffect( () => {
-    async function updateArticle() {
-    if (props.openArticleId) {
-      await dispatch(getPost(props.openArticleId));
-    };
-  }
-   updateArticle();
-   setPost(useSelector((state: RootState) => state.posts.openPost));
-  }, 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [ post, props.openArticle, props.openArticleId]);
+  const selectorData = useSelector((state: RootState) => state.posts.openPost);
+  const [post, setPost] = useState(selectorData);
+
+  useEffect(() => {
+    setPost(selectorData);
+  }, [selectorData]);
 
   const dispatch = useDispatch();
   const user = getUserCookie();
@@ -64,7 +60,7 @@ const Article = (props: {
         </>
       );
     }
-    return <></>
+    return <></>;
   };
 
   return (

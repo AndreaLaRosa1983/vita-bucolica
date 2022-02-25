@@ -4,6 +4,7 @@ import { Icon, Dropdown } from "semantic-ui-react";
 import { updateLastLog } from "../../actions/logs";
 import { getPosts } from "../../actions/posts";
 import { getUserCookie } from "../../actions/utils";
+import { getPost } from "../../actions/posts";
 import NotificationType from "../../models/notification";
 
 const NotificationsDropdown = (props:{
@@ -16,6 +17,7 @@ const NotificationsDropdown = (props:{
   const dispatch = useDispatch();
   const handleClick = (id:string) => {
     dispatch(getPosts(0));
+    dispatch(getPost(id));
     props.setOpenArticle(true);
     props.setOpenArticleId(id);
     props.updateNotifications(id);

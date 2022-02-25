@@ -3,7 +3,7 @@ import { Card, Icon, Image, Button } from "semantic-ui-react";
 import moment from "moment";
 import "moment/locale/it";
 import { useDispatch } from "react-redux";
-import { deletePost, likePost } from "../../../actions/posts";
+import { deletePost, getPost, likePost } from "../../../actions/posts";
 /* eslint-disable spaced-comment */
 import genericForPost from "../../../images/genericForPost.png";
 import PostType from "../../../models/post";
@@ -59,6 +59,7 @@ const Post = (props: {
               className="post-title"
               onClick={() => {
                 props.setOpenArticleId(props.post._id);
+                dispatch(getPost(props.post._id));
                 props.setOpenArticle(true);
               }}
             >
