@@ -1,7 +1,8 @@
 type PostType = {
   title: string,
   message: string,
-  name: string,
+  firstName: string,
+  lastName: string,
   creator: string,
   tags: [string],
   selectedFile: string,

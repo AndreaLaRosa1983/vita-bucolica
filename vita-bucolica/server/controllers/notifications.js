@@ -18,7 +18,8 @@ export const getLastPostsNotifications = async (req, res) => {
       return;
     } else {
       const newPosts = notificationsPostMessages.map((n) => ({
-        name: n.name,
+        firstName: n.firstName,
+        lastName: n.lastName,
         title: n.title,
         tags: n.tags,
         id: n._id,

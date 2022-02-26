@@ -87,7 +87,7 @@ const Post = (props: {
           {props.post.video && <Icon name="youtube" />}
         </Card.Meta>
         <Card.Description className="post-description">
-          <div className="post-name">{props.post.name}</div>
+          <div className="post-name">{props.post.firstName} {props.post.lastName}</div>
           <div className="post-date">
             {moment(props.post.createdAt).fromNow()}
           </div>

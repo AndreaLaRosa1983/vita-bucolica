@@ -1,6 +1,7 @@
-type CookieType = {
+interface CookieI {
   result: {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     tags: [string];
@@ -10,4 +11,4 @@ type CookieType = {
   };
 };
 
-export default CookieType;
+export default CookieI;

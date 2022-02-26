@@ -1,4 +1,4 @@
-import React, { useEffect, Dispatch, SetStateAction } from "react";
+import React, { useEffect, Dispatch, SetStateAction, useState } from "react";
 import { Menu, Button, Icon } from "semantic-ui-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import NotificationsDropdown from "../NotificationsDropdown/NotificationsDropdown";
@@ -8,14 +8,26 @@ import { useDispatch } from "react-redux";
 import { deleteFromRecievedNotification } from "../../actions/notifications";
 import { RootState } from "../../reducers/index";
 import cookie from "../../models/cookie";
+import UserModalForUpdate from "../UserModalForUpdate/UserModalForUpdate";
 import { getUserCookie } from "../../actions/utils";
-const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction<cookie | undefined>>, setOpenArticle:Dispatch<SetStateAction<boolean>>, setOpenArticleId:Dispatch<SetStateAction<string | null | undefined>>} ) => {
+import UserModalForUpdatePw from "../UserModalForUpdatePw/UserModalForUpdatePw";
+
+const NavBar = (props: {
+  user: cookie | undefined;
+  setUser: Dispatch<SetStateAction<cookie | undefined>>;
+  setOpenArticle: Dispatch<SetStateAction<boolean>>;
+  setOpenArticleId: Dispatch<SetStateAction<string | null | undefined>>;
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const tokenHandler = getUserCookie();
-  const { notifications } = useSelector((state: RootState) => state.notifications);
-  const updateNotifications = (id:string) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [openModalPassword, setOpenModalPassword] = useState(false);
+  const { notifications } = useSelector(
+    (state: RootState) => state.notifications
+  );
+  const updateNotifications = (id: string) => {
     dispatch(deleteFromRecievedNotification(id));
   };
 
@@ -36,8 +48,14 @@ const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction
     navigate("/");
   };
 
+  const handleModal = () => {
+    setOpenModal(!openModal);
+  };
+
   return (
     <Menu className="appBar">
+      <UserModalForUpdate user={props.user} openModal={openModal} setOpenModal={setOpenModal} setOpenModalPassword={setOpenModalPassword}/>
+      <UserModalForUpdatePw user={props.user} openModalPassword={openModalPassword} setOpenModalPassword={setOpenModalPassword} />
       <Menu.Item
         href={!props.user ? "/" : null}
         onClick={() => props.setOpenArticle(false)}
@@ -50,14 +68,31 @@ const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction
           size="large"
         />
       </Menu.Item>
-      {(props.user === undefined) && (
+      {props.user !== null && (
         <Menu.Item>
-            
-      <div className="user-name">
-        
-            {/* {props.user.result.name} */}</div>
-          <Icon circular size="large" className="navbar-icon user-round-icon">
-            <div className="letter-name">{/* {props.user.result.name.charAt(0)} */}</div>
+          <div className="user-name" onClick={() => handleModal()}>
+            {
+              //@ts-ignore
+              props?.user?.result?.firstName
+            }
+            {' '}
+            {
+              //@ts-ignore
+              props?.user?.result?.lastName
+            }
+          </div>
+          <Icon
+            circular
+            size="large"
+            className="navbar-icon user-round-icon"
+            onClick={() => handleModal()}
+          >
+            <div className="letter-name">
+              {
+                //@ts-ignore
+                props?.user?.result?.firstName.charAt(0)
+              }
+            </div>
           </Icon>
         </Menu.Item>
       )}
@@ -80,9 +115,7 @@ const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction
                 notifications={notifications}
                 updateNotifications={updateNotifications}
               />
-              <span className="badge">
-                {notifications.length}
-              </span>
+              <span className="badge">{notifications.length}</span>
             </>
           )}
         </Menu.Item>
@@ -107,7 +140,7 @@ const NavBar = ( props:{user:cookie | undefined, setUser:Dispatch<SetStateAction
               <Icon name="sign-in" alt="sign in" />
             </Button>
             <Button
-              className="orange"
+              className="orange-button"
               href="/auth"
               onClick={() => props.setOpenArticle(false)}
             >

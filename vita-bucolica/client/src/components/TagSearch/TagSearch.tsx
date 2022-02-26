@@ -41,7 +41,7 @@ const TagSearch = (props:{
     }
   };
 
-  if (!user?.result?.name) {
+  if (!user?.result?.firstName) {
     return null;
   }
 

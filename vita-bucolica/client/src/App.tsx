@@ -13,7 +13,6 @@ const App = () => {
   const [openArticleId, setOpenArticleId] = React.useState<string | null | undefined>("");
   const [openArticle, setOpenArticle] = useState(false);
   const [user, setUser] = useState<cookie>();
-  const [notifications, setNotifications] = useState([]);
   const [stop, setStop] = useState(false);
   const dispatch = useDispatch();
 

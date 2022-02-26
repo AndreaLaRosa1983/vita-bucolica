@@ -71,7 +71,7 @@ const Article = (props: {
           <Container className="container-big-card">
             <Image className="image-article" src={post.selectedFile} />
             <div>
-              <div className="name-article">di {post.name}</div>
+              <div className="name-article">di {post.firstName} {post.lastName}</div>
               <div className="date-article">
                 {moment(post.createdAt).fromNow()}
               </div>

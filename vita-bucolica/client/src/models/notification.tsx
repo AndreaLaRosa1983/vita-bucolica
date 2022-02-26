@@ -1,6 +1,7 @@
 type NotificationType = {
     title: string,
-    name: string,
+    firstName: string,
+    lastName: string,
     tags: [string],
     id: string,
   }

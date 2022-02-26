@@ -52,7 +52,8 @@ export const signup = async (req, res) => {
     const result = await User.create({
       email,
       password: hashedPassword,
-      name: `${firstName} ${lastName}`,
+      firstName: firstName,
+      lastName: lastName,
       tags,
       isCreator,
     });
@@ -65,11 +66,41 @@ export const signup = async (req, res) => {
       log: "SIGNUP",
     });
     const LogNotification = await Log.create({
-      user: oldUser._id,
+      user: result._id,
       createdAt: new Date().toISOString(),
       log: "NOTIFICATIONOK",
     });
     res.status(200).json({ result, token });
+  } catch (error) {
+    res.status(500) - json({ message: "Something went wrong!" });
+  }
+};
+
+export const update = async (req, res) => {
+  const user = req.body;
+  try {
+    const result = await User.findByIdAndUpdate(user._id, { ...user });
+    const newUser = await User.findOne({ _id : user._id });
+
+    const token = jwt.sign({ email: newUser.email, id: newUser._id }, "test", {
+      expiresIn: "1h",
+    });
+    res.status(200).json({ result:newUser, token });
+  } catch (error) {
+    res.status(500) - json({ message: "Something went wrong!" });
+  }
+};
+// continua da qui 
+export const changePassword = async (req, res) => {
+  const user = req.body;
+  try {
+    const result = await User.findByIdAndUpdate(user._id, { ...user });
+    const newUser = await User.findOne({ _id : user._id });
+
+    const token = jwt.sign({ email: newUser.email, id: newUser._id }, "test", {
+      expiresIn: "1h",
+    });
+    res.status(200).json({ result:newUser, token });
   } catch (error) {
     res.status(500) - json({ message: "Something went wrong!" });
   }

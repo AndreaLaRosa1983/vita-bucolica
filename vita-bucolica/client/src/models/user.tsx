@@ -1,5 +1,6 @@
 type UserType = {
-  name: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string,
   tags: [string],

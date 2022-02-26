@@ -22,7 +22,6 @@ const NotificationsDropdown = (props:{
     props.setOpenArticleId(id);
     props.updateNotifications(id);
   };
-  console.log({ notifications: props.notifications });
 
   return (
     <Dropdown

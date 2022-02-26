@@ -36,6 +36,7 @@ export const getPosts = async (req, res) => {
       .sort({ $natural: -1 })
       .skip(maxToShow * page)
       .limit(maxToShow);
+
     res.status(200).json({
       data: postMessages,
       numberOfPages: Math.ceil(totalMessages / maxToShow),
@@ -50,7 +51,6 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log({id_getpost:id})
     const postMessage = await PostMessage.find({ _id: id });
     res.status(200).json({
       data: postMessage,
@@ -121,7 +121,8 @@ export const createPost = async (req, res) => {
     await newPostMessage.save();
     const tags = newPostMessage.tags;
     const notificationToSend = {
-      name: newPostMessage.name,
+      firstName: newPostMessage.firstName,
+      lastName: newPostMessage.lastName,
       title: newPostMessage.title,
       tags: newPostMessage.tags,
       id: newPostMessage._id,

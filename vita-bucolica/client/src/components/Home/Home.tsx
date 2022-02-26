@@ -20,9 +20,16 @@ const Home = ( props:{  openArticle:boolean,
   const [stringSearch, setStringSearch] = useState("");
   const [page, setPage] = useState(0);
   const [more, setMore] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(1)
   const dispatch = useDispatch();
-  const { numberOfPages } = useSelector((state:RootState) => state.posts.numberOfPages); 
+
+  const numberOfPagesRoot = useSelector((state:RootState) => state.posts.numberOfPages);
+  console.log(numberOfPages)
   useEffect(() => {
+    if(numberOfPagesRoot){ 
+      //@ts-ignore
+     setNumberOfPages(numberOfPagesRoot);
+    }
     if (tagSearch) {
       if (stringSearch) {
         setMore(1);
@@ -40,7 +47,8 @@ const Home = ( props:{  openArticle:boolean,
       dispatch(getLastPostsNotifications());
       dispatch(getPosts(page));
     }
-  }, [tagSearch, currentId, dispatch, stringSearch, page, more]);
+  }, [tagSearch, currentId, dispatch, stringSearch, page, more, numberOfPagesRoot]);
+
   return (
     <div>
       <div className="section">
@@ -88,10 +96,10 @@ const Home = ( props:{  openArticle:boolean,
                     />
                     <span>
                       {" "}
-                      Pagina {page + 1}/ 1{/* {numberOfPages} */}{" "}
+                      Pagina {page + 1}/ {numberOfPages}{" "}
                     </span>
                     <Button
-                      disabled={page + 1 === 1 ? true : false}
+                      disabled={page + 1 === numberOfPages ? true : false}
                       icon="arrow right"
                       onClick={() => setPage(page + 1)}
                     />
