@@ -29,6 +29,6 @@ export const deletePost = (id) => API.delete(`/posts/${id}`);
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
 export const updateUser = (formData) => API.post("/user/update", formData);
-export const changePassword = (formData) => API.post("/user/changePassword", formData);
+export const updatePassword = (formData) => API.post("/user/updatePassword", formData);
 export const createLog = (log) => API.post("/logs", log);
 export const getLastNotificationLog = (user) => API.get(`/logs/${user}`);

@@ -64,17 +64,18 @@ export const getPost = async (req, res) => {
 
 export const getPostsTag = async (req, res) => {
   const { more, tag } = req.params;
+
   const maxToShow = 8;
   try {
     const postMessages = await PostMessage.find({ tags: tag }).limit(
       maxToShow * more
     );
     const numberOfPostsByTag = await PostMessage.find({ tags: tag }).count();
-    const numberOfPostsToSeeByTag = numberOfPostsByTag - postMessages.length;
+    const numberOfPostsSeenByTag = postMessages.length;
     res.status(200).json({
       data: postMessages.reverse(),
       numberOfPostsByTag: numberOfPostsByTag,
-      numberOfPostsToSeeByTag: numberOfPostsToSeeByTag,
+      numberOfPostsSeenByTag: numberOfPostsSeenByTag,
     });
     return;
   } catch (error) {
@@ -84,9 +85,11 @@ export const getPostsTag = async (req, res) => {
 };
 
 export const getPostsSearch = async (req, res) => {
-  const { search } = req.params;
+  const { more, search } = req.params;
+  const maxToShow = 8;
+  console.log({ more: more });
   try {
-    const postMessages = await PostMessage.aggregate([
+    const postMessagesAggregate = await PostMessage.aggregate([
       {
         $search: {
           index: "search in postmessages",
@@ -99,9 +102,21 @@ export const getPostsSearch = async (req, res) => {
         },
       },
     ]);
-
-    
-    res.status(200).json(postMessages.reverse());
+    const numberOfPostsBySearch = postMessagesAggregate.length;
+    //-1 is to take from the end of the array
+    const postMessages = postMessagesAggregate.slice(more * maxToShow * -1);
+    const numberOfPostsSeenBySearch = postMessages.length;
+    console.log({
+      more: more,
+      maxToShow: maxToShow,
+      numberOfPostsBySearch: numberOfPostsBySearch,
+      numberOfPostsSeenBySearch: numberOfSeenBySearch,
+    });
+    res.status(200).json({
+      data: postMessages.reverse(),
+      numberOfPostsBySearch: numberOfPostsBySearch,
+      numberOfPostsSeenSearch: numberOfPostsSeenBySearch,
+    });
     return;
   } catch (error) {
     res.status(404).json({ message: error.message });

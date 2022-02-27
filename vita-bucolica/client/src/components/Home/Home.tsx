@@ -21,33 +21,64 @@ const Home = ( props:{  openArticle:boolean,
   const [page, setPage] = useState(0);
   const [more, setMore] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(1)
+  const [numberOfPostsByTag, setnumberOfPostsByTag] = useState(0)
+  const [numberOfPostsSeenByTag, setnumberOfPostsSeenByTag] = useState(0)
+  const [numberOfPostsBySearch, setnumberOfPostsBySearch] = useState(0)
+  const [numberOfPostsSeenBySearch, setnumberOfPostsSeenBySearch] = useState(0)
+  const [prevTag, setPrevTag] = useState("");
+  const [prevString, setPrevString] = useState("");
   const dispatch = useDispatch();
 
   const numberOfPagesRoot = useSelector((state:RootState) => state.posts.numberOfPages);
-  console.log(numberOfPages)
+  const numberOfPostsByTagRoot = useSelector((state:RootState) => state.posts.numberOfPostsByTag) 
+  const numberOfPostsSeenByTagRoot = useSelector((state:RootState) => state.posts.numberOfPostsSeenByTag) 
+  const numberOfPostsBySearchRoot = useSelector((state:RootState) => state.posts.numberOfPostsBySearch) 
+  const numberOfPostsSeenBySearchRoot = useSelector((state:RootState) => state.posts.numberOfPostsSeenBySearch)
+
   useEffect(() => {
     if(numberOfPagesRoot){ 
-      //@ts-ignore
      setNumberOfPages(numberOfPagesRoot);
     }
+    if(numberOfPostsByTagRoot){
+      setnumberOfPostsByTag(numberOfPostsByTagRoot)
+    }
+    if(numberOfPostsSeenByTagRoot){
+      setnumberOfPostsSeenByTag(numberOfPostsSeenByTagRoot)
+    }
+    if(numberOfPostsBySearchRoot){
+      setnumberOfPostsBySearch(numberOfPostsBySearchRoot)
+    }
+    if(numberOfPostsSeenBySearchRoot){
+      setnumberOfPostsSeenBySearch(numberOfPostsSeenBySearchRoot)
+    }
     if (tagSearch) {
+      if(prevTag !== tagSearch){
+        setMore(1);
+        setPrevTag(tagSearch);
+      }
       if (stringSearch) {
         setMore(1);
       }
       setPage(0);
       dispatch(getPostsByTag(tagSearch, more));
     } else if (stringSearch) {
+      if(prevString !== stringSearch){
+        setMore(1);
+        setPrevString(stringSearch);
+      }
       if (tagSearch) {
         setMore(1);
       }
       setPage(0);
       dispatch(getPostsBySearch(stringSearch, more));
     } else {
+      setPrevString("");
+      setPrevTag("");
       setMore(1);
       dispatch(getLastPostsNotifications());
       dispatch(getPosts(page));
     }
-  }, [tagSearch, currentId, dispatch, stringSearch, page, more, numberOfPagesRoot]);
+  }, [tagSearch, currentId, dispatch, stringSearch, page, more, numberOfPagesRoot, numberOfPostsByTagRoot, numberOfPostsSeenByTagRoot, numberOfPostsBySearchRoot, numberOfPostsSeenBySearchRoot, prevTag, prevString]);
 
   return (
     <div>
@@ -107,17 +138,17 @@ const Home = ( props:{  openArticle:boolean,
                 )}
                 {tagSearch && !stringSearch && props.user && (
                   <div className="button-post-group">
-                    <Button onClick={() => setMore(more + 1)}>
+                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenByTag>=numberOfPostsByTag}>
                       <Icon name="arrow down" />
-                      <span> try get more from {tagSearch} </span>
+                      <span> Get more {tagSearch} {numberOfPostsSeenByTag}/{numberOfPostsByTag}</span>
                     </Button>
                   </div>
                 )}
                 {!tagSearch && stringSearch && props.user && (
                   <div className="button-post-group">
-                    <Button onClick={() => setMore(more + 1)}>
+                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenBySearch>=numberOfPostsBySearch}>
                       <Icon name="arrow down" />
-                      <span> try get more from {stringSearch} </span>
+                      <span> Get more {stringSearch} {numberOfPostsSeenBySearch}/{numberOfPostsBySearch}</span>
                     </Button>
                   </div>
                 )}

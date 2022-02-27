@@ -1,4 +1,4 @@
-import { AUTH, UPDATE_USER } from "../constants/actionTypes";
+import { AUTH, UPDATE_USER, UPDATE_PW } from "../constants/actionTypes";
 import { getLastNotificationLog } from "./logs";
 import * as api from "../api/index.jsx";
 import {  getUserCookie } from "./utils";
@@ -49,10 +49,10 @@ export const updateUser = (formData:{}, navigate:Function) => async (dispatch:Fu
   }
 };
 
-export const changePassword = (formData:{}, navigate:Function) => async (dispatch:Function) => {
+export const updatePassword = (formData:{}, navigate:Function) => async (dispatch:Function) => {
   try {
-    const { data } = await api.changePassword(formData);
-    dispatch({ type: UPDATE_USER, data });
+    const { data } = await api.updatePassword(formData);
+    dispatch({ type: UPDATE_PW, data });
     const user = getUserCookie();
     dispatch(getLastNotificationLog(user));
     navigate("/");

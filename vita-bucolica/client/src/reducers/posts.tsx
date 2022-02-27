@@ -16,9 +16,9 @@ const post = (
     posts: [],
     openPost: undefined,
     numberOfPostsByTag: 0,
-    numberOfPostsToSeeByTag: 0,
+    numberOfPostsSeenByTag: 0,
     numberOfPostsBySearch: 0,
-    numberOfPostsToSeeBySearch: 0,
+    numberOfPostsSeenBySearch: 0,
     numberOfPages: 0,
   },
   action: any
@@ -29,13 +29,13 @@ const post = (
         ...state,
         posts: action.payload.data,
         numberOfPostsByTag: action.payload.numberOfPostsByTag,
-        numberOfPostsToSeeByTag: action.payload.numberOfPostsToSeeByTag,
+        numberOfPostsSeenByTag: action.payload.numberOfPostsSeenByTag,
       };
     case FETCH_ALL_SEARCH:
       return {...state,
         posts: action.payload.data,
         numberOfPostsBySearch: action.payload.numberOfPostsBySearch,
-        numberOfPostsToSeeBySearch: action.payload.numberOfPostsToSeeBySearch,};
+        numberOfPostsSeenBySearch: action.payload.numberOfPostsSeenBySearch,};
     case FETCH_ALL:
       return {
         ...state,

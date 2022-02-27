@@ -32,6 +32,19 @@ const Article = (props: {
     setPost(selectorData);
   }, [selectorData]);
 
+
+  function validateVimeoURL(url: string) {
+    return /^(http\:\/\/|https\:\/\/)?(www\.)?(vimeo\.com\/)([0-9]+)$/.test(url);
+  }
+  function validateYouTubeURL(url: string) {
+    return  /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/.test(url);
+  }
+
+  function validateVideoUrl(url:string) {
+    return validateVimeoURL(url)||validateYouTubeURL(url) 
+  }
+
+  
   const dispatch = useDispatch();
   const user = getUserCookie();
   const Likes = () => {
@@ -80,7 +93,7 @@ const Article = (props: {
               </div>
             </div>
 
-            {post.video && (
+            {post.video && validateVideoUrl(post.video) &&(
               <div className="video-article-container">
                 <iframe
                   className="video-article"

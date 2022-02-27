@@ -79,9 +79,10 @@ export const signup = async (req, res) => {
 export const update = async (req, res) => {
   const user = req.body;
   try {
-    const result = await User.findByIdAndUpdate(user._id, { ...user });
+    const hashedPassword = await bcrypt.hash(user.password, 12);
+    const result = await User.findByIdAndUpdate(user._id, { ...user, password:hashedPassword });
     const newUser = await User.findOne({ _id : user._id });
-
+    
     const token = jwt.sign({ email: newUser.email, id: newUser._id }, "test", {
       expiresIn: "1h",
     });
@@ -91,10 +92,11 @@ export const update = async (req, res) => {
   }
 };
 // continua da qui 
-export const changePassword = async (req, res) => {
+export const updatePassword = async (req, res) => {
   const user = req.body;
   try {
-    const result = await User.findByIdAndUpdate(user._id, { ...user });
+    const hashedPassword = await bcrypt.hash(user.password, 12);
+    const result = await User.findByIdAndUpdate(user._id, { ...user, password:hashedPassword });
     const newUser = await User.findOne({ _id : user._id });
 
     const token = jwt.sign({ email: newUser.email, id: newUser._id }, "test", {
