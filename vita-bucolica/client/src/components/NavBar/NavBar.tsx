@@ -84,15 +84,17 @@ const NavBar = (props: {
           <Icon
             circular
             size="large"
-            className="navbar-icon user-round-icon"
+            className="navbar-icon user-round-icon" 
             onClick={() => handleModal()}
+            alt = "icon user"
+            name = "user"
           >
-            <div className="letter-name">
+{/*             <div className="letter-name">
               {
                 //@ts-ignore
                 props?.user?.result?.firstName.charAt(0)
               }
-            </div>
+            </div> */}
           </Icon>
         </Menu.Item>
       )}
