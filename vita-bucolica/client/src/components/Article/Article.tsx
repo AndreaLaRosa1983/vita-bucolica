@@ -3,7 +3,6 @@ import React, {
   SetStateAction,
   useEffect,
   useState,
-  useReducer,
 } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -12,10 +11,7 @@ import moment from "moment";
 import "moment/locale/it";
 import { likePost } from "../../actions/posts";
 import { RootState } from "../../reducers/index";
-import PostType from "../../models/post";
 import { getUserCookie } from "../../actions/utils";
-import { getPost } from "../../actions/posts";
-import { setConstantValue } from "typescript";
 
 const Article = (props: {
   openArticle: boolean;
@@ -34,9 +30,11 @@ const Article = (props: {
 
 
   function validateVimeoURL(url: string) {
+    // eslint-disable-next-line
     return /^(http\:\/\/|https\:\/\/)?(www\.)?(vimeo\.com\/)([0-9]+)$/.test(url);
   }
   function validateYouTubeURL(url: string) {
+    // eslint-disable-next-line
     return  /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/.test(url);
   }
 

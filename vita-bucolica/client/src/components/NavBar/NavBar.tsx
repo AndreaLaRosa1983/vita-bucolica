@@ -52,20 +52,26 @@ const NavBar = (props: {
     setOpenModal(!openModal);
   };
 
-  return (
+  return (     <> <UserModalForUpdate
+        user={props.user}
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        setOpenModalPassword={setOpenModalPassword}
+      />
+      <UserModalForUpdatePw
+        user={props.user}
+        openModalPassword={openModalPassword}
+        setOpenModalPassword={setOpenModalPassword}
+      />
     <Menu className="appBar">
-      <UserModalForUpdate user={props.user} openModal={openModal} setOpenModal={setOpenModal} setOpenModalPassword={setOpenModalPassword}/>
-      <UserModalForUpdatePw user={props.user} openModalPassword={openModalPassword} setOpenModalPassword={setOpenModalPassword} />
-      <Menu.Item
-        href={!props.user ? "/" : null}
-        onClick={() => props.setOpenArticle(false)}
-      >
+      <Menu.Item href={!props.user ? "/" : null}>
         <Icon
           circular
           className="navbar-icon"
           name="home"
           alt="icon home"
           size="large"
+          onClick={() => props.setOpenArticle(false)}
         />
       </Menu.Item>
       {props.user !== null && (
@@ -74,8 +80,7 @@ const NavBar = (props: {
             {
               //@ts-ignore
               props?.user?.result?.firstName
-            }
-            {' '}
+            }{" "}
             {
               //@ts-ignore
               props?.user?.result?.lastName
@@ -83,19 +88,12 @@ const NavBar = (props: {
           </div>
           <Icon
             circular
+            className="navbar-icon user-round-icon"
+            name="user"
             size="large"
-            className="navbar-icon user-round-icon" 
+            alt="icon user"
             onClick={() => handleModal()}
-            alt = "icon user"
-            name = "user"
-          >
-{/*             <div className="letter-name">
-              {
-                //@ts-ignore
-                props?.user?.result?.firstName.charAt(0)
-              }
-            </div> */}
-          </Icon>
+          />
         </Menu.Item>
       )}
       {props.user && (
@@ -152,6 +150,7 @@ const NavBar = (props: {
         )}
       </Menu.Item>
     </Menu>
+    </>
   );
 };
 

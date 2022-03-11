@@ -7,11 +7,10 @@ import {
   Icon,
   Label,
   Modal,
-  Header,
 } from "semantic-ui-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signin, signup, updateUser } from "../../actions/auth";
+import { updateUser } from "../../actions/auth";
 
 import {
   AGRIMACHINERY,
@@ -28,9 +27,7 @@ const UserModalForUpdate = (props: {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
   setOpenModalPassword:Dispatch<SetStateAction<boolean>>
 }) => {
-  const passwordRegex = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&])(?=.{8,})"
-  );
+
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
   const [formData, setFormData] = useState({
@@ -71,7 +68,6 @@ const UserModalForUpdate = (props: {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.setOpenModal(false)

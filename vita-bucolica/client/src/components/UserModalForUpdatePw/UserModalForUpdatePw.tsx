@@ -5,7 +5,7 @@ import {
   Button,
   Modal,
 } from "semantic-ui-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../actions/auth";
 import cookie from "../../models/cookie";
