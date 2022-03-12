@@ -5,7 +5,27 @@ services:
     - "3000:3000"
     depends_on:
     - backend
+    networks:
+      - vita-bucolica
   backend:
     build: ./server
     ports:
     - "5000:5000"
+    networks:
+      - vita-bucolica
+  mongodb:
+    image : mongo:4.4.2
+    container_name: mongodb
+    volumes:
+    - mongo-data:/data/db
+    ports:
+    - "27017:27017"
+    networks:
+      - vita-bucolica
+    restart: unless-stopped
+networks:
+  vita-bucolica:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
