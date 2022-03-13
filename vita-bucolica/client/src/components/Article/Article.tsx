@@ -1,9 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Icon, Image, Button, Container } from "semantic-ui-react";
@@ -20,31 +15,43 @@ const Article = (props: {
 }) => {
   moment.locale("it");
 
-
   const selectorData = useSelector((state: RootState) => state.posts.openPost);
   const [post, setPost] = useState(selectorData);
-
+  const user = getUserCookie();
+  const dispatch = useDispatch();
   useEffect(() => {
     setPost(selectorData);
-  }, [selectorData]);
+  }, [selectorData, post]);
 
+  function likePostArticle(id: string) {
+    dispatch(likePost(id));
+    if (!post.likes.includes(user?.result?._id)) {
+      setPost({ ...post, likes: post.likes.push(user?.result?._id) });
+      console.log("in likepost");
+    } else {
+      const index = post.likes.indexOf(user?.result?._id);
+      post.likes.splice(index, 1);       
+      setPost({ ...post });
+      }
+  }
 
   function validateVimeoURL(url: string) {
     // eslint-disable-next-line
-    return /^(http\:\/\/|https\:\/\/)?(www\.)?(vimeo\.com\/)([0-9]+)$/.test(url);
+    return /^(http\:\/\/|https\:\/\/)?(www\.)?(vimeo\.com\/)([0-9]+)$/.test(
+      url
+    );
   }
   function validateYouTubeURL(url: string) {
     // eslint-disable-next-line
-    return  /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/.test(url);
+    return /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/.test(
+      url
+    );
   }
 
-  function validateVideoUrl(url:string) {
-    return validateVimeoURL(url)||validateYouTubeURL(url) 
+  function validateVideoUrl(url: string) {
+    return validateVimeoURL(url) || validateYouTubeURL(url);
   }
 
-  
-  const dispatch = useDispatch();
-  const user = getUserCookie();
   const Likes = () => {
     if (post) {
       if (post.likes.length > 0) {
@@ -82,7 +89,9 @@ const Article = (props: {
           <Container className="container-big-card">
             <Image className="image-article" src={post.selectedFile} />
             <div>
-              <div className="name-article">di {post.firstName} {post.lastName}</div>
+              <div className="name-article">
+                di {post.firstName} {post.lastName}
+              </div>
               <div className="date-article">
                 {moment(post.createdAt).fromNow()}
               </div>
@@ -91,7 +100,7 @@ const Article = (props: {
               </div>
             </div>
 
-            {post.video && validateVideoUrl(post.video) &&(
+            {post.video && validateVideoUrl(post.video) && (
               <div className="video-article-container">
                 <iframe
                   className="video-article"
@@ -112,7 +121,7 @@ const Article = (props: {
               <Button
                 size="small"
                 disabled={!user?.result}
-                onClick={() => dispatch(likePost(post._id))}
+                onClick={() => likePostArticle(post._id)}
               >
                 <Likes />
               </Button>
