@@ -26,7 +26,6 @@ app.get("/", (req, res) => {
 const CONNECTION_URL = process.env.CONNECTION_URL || "mongodb://mongodb:27017/";
 
 const PORT = process.env.PORT || 5000;
-/*   .connect(process.env.CONNECTION_URL) */
 mongoose
   .connect(CONNECTION_URL)
   .then(() =>
