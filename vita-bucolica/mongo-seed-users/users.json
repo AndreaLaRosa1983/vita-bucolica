@@ -1,0 +1,24 @@
+[
+  {
+    "_id":{"$oid":"621a1f27fa3188a00132f255"},
+    "firstName": "Web",
+    "lastName": "Master",
+    "email": "web@master.com",
+    "password": "$2b$12$kfQ8019HwiOnM1F2WhkSs.GjPSAntancLQz.cCO.gRfMsU6CeSz9K",
+    "tags": [
+      "Vita Contadina",
+      "Coltivazione",
+      "Allevamento",
+      "Macchine Agricole"
+    ],
+    "isCreator": true
+  },
+  {  "_id":{"$oid":"622a0d65face1c28f175ec7b"},
+    "firstName": "basic",
+    "lastName": "user",
+    "email": "basic@user.com",
+    "password": "$2b$12$3MBSI9bm5jzVMX8LI3kKi.CuMFZaW1dGCe/J04ch7z9V0xq9hYURG",
+    "tags": ["Macchine Agricole", "Allevamento"],
+    "isCreator": false
+  }
+]

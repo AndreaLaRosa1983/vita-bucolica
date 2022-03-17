@@ -2,27 +2,39 @@ services:
   frontend:
     build: ./client
     ports:
-    - "3000:3000"
+      - "3000:3000"
     depends_on:
-    - backend
+      - backend
     networks:
       - vita-bucolica
   backend:
     build: ./server
     ports:
-    - "5000:5000"
+      - "5000:5000"
     networks:
       - vita-bucolica
   mongodb:
-    image : mongo:4.4.2
+    image: mongo
     container_name: mongodb
     volumes:
-    - mongo-data:/data/db
+      - mongo-data:/data/db
     ports:
-    - "27017:27017"
+      - "27017:27017"
     networks:
       - vita-bucolica
     restart: unless-stopped
+  mongo_seed_users:
+    build: ./mongo-seed-users
+    depends_on:
+      - mongodb
+    networks:
+      - vita-bucolica
+  mongo_seed_articles:
+    build: ./mongo-seed-articles
+    depends_on:
+      - mongodb
+    networks:
+      - vita-bucolica
 networks:
   vita-bucolica:
     driver: bridge

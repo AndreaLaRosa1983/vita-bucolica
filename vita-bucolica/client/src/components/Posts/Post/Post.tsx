@@ -63,7 +63,9 @@ const Post = (props: {
                 props.setOpenArticle(true);
               }}
             >
-              {props.post.title}
+                 {props.post.title
+            ? props.post.title.replace(/(.{21})..+/, "$1…")
+            : ""}
             </span>
 
             {user?.result._id === props.post?.creator && (
