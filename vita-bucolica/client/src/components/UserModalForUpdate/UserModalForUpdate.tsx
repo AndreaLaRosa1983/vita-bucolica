@@ -250,7 +250,7 @@ const UserModalForUpdate = (props: {
         </>
       
       <Modal.Actions>
-      <Button onClick={() => setOpenPasswordAndCloseThis()}>vuoi modificare la tua password?</Button>
+      <Button onClick={() => setOpenPasswordAndCloseThis()}>vuoi modificare la password?</Button>
         <Button onClick={() => props.setOpenModal(false)}>Annulla</Button>
         <Button
           color="orange"

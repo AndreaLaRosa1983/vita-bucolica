@@ -24,9 +24,9 @@ const App = () => {
   }, [user, stop, dispatch]);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <Container className="wrapper">
-        <header className="header">
+        <header className="header" lang="it">
           <Grid>
             <Grid.Row className="navbarRow">
               <NavBar

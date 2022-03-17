@@ -124,6 +124,7 @@ const Home = ( props:{  openArticle:boolean,
                       disabled={page === 0 ? true : false}
                       icon="arrow left"
                       onClick={() => setPage(page - 1)}
+                      aria-label="back page"
                     />
                     <span>
                       {" "}
@@ -133,12 +134,13 @@ const Home = ( props:{  openArticle:boolean,
                       disabled={page + 1 === numberOfPages ? true : false}
                       icon="arrow right"
                       onClick={() => setPage(page + 1)}
+                      aria-label="more articles"
                     />
                   </div>
                 )}
                 {tagSearch && !stringSearch && props.user && (
                   <div className="button-post-group">
-                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenByTag>=numberOfPostsByTag}>
+                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenByTag>=numberOfPostsByTag} aria-label="more articles">
                       <Icon name="arrow down" />
                       <span> Get more {tagSearch} {numberOfPostsSeenByTag}/{numberOfPostsByTag}</span>
                     </Button>
@@ -146,7 +148,7 @@ const Home = ( props:{  openArticle:boolean,
                 )}
                 {!tagSearch && stringSearch && props.user && (
                   <div className="button-post-group">
-                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenBySearch>=numberOfPostsBySearch}>
+                    <Button onClick={() => setMore(more + 1)} disabled={numberOfPostsSeenBySearch>=numberOfPostsBySearch}  aria-label="more articles">
                       <Icon name="arrow down" />
                       <span> Get more {stringSearch} {numberOfPostsSeenBySearch}/{numberOfPostsBySearch}</span>
                     </Button>

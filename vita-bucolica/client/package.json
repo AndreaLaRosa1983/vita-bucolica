@@ -2,7 +2,7 @@
   "name": "vita-bucolica",
   "version": "0.1.0",
   "private": true,
-  "proxy":   "http://host.docker.internal:5000/",
+  "proxy": "http://host.docker.internal:5000/",
   "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.15.0",
@@ -20,6 +20,7 @@
     "react-dom": "^17.0.2",
     "react-file-base64": "^1.0.3",
     "react-google-login": "^5.2.2",
+    "react-helmet": "^6.1.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
@@ -56,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.5"
   }
 }

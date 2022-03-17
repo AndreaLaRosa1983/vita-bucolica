@@ -47,10 +47,11 @@ const NotificationsDropdown = (props:{
       }
     >
       {props.notifications && (
-        <Dropdown.Menu>
-          <Dropdown.Header content="Post che ti sei perso" />
+        <Dropdown.Menu >
+          <Dropdown.Header content="Post che ti sei perso" aria-label="new posts"  />
           {props.notifications.map((n: NotificationType) => (
             <Dropdown.Item
+            role="item"
               key={n.id}
               text={n.title + " in " + n.tags.map((tag) => `#${tag} `).join("")}
               value={n.id}

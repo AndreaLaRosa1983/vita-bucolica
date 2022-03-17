@@ -83,7 +83,7 @@ const TagSearch = (props:{
               placeholder="Ricerca..."
               onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setSearchData(e.target.value)}
             ></Form.Field>
-            <Button className="search-button" onClick={() => search()}>
+            <Button className="search-button" onClick={() => search()} aria-label="search button">
               <Icon name="search" size="small" />
             </Button>{" "}
           </>

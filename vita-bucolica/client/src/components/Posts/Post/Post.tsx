@@ -49,6 +49,7 @@ const Post = (props: {
   return (
     <Card className="post-layout">
       <Image
+      aria-label={props.post.title}
         className="image-card"
         src={props.post.selectedFile ? props.post.selectedFile : genericForPost}
       />

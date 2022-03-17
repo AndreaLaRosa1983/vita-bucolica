@@ -100,6 +100,7 @@ const NavBar = (props: {
         <Menu.Item>
           {(!notifications || notifications.length === 0) && (
             <Icon
+            
               circular
               className="navbar-icon"
               name="bell outline"
@@ -110,6 +111,7 @@ const NavBar = (props: {
           {notifications && notifications.length > 0 && (
             <>
               <NotificationsDropdown
+              
                 setOpenArticle={props.setOpenArticle}
                 setOpenArticleId={props.setOpenArticleId}
                 notifications={notifications}
@@ -123,7 +125,7 @@ const NavBar = (props: {
       <Menu.Item position="right">
         {props.user ? (
           <div>
-            <Button className="access-icon" onClick={logout} href="/">
+            <Button title="log out" className="access-icon" onClick={logout} href="/">
               <Icon name="log out" alt="log out" />
             </Button>
             <Button href="/" className="logout" onClick={logout}>

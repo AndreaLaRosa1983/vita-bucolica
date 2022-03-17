@@ -7,12 +7,15 @@ import thunk from "redux-thunk";
 import { rootReducer } from "./reducers/index";
 import "semantic-ui-css/semantic.min.css";
 import "./styles/index.scss";
-
+import { Helmet } from "react-helmet";
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  
+    <Provider store={store} >
+      <Helmet htmlAttributes={{ lang: "it" }}/ >
+      <App />
+    </Provider>
+  ,
   document.getElementById("root")
 );

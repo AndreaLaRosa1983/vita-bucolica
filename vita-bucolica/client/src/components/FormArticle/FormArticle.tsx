@@ -222,8 +222,9 @@ const FormArticle = (props: {
           checked={postData.tags.includes(AGRIMACHINERY)}
         />
       </Form.Group>
-      <Form.Field>
+      <Form.Field >
         <FileBase
+          aria-label="file to charge"
           type="file"
           multiple={false}
           //@ts-ignore

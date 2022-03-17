@@ -87,7 +87,7 @@ const Article = (props: {
         <Container>
           <h1 className="title-article">{post.title}</h1>
           <Container className="container-big-card">
-            <Image className="image-article" src={post.selectedFile} />
+            <Image className="image-article" src={post.selectedFile} alt={post.title}/>
             <div>
               <div className="name-article">
                 di {post.firstName} {post.lastName}
@@ -104,7 +104,7 @@ const Article = (props: {
               <div className="video-article-container">
                 <iframe
                   className="video-article"
-                  title="video"
+                  title={post.title}
                   id="video"
                   src={post.video}
                   frameBorder="0"
